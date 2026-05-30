@@ -28,7 +28,7 @@ It is not a product. It is not a startup. It is not collecting your data. It is 
 
 **Option 1 — Use it in your browser (easiest)**
 
-Visit: `[your GitHub Pages URL here]`
+Visit: https://yourlawyerbestie.github.io/goat-bar-scheduler/ 
 
 No download, no account, no install.
 
