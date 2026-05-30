@@ -6,12 +6,11 @@ free scheduling tool for the busy goat bar exam taker
 **A collaboration between [Your Lawyer Bestie](https://yourlawyerbestie.substack.com) × [GOAT Bar Prep](https://www.instagram.com/goatbarprep)**
 
 ---
-
 ## What this is
 
 A free, browser-based scheduling tool for bar exam takers — especially retakers and working adults who can't just clear their calendar for two months.
 
-You answer 6 questions about your actual life (work hours, caretaking responsibilities, non-negotiables, study preferences, and the tools you're using). The tool builds a personalized weekly schedule around all of it, with GOAT Bar Prep as the study backbone.
+You answer 6 questions about your actual life (work hours, caretaking responsibilities, non-negotiables, study preferences, and the tools you're using). The tool builds a complete, personalized study arc — every week from today to your exam date — with GOAT Bar Prep as the backbone.
 
 It is not a product. It is not a startup. It is not collecting your data. It is a single HTML file that runs in your browser — the same way a calculator works.
 
@@ -21,7 +20,7 @@ It is not a product. It is not a startup. It is not collecting your data. It is 
 
 - Bar exam takers (first attempt or retakers) who are also working, caregiving, or otherwise not studying full time
 - Anyone using GOAT Bar Prep who wants a structured week around those modules
-- People who have tried commercial schedules and found them unrealistic
+- People who have tried commercial schedules and found them unrealistic for their actual life
 
 ---
 
@@ -35,7 +34,7 @@ No download, no account, no install.
 
 **Option 2 — Save it to your computer (works offline)**
 
-Right-click the page → Save As → open `index.html` in any browser. Works completely offline, no internet needed. Good for library study sessions with bad wifi.
+Right-click the page → Save As → open `index.html` in any browser. Works completely offline. Good for library sessions with spotty wifi.
 
 ---
 
@@ -43,14 +42,38 @@ Right-click the page → Save As → open `index.html` in any browser. Works com
 
 | Step | What it asks |
 |------|-------------|
-| 01 · Exam Setup | Jurisdiction, exam date, attempt number |
-| 02 · Work & Caretaker | Your actual work schedule, commute, caregiving hours |
-| 03 · Non-Negotiables | Wellness and life activities that go in *first* — gym, spirituality, family, therapy, TikTok (yes really) |
-| 04 · Subject Strategy | NCBE outline order, or weakest subject first with confidence ratings |
-| 05 · Study Settings | Heavy study days, start times, MCQ targets, essay frequency |
+| 01 · Exam Setup | Jurisdiction (UBE, CA, + more coming), exam date, attempt number. The exam date is what the entire schedule builds around. |
+| 02 · Work & Caretaker | Your actual work schedule, commute (AM + PM), caregiving and household hours |
+| 03 · Non-Negotiables | Wellness and life activities that go in *first* — gym, spirituality, family, therapy, meal prep, TikTok (yes really) |
+| 04 · Subject Strategy | NCBE outline order, or weakest subject first with confidence ratings. Mark subjects you've already covered to skip them from your schedule. |
+| 05 · Study Settings | Weekday study start time, MCQ targets, essay frequency, Book of Shame toggle |
 | 06 · Your Tools | Which bar prep tools you're actually using — GOAT is the backbone, everything else layers on top |
 
-Hit **Continue →** through all six and your schedule populates on the output screen.
+Hit **Continue →** through all six and a full multi-week schedule generates from today to your exam.
+
+---
+
+## How the schedule generates
+
+The tool reads your exam date and today's date, calculates the real number of weeks you have, and distributes your active MBE subjects across that arc — reserving the final 2 weeks for MEE/MPT final push. Every week gets:
+
+- Work blocks at your actual hours
+- GOAT study blocks at your study start time, with MCQ targets from Step 5
+- Saturday Library Day with rolling review of all subjects covered so far
+- Sunday preview of next week's subject
+- Wellness blocks from your Step 3 selections, distributed across the week
+- AM + PM commute blocks if enabled in Step 2
+
+Subjects you've marked as "Already covered" in Step 4 are skipped. The remaining subjects are redistributed across your actual available weeks.
+
+---
+
+## What you can do with the schedule
+
+- **Double-click any block** to edit it — time, duration, day, MCQ count, supplements
+- **Switch between Week / Day / Month views** — Month view shows your full arc; click any week row to jump to it
+- **"I'm behind" button** — three real options: compress this week (adds MCQs to remaining days), redistribute to Library Day, or skip and log to Book of Shame
+- **Export** — download a `.ics` for Google Calendar, print to PDF, copy to Notion, or save to browser
 
 ---
 
@@ -58,13 +81,13 @@ Hit **Continue →** through all six and your schedule populates on the output s
 
 **Nothing you enter goes anywhere.**
 
-There is no backend. No server. No database. No account. Everything runs entirely in your browser tab.
+There is no backend. No server. No database. No account. Everything runs in your browser tab.
 
-- **While the tab is open:** your schedule lives in memory. Edit blocks by double-clicking them.
-- **To save it across sessions:** hit **💾 Save My Settings** — this saves to your browser's local storage. It stays until you clear your browser data or switch devices.
-- **To keep a permanent copy:** use the export buttons — download a `.ics` file for Google Calendar, print to PDF, or copy a Notion-formatted version to your clipboard.
+- **While the tab is open:** your schedule lives in memory. Edit blocks freely.
+- **To save across sessions:** hit **💾 Save My Settings** — saves to browser local storage on your device.
+- **To keep a permanent copy:** export buttons — `.ics` for Google Calendar, PDF print, or Notion copy.
 
-If you close the tab without saving or exporting, your changes are gone. That is the intentional trade-off for a tool that requires zero sign-up.
+Closing the tab without saving or exporting loses your changes. That is the trade-off for zero sign-up.
 
 ---
 
@@ -73,33 +96,18 @@ If you close the tab without saving or exporting, your changes are gone. That is
 | Jurisdiction | Status |
 |---|---|
 | Standard UBE | ✅ Fully supported |
-| California Bar | ✅ Fully supported |
+| California Bar | ✅ Fully supported (different essay subjects + PT format) |
 | Louisiana Bar | 🚧 Coming soon |
 | Florida Bar | 🚧 Coming soon |
 | Georgia, Texas, Nevada + others | 🚧 Queued |
 
 ---
 
-## Features
+## Technical notes
 
-- Week, Day, and Month views of your schedule
-- Color-coded block categories (study, wellness, work, commute, protected, library day)
-- Double-click any block to edit it (time, duration, day, MCQ count, supplements)
-- Conflict warnings in GOAT voice when you overload a day
-- Rolling Review auto-populates on Library Day (Saturday) as subjects accumulate
-- Commute blocks (AM + PM) auto-generated from your work schedule
-- Wellness blocks auto-generated from your Step 3 selections — gym, walks, meal prep, TikTok, all of it
-- Export to Google Calendar (.ics), Print to PDF, Copy to Notion, Save to browser
+Single self-contained HTML file. No framework, no build step, no backend, no dependencies except Google Fonts. Approximately 2,200 lines of HTML, CSS, and vanilla JavaScript.
 
----
-
-## Technical notes (for anyone curious)
-
-This is a single self-contained HTML file — no framework, no build step, no dependencies except Google Fonts. It is approximately 1,900 lines of HTML, CSS, and vanilla JavaScript.
-
-If you want to run it locally, open the file in any modern browser. That's it.
-
-If you want to contribute, fork this repo, make your changes, and open a pull request. All welcome.
+Open in any modern browser. That's it.
 
 ---
 
