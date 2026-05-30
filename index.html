@@ -1,0 +1,2410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Bar Life — YLB × GOAT Bar Prep</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Nunito:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#FAF4EE;--sidebar:#ECD0B7;--sidebar-dk:#DEC0A2;
+  --card:#FFFFFF;--card-w:#FDF8F4;--border:#DFCAB4;--border-lt:#EED8C6;
+  --text:#1C0A0B;--text-mid:#795A50;--text-dim:#B89A8A;
+  --red:#991720;--red-dk:#7A181F;--red-lt:#BB2530;--red-dim:#F9EAEB;--red-mid:#F0CBCE;
+  --green:#88B04B;--green-dim:#EEF4E4;--amber:#9B5D15;--goat:#88B04B;--goat-dk:#6A8C3A;
+  --ev:#1A5FB4;--cr:#991720;--cp:#0A7D6E;--rp:#7A4419;--co:#6B2D9C;--to:#B85C0A;--cl:#7A181F;
+  --r:8px;--rl:14px;--tr:.18s cubic-bezier(.4,0,.2,1);--topbar-h:46px
+}
+html{font-size:16px}
+body{background:var(--bg);color:var(--text);font-family:'Nunito',sans-serif;min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden}
+
+/* COBRAND */
+.cob{background:var(--red-dk);color:#F1E6DE;padding:22px 28px;display:flex;flex-direction:column;align-items:center;gap:7px;text-align:center}
+.cob-headline{font-family:'Playfair Display',serif;font-size:1.55rem;font-weight:700;line-height:1.15;letter-spacing:-.01em;color:#F1E6DE}
+.cob-sub{font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.11em;text-transform:uppercase;color:rgba(241,230,222,.7);margin-top:1px}
+.cob-badge{font-family:'DM Mono',monospace;font-size:.5rem;letter-spacing:.1em;text-transform:uppercase;background:rgba(255,255,255,.12);border-radius:100px;padding:4px 12px;white-space:nowrap;margin-top:2px}
+.cob-brands{display:flex;align-items:flex-start;justify-content:center;gap:22px;margin-top:16px;padding-top:14px;border-top:1px solid rgba(241,230,222,.15)}
+.cob-brand{display:flex;flex-direction:column;align-items:center;gap:8px}
+.cob-brand-lbl{font-family:'DM Mono',monospace;font-size:.48rem;text-transform:uppercase;letter-spacing:.1em;color:rgba(241,230,222,.5)}
+.cob-x{color:rgba(241,230,222,.22);font-size:1rem;margin-top:10px}
+.cob-socials{display:flex;gap:7px}
+.csoc{display:flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:6px;transition:all .15s;text-decoration:none;opacity:.88}
+.csoc:hover{opacity:1;transform:translateY(-1px)}
+.ylb-soc{color:#F0CBCE;background:rgba(240,203,206,.13)}
+.goat-soc{color:#E8C96E;background:rgba(232,201,110,.13)}
+.csoc svg{width:13px;height:13px;fill:currentColor;display:block}
+
+/* TOPBAR */
+.topbar{background:var(--card);border-bottom:1px solid var(--border);padding:11px 28px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:90}
+.appname{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;letter-spacing:-.01em}
+.appname span{color:var(--red)}
+.cdpill{background:var(--red-dim);border:1px solid var(--red-mid);border-radius:100px;padding:6px 18px;display:flex;align-items:center;gap:16px}
+.cds{text-align:center}
+.cdn{font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700;color:var(--red);line-height:1}
+.cdl{font-family:'DM Mono',monospace;font-size:.48rem;color:var(--text-mid);text-transform:uppercase;letter-spacing:.07em}
+.cdsep{width:1px;height:24px;background:var(--red-mid)}
+
+/* LAYOUT */
+.app{display:flex;flex:1;min-height:calc(100vh - var(--topbar-h))}
+
+/* SIDEBAR */
+.sidebar{width:232px;min-width:232px;background:var(--sidebar);border-right:1px solid var(--border);padding:24px 0;display:flex;flex-direction:column;position:sticky;top:var(--topbar-h);height:calc(100vh - var(--topbar-h));overflow-y:auto}
+.snav{padding:0 13px;flex:1}
+.snav-lbl{font-family:'DM Mono',monospace;font-size:.5rem;color:var(--red-dk);text-transform:uppercase;letter-spacing:.14em;padding:0 7px;margin-bottom:11px;opacity:.65}
+.si{display:flex;align-items:flex-start;gap:9px;padding:8px 7px;border-radius:var(--r);cursor:pointer;transition:all var(--tr);margin-bottom:2px}
+.si:hover{background:var(--sidebar-dk)}
+.si.active{background:var(--card);box-shadow:0 1px 4px rgba(0,0,0,.07)}
+.si.done .sdot{background:var(--green);border-color:var(--green)}
+.si.done .sdi{background:white;width:7px;height:7px}
+.si.active .sdot{background:var(--red);border-color:var(--red);box-shadow:0 0 0 3px var(--red-mid)}
+.si.active .sdi{background:white}
+.sdot{width:20px;height:20px;min-width:20px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;transition:all var(--tr);margin-top:1px;background:var(--card)}
+.sdi{width:6px;height:6px;border-radius:50%;background:var(--text-dim);transition:all var(--tr)}
+.snum{font-family:'DM Mono',monospace;font-size:.5rem;color:var(--text-mid);text-transform:uppercase;letter-spacing:.06em;line-height:1;margin-bottom:2px}
+.sname{font-size:.78rem;font-weight:700;color:var(--text-mid);line-height:1.2;transition:color var(--tr)}
+.si.active .sname{color:var(--red-dk)}
+.si.done .sname{color:var(--green)}
+.sfooter{padding:15px 15px 0;border-top:1px solid var(--border);margin-top:13px}
+.plbl{font-family:'DM Mono',monospace;font-size:.53rem;color:var(--text-mid);text-transform:uppercase;letter-spacing:.08em;display:flex;justify-content:space-between;margin-bottom:6px}
+.ptrack{height:4px;background:var(--sidebar-dk);border-radius:100px;overflow:hidden}
+.pfill{height:100%;background:linear-gradient(90deg,var(--red),var(--red-lt));border-radius:100px;transition:width .4s cubic-bezier(.4,0,.2,1)}
+
+/* MAIN */
+.main{flex:1;display:flex;flex-direction:column}
+.sc{overflow-x:hidden;padding:32px 44px;display:none;position:relative;min-height:calc(100vh - var(--topbar-h) - 64px)}
+.sc::before{content:'🐐';position:absolute;bottom:-30px;right:-20px;font-size:28rem;opacity:.06;pointer-events:none;user-select:none;line-height:1}
+.sc.active{display:block;animation:fadeUp .25s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+.stag{font-family:'DM Mono',monospace;font-size:.56rem;color:var(--red);text-transform:uppercase;letter-spacing:.15em;display:block;margin-bottom:5px}
+.stitle{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;color:var(--text);line-height:1.1;letter-spacing:-.02em;margin-bottom:6px}
+.stitle span{color:var(--red)}
+.ssub{font-size:.84rem;color:var(--text-mid);line-height:1.55;max-width:500px;margin-bottom:26px}
+.ssub em{color:var(--red-dk);font-style:normal;font-weight:700}
+
+/* FORMS */
+.fsec{margin-bottom:24px}
+.flbl{font-family:'DM Mono',monospace;font-size:.57rem;color:var(--text-mid);text-transform:uppercase;letter-spacing:.1em;margin-bottom:9px;display:block}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.finput{background:var(--card);border:1px solid var(--border);border-radius:var(--r);color:var(--text);font-family:'Nunito',sans-serif;font-size:.86rem;padding:10px 12px;width:100%;transition:border-color var(--tr);appearance:none}
+.finput:focus{outline:none;border-color:var(--red)}
+
+.pg{display:flex;gap:6px;flex-wrap:wrap}
+.pill{background:var(--card);border:1px solid var(--border);border-radius:100px;padding:6px 13px;font-size:.78rem;font-weight:600;color:var(--text-mid);cursor:pointer;transition:all var(--tr);user-select:none;line-height:1.3}
+.pill:hover{border-color:var(--red-mid);color:var(--text)}
+.pill.active{background:var(--red-dim);border-color:var(--red);color:var(--red-dk)}
+.pill-custom{background:var(--card);border:1px dashed var(--border);border-radius:100px;padding:5px 14px;font-size:.76rem;color:var(--text-mid);font-family:'Nunito',sans-serif;width:128px;outline:none;transition:all var(--tr);line-height:1.3}
+.pill-custom:focus{border-color:var(--red);border-style:solid;color:var(--text);background:var(--red-dim)}
+.pill-custom::placeholder{color:var(--text-dim);font-size:.72rem}
+
+.sw-wrap{display:flex;align-items:center;gap:13px}
+.slider{flex:1;-webkit-appearance:none;height:4px;background:var(--border);border-radius:100px;outline:none}
+.slider::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--red);cursor:pointer;border:2px solid white;box-shadow:0 0 0 2px var(--red)}
+.sval{font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700;color:var(--red);min-width:50px;text-align:right;line-height:1}
+.sval small{font-family:'DM Mono',monospace;font-size:.48rem;color:var(--text-mid);display:block;text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
+
+.togrow{display:flex;align-items:center;justify-content:space-between;padding:11px 13px;background:var(--card);border:1px solid var(--border);border-radius:var(--r);cursor:pointer;transition:border-color var(--tr);margin-bottom:6px;user-select:none}
+.togrow:hover{border-color:var(--red-mid)}
+.togname{font-weight:700;font-size:.83rem;color:var(--text);margin-bottom:2px}
+.togdesc{font-size:.7rem;color:var(--text-mid)}
+.togsw{width:35px;height:20px;background:var(--border);border-radius:100px;position:relative;transition:background var(--tr);flex-shrink:0;margin-left:11px}
+.togsw::after{content:'';position:absolute;width:14px;height:14px;background:var(--text-dim);border-radius:50%;top:3px;left:3px;transition:all var(--tr)}
+.togrow.on .togsw{background:var(--green-dim);border:1px solid var(--green)}
+.togrow.on .togsw::after{background:var(--green);left:17px}
+
+.subrow{padding:9px 13px;background:var(--card-w);border:1px solid var(--border);border-top:none;border-radius:0 0 var(--r) var(--r);display:none;align-items:center;gap:11px;margin-bottom:6px}
+.subrow.vis{display:flex}
+.subrow label{font-size:.76rem;color:var(--text-mid);white-space:nowrap}
+
+/* Work time */
+.tgrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:11px;margin-bottom:11px}
+.tblk label{font-family:'DM Mono',monospace;font-size:.54rem;color:var(--text-mid);text-transform:uppercase;letter-spacing:.08em;display:block;margin-bottom:4px}
+.tinput{background:var(--card);border:1px solid var(--border);border-radius:var(--r);color:var(--text);font-family:'DM Mono',monospace;font-size:.88rem;padding:9px 11px;width:100%}
+.tinput:focus{outline:none;border-color:var(--red)}
+.wdays{display:flex;gap:5px;margin-top:4px}
+.wday{width:38px;height:38px;border-radius:50%;border:1px solid var(--border);background:var(--card);display:flex;align-items:center;justify-content:center;font-size:.67rem;font-weight:700;color:var(--text-mid);cursor:pointer;transition:all var(--tr);user-select:none;font-family:'DM Mono',monospace}
+.wday:hover{border-color:var(--red-mid);color:var(--text)}
+.wday.on{background:var(--red-dim);border-color:var(--red);color:var(--red-dk)}
+
+/* Responsibilities */
+.ritem{display:flex;align-items:center;gap:11px;padding:10px 13px;background:var(--card);border:1px solid var(--border);border-radius:var(--r);margin-bottom:6px}
+.rico{font-size:.95rem;width:22px;text-align:center}
+.rname{flex:1;font-size:.81rem;font-weight:600}
+.rinp{background:var(--card-w);border:1px solid var(--border);border-radius:5px;color:var(--text);font-family:'DM Mono',monospace;font-size:.8rem;padding:5px 8px;width:58px;text-align:center}
+.runit{font-family:'DM Mono',monospace;font-size:.56rem;color:var(--text-dim);text-transform:uppercase;width:36px}
+
+.hcalc{background:var(--red-dim);border:1px solid var(--red-mid);border-radius:var(--rl);padding:16px 19px;display:flex;align-items:center;gap:20px;margin-top:16px}
+.hcmain{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:700;color:var(--red);line-height:1}
+.hclbl{font-size:.78rem;color:var(--text-mid);line-height:1.4}
+.hclbl strong{color:var(--text);font-weight:700;display:block;margin-bottom:1px}
+.hcbk{margin-left:auto;text-align:right}
+.hl{font-family:'DM Mono',monospace;font-size:.57rem;color:var(--text-mid);margin-bottom:2px}
+.hl.tot{color:var(--red-dk);border-top:1px solid var(--red-mid);padding-top:3px;margin-top:3px}
+
+/* Wellness */
+.wgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:16px}
+.wc{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:12px 7px;cursor:pointer;text-align:center;transition:all var(--tr);user-select:none}
+.wc:hover{border-color:var(--red-mid)}
+.wc.on{border-color:var(--green);background:var(--green-dim)}
+.wc.fun{border-style:dashed}
+.wc.fun.on{border-color:var(--amber);background:#FEF3E2;border-style:solid}
+.wi{font-size:1.1rem;margin-bottom:4px;line-height:1.3}
+.wn{font-size:.68rem;font-weight:700;color:var(--text-mid);line-height:1.2}
+.wc.on .wn{color:var(--green)}
+.wc.fun.on .wn{color:var(--amber)}
+.ftag{font-family:'DM Mono',monospace;font-size:.46rem;color:var(--amber);text-transform:uppercase;letter-spacing:.06em;margin-top:3px;display:none}
+.wc.fun.on .ftag{display:block}
+
+/* Jurisdiction */
+.jgrid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:18px}
+.jcard{background:var(--card);border:2px solid var(--border);border-radius:var(--rl);padding:15px 17px;cursor:pointer;transition:all var(--tr);user-select:none}
+.jcard:hover:not(.soon){border-color:var(--red-mid)}
+.jcard.active{border-color:var(--red);background:var(--red-dim)}
+.jcard.soon{opacity:.5;cursor:not-allowed}
+.jflag{font-size:1.4rem;margin-bottom:5px}
+.jname{font-weight:700;font-size:.86rem;margin-bottom:2px;color:var(--text)}
+.jcard.active .jname{color:var(--red-dk)}
+.jdesc{font-size:.7rem;color:var(--text-mid);line-height:1.4}
+
+/* Info cards */
+.igrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+.icard{background:var(--card);border:1px solid var(--border);border-radius:var(--rl);padding:15px 17px}
+.iclbl{font-family:'DM Mono',monospace;font-size:.54rem;color:var(--text-mid);text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px}
+.icval{font-family:'Playfair Display',serif;font-size:1.9rem;font-weight:700;color:var(--text);line-height:1}
+.icval.red{color:var(--red)}
+.warc{background:var(--card);border:1px solid var(--border-lt);border-radius:var(--rl);padding:15px 17px;margin-top:4px}
+.apips{display:flex;gap:4px;margin-top:9px;flex-wrap:wrap}
+.apip{height:7px;flex:1;min-width:16px;border-radius:100px;background:var(--border);transition:background var(--tr)}
+.apip.done{background:var(--green)}
+.apip.now{background:var(--red)}
+.arcleg{display:flex;gap:13px;margin-top:8px}
+.al{display:flex;align-items:center;gap:4px;font-family:'DM Mono',monospace;font-size:.5rem;color:var(--text-mid)}
+.adot{width:10px;height:7px;border-radius:100px}
+
+/* Subject strategy */
+.stog{display:flex;background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:3px;margin-bottom:18px;max-width:450px}
+.sopt{flex:1;text-align:center;padding:8px 13px;border-radius:5px;cursor:pointer;font-size:.78rem;font-weight:700;color:var(--text-mid);transition:all var(--tr);user-select:none}
+.sopt.active{background:var(--red-dim);color:var(--red-dk);border:1px solid var(--red)}
+.sdesc{background:var(--card-w);border:1px solid var(--border);border-radius:var(--r);padding:11px 14px;margin-bottom:18px;font-size:.78rem;color:var(--text-mid);line-height:1.55}
+.subjlist{display:flex;flex-direction:column;gap:8px}
+.srow{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:11px 13px;transition:border-color var(--tr)}
+.srow:hover{border-color:var(--red-mid)}
+.sbadge{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.sbjname{font-weight:700;font-size:.82rem;flex:1}
+.cdots{display:flex;gap:4px}
+.cdot{width:19px;height:19px;border-radius:50%;border:2px solid var(--border);cursor:pointer;transition:all var(--tr);background:var(--card-w)}
+.cdot.on{border-color:transparent}
+
+/* Day picker */
+.dpick{display:flex;gap:6px;flex-wrap:wrap}
+.dpill{width:40px;height:40px;border-radius:50%;border:1px solid var(--border);background:var(--card);display:flex;align-items:center;justify-content:center;font-size:.68rem;font-weight:700;color:var(--text-mid);cursor:pointer;transition:all var(--tr);user-select:none;font-family:'DM Mono',monospace}
+.dpill:hover{border-color:var(--red-mid);color:var(--text)}
+.dpill.on{background:var(--red-dim);border-color:var(--red);color:var(--red-dk)}
+
+/* Tools */
+.tdisclaimer{background:var(--red-dim);border:1px solid var(--red-mid);border-radius:var(--rl);padding:13px 17px;margin-bottom:20px;font-size:.79rem;color:var(--text-mid);line-height:1.55}
+.tdisclaimer strong{color:var(--red-dk)}
+.tsec{margin-bottom:18px}
+.tseclbl{font-family:'DM Mono',monospace;font-size:.54rem;color:var(--text-mid);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px;padding-bottom:5px;border-bottom:1px solid var(--border)}
+.tgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
+.tcrd{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:12px 8px;cursor:pointer;text-align:center;transition:all var(--tr);user-select:none}
+.tcrd:hover{border-color:var(--red-mid)}
+.tcrd.on{border-color:var(--red);background:var(--red-dim)}
+.tcrd.feat{border-color:var(--red-mid);background:var(--red-dim)}
+.ti{font-size:1.35rem;margin-bottom:5px}
+.tn{font-size:.69rem;font-weight:700;color:var(--text-mid);line-height:1.2}
+.tcrd.on .tn{color:var(--red-dk)}
+.ta{font-family:'DM Mono',monospace;font-size:.48rem;color:var(--text-dim);margin-top:2px;text-transform:uppercase;letter-spacing:.06em}
+
+/* Output */
+.vtog{display:flex;background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:3px;max-width:240px;margin-bottom:18px}
+.vopt{flex:1;text-align:center;padding:7px 9px;border-radius:5px;cursor:pointer;font-size:.77rem;font-weight:700;color:var(--text-mid);transition:all var(--tr);user-select:none}
+.vopt.active{background:var(--red);color:white}
+.statsrow{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:16px}
+.sc2{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:13px}
+.sv{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:700;color:var(--red);line-height:1;margin-bottom:3px}
+.sl{font-family:'DM Mono',monospace;font-size:.52rem;color:var(--text-mid);text-transform:uppercase;letter-spacing:.07em}
+
+.legrow{display:flex;gap:12px;flex-wrap:wrap;padding:11px 14px;background:var(--card);border:1px solid var(--border);border-radius:var(--r);margin-bottom:16px}
+.li{display:flex;align-items:center;gap:6px;font-size:.7rem;color:var(--text-mid)}
+.ld{width:10px;height:10px;border-radius:3px;flex-shrink:0}
+
+.wkgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:7px;margin-bottom:20px}
+.dch{font-family:'DM Mono',monospace;font-size:.53rem;text-transform:uppercase;letter-spacing:.09em;color:var(--text-mid);text-align:center;padding-bottom:8px;margin-bottom:7px;border-bottom:1px solid var(--border)}
+.ddate{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--text);display:block;line-height:1;margin-bottom:2px}
+
+.blk{border-radius:5px;padding:7px 8px;margin-bottom:4px;font-size:.67rem;line-height:1.35}
+.btime{font-family:'DM Mono',monospace;font-size:.48rem;letter-spacing:.04em;opacity:.7;margin-bottom:2px;display:block}
+.btitle{font-weight:700;display:block}
+.bdetail{font-size:.6rem;opacity:.8;margin-top:2px;display:block}
+.mcqb{display:inline-block;border-radius:100px;padding:1px 6px;font-family:'DM Mono',monospace;font-size:.53rem;margin-top:3px}
+
+.bw{background:#E8F2EC;border:1px solid #C0DCC9;color:var(--green)}
+.bwk{background:var(--card-w);border:1px solid var(--border);color:var(--text-dim)}
+.bcr{background:#FCE8E9;border:1px solid #F0BFC2;color:#8B0000}
+.bcp{background:#E5F5F3;border:1px solid #B0DDD8;color:#0A7D6E}
+.blib{background:var(--red-dim);border:1px solid var(--red-mid);color:var(--red-dk)}
+.bprot{background:var(--card-w);border:1px solid var(--border-lt);color:var(--text-dim)}
+.mcqbr{background:var(--red-dim);color:var(--red)}
+.bcom{background:#FEF9E7;border:1px solid #F7DC6F;color:#7D6608}
+
+/* Behind btn */
+.bbtn{display:flex;align-items:center;gap:8px;background:var(--card);border:1px dashed var(--red-mid);border-radius:var(--r);padding:10px 15px;color:var(--red);font-size:.79rem;font-weight:700;cursor:pointer;transition:all var(--tr);margin-bottom:16px;font-family:'Nunito',sans-serif;width:100%;text-align:left}
+.bbtn:hover{background:var(--red-dim);border-style:solid}
+
+/* Mission card */
+.mcard{background:var(--card);border:2px solid var(--red-mid);border-radius:var(--rl);padding:20px 24px;max-width:460px;margin:0 auto}
+.mcdate{font-family:'DM Mono',monospace;font-size:.56rem;color:var(--text-mid);text-transform:uppercase;letter-spacing:.1em;margin-bottom:7px}
+.mctitle{font-family:'Playfair Display',serif;font-size:1.35rem;font-weight:700;color:var(--red-dk);margin-bottom:3px}
+.mcsub{font-size:.79rem;color:var(--text-mid);margin-bottom:16px}
+.mclist{list-style:none}
+.mcitem{display:flex;align-items:flex-start;gap:9px;padding:8px 0;border-bottom:1px solid var(--border-lt);font-size:.81rem}
+.mcitem:last-child{border-bottom:none}
+.mccb{width:17px;height:17px;border:2px solid var(--border);border-radius:4px;flex-shrink:0;margin-top:1px;cursor:pointer;transition:all var(--tr);display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:900}
+.mcitem.done .mccb{background:var(--green);border-color:var(--green);color:white}
+.mcitem.done .mcitem-done .mccb::after{content:'✓'}
+.mctxt{flex:1;line-height:1.4}
+.mcitem.done .mctxt{text-decoration:line-through;color:var(--text-dim)}
+.mctime{font-family:'DM Mono',monospace;font-size:.56rem;color:var(--text-dim)}
+.mcwell{margin-top:13px;padding:9px 11px;background:var(--green-dim);border-radius:var(--r);font-size:.77rem;color:var(--green);display:flex;align-items:center;gap:7px}
+
+/* Month view */
+.mrow{display:grid;grid-template-columns:80px 1fr 72px;align-items:center;gap:11px;padding:8px 11px;border-radius:var(--r);font-size:.79rem;margin-bottom:6px}
+.mwlbl{font-family:'DM Mono',monospace;font-size:.58rem}
+.mwdt{text-align:right;font-family:'DM Mono',monospace;font-size:.58rem}
+
+/* Export */
+.exprow{display:flex;gap:7px;margin-top:18px;flex-wrap:wrap}
+.ebtn{background:var(--card);border:1px solid var(--border);color:var(--text-mid);padding:8px 14px;border-radius:var(--r);font-family:'Nunito',sans-serif;font-size:.76rem;font-weight:700;cursor:pointer;transition:all var(--tr);display:inline-flex;align-items:center;gap:5px}
+.ebtn:hover{border-color:var(--red-mid);color:var(--text)}
+.ebtn.red{color:var(--red);border-color:var(--red-mid)}
+.ebtn.red:hover{background:var(--red-dim)}
+
+/* Navbar */
+.navb{padding:15px 44px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--card)}
+.btn{padding:9px 20px;border-radius:var(--r);font-family:'Nunito',sans-serif;font-size:.83rem;font-weight:700;cursor:pointer;transition:all var(--tr);border:none;display:inline-flex;align-items:center;gap:6px}
+.btn-ghost{background:transparent;color:var(--text-mid);border:1px solid var(--border)}
+.btn-ghost:hover{border-color:var(--red-mid);color:var(--text)}
+.btn-red{background:var(--red);color:white}
+.btn-red:hover{background:var(--red-dk);transform:translateY(-1px);box-shadow:0 4px 14px rgba(153,23,32,.22)}
+.btn-gen{background:linear-gradient(135deg,var(--red-dk),var(--red));color:white;padding:11px 22px}
+.btn-gen:hover{transform:translateY(-1px);box-shadow:0 4px 18px rgba(153,23,32,.28)}
+.sctr{font-family:'DM Mono',monospace;font-size:.54rem;color:var(--text-dim)}
+
+/* ─── BLOCK EDITOR ─── */
+.bed-overlay{position:fixed;inset:0;background:rgba(28,10,11,.38);z-index:200;display:none}
+.bed-overlay.vis{display:block}
+.bed-panel{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:390px;max-width:calc(100vw - 28px);background:var(--card);border-radius:var(--rl);box-shadow:0 10px 48px rgba(28,10,11,.24);z-index:201;display:none;max-height:90vh;overflow-y:auto}
+.bed-panel.vis{display:block;animation:fadeUp .18s ease}
+.bed-hdr{background:var(--red-dk);color:#F1E6DE;padding:13px 18px;display:flex;align-items:center;justify-content:space-between;border-radius:var(--rl) var(--rl) 0 0;position:sticky;top:0;z-index:1}
+.bed-title{font-family:'Playfair Display',serif;font-size:.98rem;font-weight:700}
+.bed-close{background:none;border:none;color:rgba(241,230,222,.65);font-size:1.1rem;cursor:pointer;padding:2px 4px;line-height:1;border-radius:4px;transition:color var(--tr)}
+.bed-close:hover{color:#F1E6DE}
+.bed-body{padding:16px 18px}
+.bed-row{margin-bottom:13px}
+.bed-lbl{font-family:'DM Mono',monospace;font-size:.54rem;color:var(--text-mid);text-transform:uppercase;letter-spacing:.1em;display:block;margin-bottom:5px}
+.bed-inp{background:var(--card-w);border:1px solid var(--border);border-radius:var(--r);color:var(--text);font-family:'Nunito',sans-serif;font-size:.85rem;padding:8px 11px;width:100%;transition:border-color var(--tr);appearance:none}
+.bed-inp:focus{outline:none;border-color:var(--red)}
+.bed-locked{background:var(--red-dim);border:1px solid var(--red-mid);border-radius:var(--r);padding:9px 13px;font-size:.83rem;font-weight:700;color:var(--red-dk);display:flex;align-items:center;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.bed-lock-badge{font-family:'DM Mono',monospace;font-size:.48rem;background:var(--red-mid);color:var(--red-dk);border-radius:100px;padding:2px 8px;text-transform:uppercase;letter-spacing:.06em;margin-left:auto;white-space:nowrap}
+.bed-daypick{display:flex;gap:5px}
+.bed-day-btn{width:36px;height:36px;border-radius:50%;border:1px solid var(--border);background:var(--card);font-family:'DM Mono',monospace;font-size:.62rem;font-weight:700;color:var(--text-mid);cursor:pointer;transition:all var(--tr);display:flex;align-items:center;justify-content:center}
+.bed-day-btn:hover{border-color:var(--red-mid);color:var(--text)}
+.bed-day-btn.on{background:var(--red-dim);border-color:var(--red);color:var(--red-dk)}
+.bed-supps{background:var(--card-w);border:1px solid var(--border);border-radius:var(--r);padding:10px 13px}
+.bed-supp-row{display:flex;align-items:center;gap:9px;padding:7px 0;border-bottom:1px solid var(--border-lt)}
+.bed-supp-row:last-child{border-bottom:none}
+.bed-supp-tog{width:28px;height:16px;background:var(--border);border-radius:100px;position:relative;cursor:pointer;transition:background var(--tr);flex-shrink:0}
+.bed-supp-tog::after{content:'';position:absolute;width:11px;height:11px;background:white;border-radius:50%;top:2.5px;left:2.5px;transition:all var(--tr)}
+.bed-supp-tog.on{background:var(--green)}
+.bed-supp-tog.on::after{left:14.5px}
+.bed-supp-name{flex:1;font-size:.79rem;font-weight:600;color:var(--text-mid);line-height:1.3}
+.bed-supp-tog.on~.bed-supp-name{color:var(--text)}
+.bed-supp-min{width:58px!important;text-align:center;font-family:'DM Mono',monospace}
+.bed-supp-unit{font-family:'DM Mono',monospace;font-size:.52rem;color:var(--text-dim);white-space:nowrap}
+.bed-total{text-align:right;font-family:'DM Mono',monospace;font-size:.66rem;color:var(--text-mid);margin-top:8px;margin-bottom:4px}
+.bed-total strong{color:var(--red-dk)}
+.bed-warn{background:#FEF9E7;border:1px solid #F0D98B;border-radius:var(--r);padding:13px 14px;margin-bottom:13px;font-size:.8rem;color:#7D6608;line-height:1.6}
+.bed-warn strong{font-weight:700}
+.bed-footer{padding:12px 18px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:9px;position:sticky;bottom:0;background:var(--card);border-radius:0 0 var(--rl) var(--rl)}
+/* Custom tool form */
+.custom-tool-form{display:none;background:var(--card-w);border:1px solid var(--border);border-radius:var(--r);padding:14px;margin-top:8px}
+.custom-tool-form.vis{display:block}
+
+/* Edit tip callout */
+.edit-tip{display:flex;align-items:flex-start;gap:11px;background:#FEF3C7;border:1.5px solid #F59E0B;border-left:4px solid #D97706;border-radius:var(--r);padding:11px 14px;margin-bottom:14px}
+.edit-tip-icon{font-size:1.15rem;line-height:1;flex-shrink:0;margin-top:1px}
+.edit-tip-body{font-size:.78rem;color:#78350F;line-height:1.55}
+.edit-tip-body strong{font-weight:700;color:#92400E;display:block;margin-bottom:2px}
+/* Covered subject toggle */
+.srow.cov-done{background:var(--green-dim);border-color:var(--green)}
+.srow.cov-done .sbjname{text-decoration:line-through;color:var(--text-dim)}
+.cov-tog{font-family:'DM Mono',monospace;font-size:.5rem;padding:3px 9px;border-radius:100px;border:1px solid var(--border);background:var(--card);color:var(--text-dim);cursor:pointer;transition:all var(--tr);white-space:nowrap;user-select:none;margin-left:auto}
+.cov-tog:hover{border-color:var(--green);color:var(--green)}
+.cov-tog.on{background:var(--green-dim);border-color:var(--green);color:var(--green)}
+/* Month view interaction */
+#vmonth .mrow{grid-template-columns:80px 1fr auto}
+.clickrow{cursor:pointer;transition:filter .12s}
+.clickrow:hover{filter:brightness(.97)}
+.mrow-chevron{background:none;border:1px solid var(--border);border-radius:5px;width:24px;height:24px;cursor:pointer;font-size:1rem;line-height:1;color:var(--text-mid);transition:all var(--tr);padding:0;font-family:'Nunito',sans-serif;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.mrow-chevron:hover{border-color:var(--red-mid);color:var(--red)}
+.mrow-expand{margin-top:9px;padding-top:9px;border-top:1px solid var(--border-lt)}
+.mrow-days{font-size:.72rem;color:var(--text-mid);line-height:1.7;margin-bottom:5px}
+.mrow-goat{font-family:'DM Mono',monospace;font-size:.54rem;color:var(--red-dk);letter-spacing:.03em;background:var(--red-dim);border-radius:4px;padding:3px 9px;display:inline-block}
+/* Print */
+@media print{
+  .topbar,.sidebar,.navb,.exprow,.vtog,.cob,.bbtn,.legrow,.bed-overlay,.bed-panel{display:none!important}
+  .app{display:block!important}
+  .sc.active{display:block!important;padding:8px;min-height:auto}
+  .sc::before{content:none!important}
+  #vweek{display:block!important}
+  #vday,#vmonth{display:none!important}
+  .wkgrid{grid-template-columns:repeat(7,1fr)!important;min-width:auto!important}
+  body{background:white!important}
+  .blk{page-break-inside:avoid}
+}
+/* ─── MOBILE RESPONSIVE ─────────────────────────────────────────────────── */
+@media(max-width:768px){
+  :root{--topbar-h:48px}
+
+  /* Topbar */
+  .topbar{padding:9px 14px}
+  .cdpill{padding:5px 11px;gap:9px}
+  .cdn{font-size:1rem}
+  .cdsep{height:18px}
+
+  /* Cob banner */
+  .cob{padding:16px 14px;gap:5px}
+  .cob-headline{font-size:1.2rem}
+  .cob-sub,.cob-badge{font-size:.55rem}
+  .cob-brands{gap:16px;padding-top:10px;margin-top:12px}
+
+  /* App: stack vertically so sidebar goes on top */
+  .app{flex-direction:column;min-height:auto}
+
+  /* Sidebar → compact horizontal step strip */
+  .sidebar{
+    width:100%;min-width:0;
+    height:auto;
+    position:static;
+    border-right:none;border-bottom:1px solid var(--border);
+    padding:8px 0 6px;
+    flex-direction:row;
+    overflow-x:auto;overflow-y:visible;
+  }
+  .snav{
+    display:flex;flex-direction:row;flex-wrap:nowrap;
+    overflow-x:auto;padding:0 10px;gap:2px;flex:1;
+    -webkit-overflow-scrolling:touch;scrollbar-width:none;
+  }
+  .snav::-webkit-scrollbar{display:none}
+  .snav-lbl{display:none}
+  .si{
+    flex-direction:column;align-items:center;
+    min-width:54px;gap:3px;padding:5px 5px;margin-bottom:0;
+  }
+  .sdot{width:15px;height:15px;min-width:15px;margin-top:0}
+  .snum{display:none}
+  .sname{font-size:.54rem;text-align:center;line-height:1.2;white-space:nowrap}
+  .sfooter{
+    padding:6px 12px;border-top:none;margin-top:0;
+    min-width:78px;display:flex;flex-direction:column;
+    justify-content:center;border-left:1px solid var(--border);
+  }
+  .plbl{font-size:.44rem}
+  .ptrack{height:3px}
+
+  /* Step content */
+  .sc{padding:20px 16px;min-height:calc(100svh - var(--topbar-h) - 96px - 60px)}
+  .sc::before{font-size:14rem;bottom:-10px;right:-8px}
+  .stitle{font-size:1.4rem}
+  .ssub{font-size:.8rem;max-width:100%}
+
+  /* Nav bar */
+  .navb{padding:12px 16px}
+
+  /* 2-col → 1-col forms */
+  .frow{grid-template-columns:1fr}
+
+  /* Jurisdiction: 1 col */
+  .jgrid{grid-template-columns:1fr}
+
+  /* Info stat cards: 2 col */
+  .igrid{grid-template-columns:1fr 1fr}
+
+  /* Wellness grid: 3 col */
+  .wgrid{grid-template-columns:repeat(3,1fr)}
+
+  /* Work time grid: 2 col */
+  .tgrid{grid-template-columns:1fr 1fr}
+
+  /* Tool cards: 2 col */
+  .tsec .tgrid{grid-template-columns:repeat(2,1fr)}
+
+  /* Responsibilities */
+  .ritem{gap:8px}
+  .rname{font-size:.77rem}
+
+  /* Hours calc */
+  .hcalc{flex-direction:column;gap:10px;align-items:flex-start}
+  .hcbk{margin-left:0;text-align:left}
+
+  /* Commute subrow */
+  .subrow{flex-wrap:wrap;gap:8px}
+
+  /* Work days */
+  .wdays{flex-wrap:wrap}
+  .wday{width:36px;height:36px}
+
+  /* Output stats: 2 col */
+  .statsrow{grid-template-columns:1fr 1fr;gap:7px}
+
+  /* Week grid: horizontal scroll */
+  #vweek{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .wkgrid{grid-template-columns:repeat(7,minmax(128px,1fr));min-width:896px;gap:5px}
+
+  /* Export row */
+  .exprow{flex-direction:column}
+  .ebtn{width:100%;justify-content:center}
+
+  /* Month view */
+  .mrow{grid-template-columns:62px 1fr;gap:7px}
+  .mwdt{display:none}
+
+  /* Day mission card */
+  .mcard{max-width:100%}
+
+  /* Block editor → bottom sheet */
+  .bed-panel{
+    position:fixed;
+    inset:auto 0 0 0;
+    width:100%;max-width:100%;
+    top:auto;left:0;right:0;bottom:0;
+    transform:none;
+    border-radius:var(--rl) var(--rl) 0 0;
+    max-height:88svh;
+  }
+  .bed-panel.vis{display:block;animation:slideUp .22s ease;transform:none}
+  @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+
+  /* Day picker in editor */
+  .bed-daypick{flex-wrap:wrap;gap:4px}
+  .bed-day-btn{width:34px;height:34px}
+}
+
+@media(max-width:480px){
+  .cob-headline{font-size:1.05rem}
+  .cdpill{gap:6px;padding:4px 8px}
+  .cdn{font-size:.88rem}
+  .wgrid{grid-template-columns:repeat(2,1fr)}
+  .si{min-width:46px}
+  .sname{font-size:.5rem}
+  .sc{padding:16px 13px}
+  .stitle{font-size:1.25rem}
+}
+</style>
+</head>
+<body>
+
+<!-- CO-BRAND BANNER -->
+<div class="cob">
+  <div class="cob-headline">The Busy GOAT Scheduler 🐐</div>
+  <div class="cob-sub">The custom bar prep scheduler — built for your actual life</div>
+  <div class="cob-badge">Free · No Account Needed</div>
+  <div class="cob-brands">
+    <div class="cob-brand">
+      <div class="cob-brand-lbl">Your Lawyer Bestie</div>
+      <div class="cob-socials">
+        <a href="https://yourlawyerbestie.substack.com/" target="_blank" rel="noopener" class="csoc ylb-soc" title="Substack">
+          <svg viewBox="0 0 24 24"><path d="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.11 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z"/></svg>
+        </a>
+        <a href="https://www.tiktok.com/@yourlawyerbestie" target="_blank" rel="noopener" class="csoc ylb-soc" title="TikTok">
+          <svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.34 6.34 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V9.41a8.16 8.16 0 004.77 1.52V7.48a4.85 4.85 0 01-1-.79z"/></svg>
+        </a>
+        <a href="https://www.youtube.com/@Your-Lawyer-Bestie" target="_blank" rel="noopener" class="csoc ylb-soc" title="YouTube">
+          <svg viewBox="0 0 24 24"><path d="M21.543 6.498C22 8.28 22 12 22 12s0 3.72-.457 5.502c-.254.985-.997 1.76-1.938 2.022C17.896 20 12 20 12 20s-5.893 0-7.605-.476c-.945-.266-1.687-1.04-1.938-2.022C2 15.72 2 12 2 12s0-3.72.457-5.502c.254-.985.997-1.76 1.938-2.022C6.107 4 12 4 12 4s5.896 0 7.605.476c.945.266 1.687 1.04 1.938 2.022zM10 15.5l6-3.5-6-3.5v7z"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="cob-x">×</div>
+    <div class="cob-brand">
+      <div class="cob-brand-lbl">GOAT Bar Prep</div>
+      <div class="cob-socials">
+        <a href="https://www.tiktok.com/@goatbarprep" target="_blank" rel="noopener" class="csoc goat-soc" title="TikTok">
+          <svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.34 6.34 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V9.41a8.16 8.16 0 004.77 1.52V7.48a4.85 4.85 0 01-1-.79z"/></svg>
+        </a>
+        <a href="https://www.instagram.com/goatbarprep/" target="_blank" rel="noopener" class="csoc goat-soc" title="Instagram">
+          <svg viewBox="0 0 24 24"><path d="M12 2c2.717 0 3.056.01 4.122.06 1.065.05 1.79.217 2.428.465.66.254 1.216.598 1.772 1.153a4.908 4.908 0 011.153 1.772c.247.637.415 1.363.465 2.428.047 1.066.06 1.405.06 4.122 0 2.717-.01 3.056-.06 4.122-.05 1.065-.218 1.79-.465 2.428a4.883 4.883 0 01-1.153 1.772 4.915 4.915 0 01-1.772 1.153c-.637.247-1.363.415-2.428.465-1.066.047-1.405.06-4.122.06-2.717 0-3.056-.01-4.122-.06-1.065-.05-1.79-.218-2.428-.465a4.89 4.89 0 01-1.772-1.153 4.904 4.904 0 01-1.153-1.772c-.248-.637-.415-1.363-.465-2.428C2.013 15.056 2 14.717 2 12c0-2.717.01-3.056.06-4.122.05-1.066.217-1.79.465-2.428a4.88 4.88 0 011.153-1.772A4.897 4.897 0 015.45 2.525c.638-.248 1.362-.415 2.428-.465C8.944 2.013 9.283 2 12 2zm0 1.802c-2.67 0-2.986.01-4.04.059-.976.045-1.505.207-1.858.344-.466.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.055-.059 1.37-.059 4.04 0 2.67.01 2.986.059 4.04.045.976.207 1.505.344 1.858.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.047 1.37.059 4.04.059 2.67 0 2.987-.01 4.04-.059.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.059-1.37.059-4.04 0-2.67-.01-2.986-.059-4.04-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.055-.048-1.37-.059-4.04-.059zm0 3.063a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 8.468a3.333 3.333 0 100-6.666 3.333 3.333 0 000 6.666zm6.538-8.671a1.2 1.2 0 11-2.4 0 1.2 1.2 0 012.4 0z"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="appname" style="font-size:.88rem">Your Lawyer Bestie <span>× 🐐 GOAT Bar Prep</span></div>
+  <div class="cdpill">
+    <div class="cds"><div class="cdn" id="cdd">63</div><div class="cdl">Days</div></div>
+    <div class="cdsep"></div>
+    <div class="cds"><div class="cdn" id="cdw">9</div><div class="cdl">Weeks</div></div>
+    <div class="cdsep"></div>
+    <div class="cds"><div class="cdn" id="cdp">38</div><div class="cdl">% Done</div></div>
+  </div>
+</div>
+
+<div class="app">
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <div class="snav">
+    <div class="snav-lbl">Your Setup</div>
+    <div class="si active" onclick="go(1)" id="n1"><div class="sdot"><div class="sdi"></div></div><div><div class="snum">01</div><div class="sname">Exam Setup</div></div></div>
+    <div class="si" onclick="go(2)" id="n2"><div class="sdot"><div class="sdi"></div></div><div><div class="snum">02</div><div class="sname">Work & Caretaker</div></div></div>
+    <div class="si" onclick="go(3)" id="n3"><div class="sdot"><div class="sdi"></div></div><div><div class="snum">03</div><div class="sname">Non-Negotiables</div></div></div>
+    <div class="si" onclick="go(4)" id="n4"><div class="sdot"><div class="sdi"></div></div><div><div class="snum">04</div><div class="sname">Subject Strategy</div></div></div>
+    <div class="si" onclick="go(5)" id="n5"><div class="sdot"><div class="sdi"></div></div><div><div class="snum">05</div><div class="sname">Study Settings</div></div></div>
+    <div class="si" onclick="go(6)" id="n6"><div class="sdot"><div class="sdi"></div></div><div><div class="snum">06</div><div class="sname">Your Tools</div></div></div>
+    <div class="si" onclick="go(7)" id="n7"><div class="sdot"><div class="sdi"></div></div><div><div class="snum">Out</div><div class="sname">Your Schedule</div></div></div>
+  </div>
+  <div class="sfooter">
+    <div class="plbl"><span>Progress</span><span id="pp">14%</span></div>
+    <div class="ptrack"><div class="pfill" id="pf" style="width:14%"></div></div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+<!-- S1: Exam Setup -->
+<div class="sc active" id="s1">
+  <span class="stag">Step 01 · Exam Setup</span>
+  <h1 class="stitle">One date.<br>Everything bends around it.</h1>
+  <p class="ssub">Lock in your jurisdiction and exam date first. The tool builds your entire study arc around this one reality.</p>
+
+  <div class="fsec">
+    <label class="flbl">Which bar are you taking?</label>
+    <div class="jgrid">
+      <div class="jcard active" onclick="selJ(this,'ube')"><div class="jflag">⚖️</div><div class="jname">Standard UBE</div><div class="jdesc">DC, NY, NJ, IL, MD, VA + 35 more. Select your state for passing score context.</div></div>
+      <div class="jcard" onclick="selJ(this,'ca')"><div class="jflag">🌴</div><div class="jname">California Bar</div><div class="jdesc">State-specific exam. Different essays, essay subjects, and performance test format.</div></div>
+      <div class="jcard soon"><div class="jflag">⚜️</div><div class="jname">Louisiana Bar</div><div class="jdesc">🚧 Coming soon — civil law jurisdiction requires separate subject architecture.</div></div>
+      <div class="jcard soon"><div class="jflag">🌊</div><div class="jname">Florida Bar</div><div class="jdesc">🚧 Coming soon — Florida-specific essays and subjects need dedicated build-out.</div></div>
+      <div class="jcard soon" style="grid-column:span 2"><div class="jname">🚧 More jurisdictions coming soon</div><div class="jdesc">Georgia, Nevada, Wisconsin, Hawaii, Texas + all remaining states. Building them out now.</div></div>
+    </div>
+  </div>
+
+  <div id="uberow" class="fsec">
+    <label class="flbl">Your UBE State (passing score reference)</label>
+    <select class="finput" style="max-width:320px">
+      <option>District of Columbia — 266</option>
+      <option>New York — 266</option>
+      <option>New Jersey — 266</option>
+      <option>Illinois — 266</option>
+      <option>Maryland — 266</option>
+      <option>Virginia — 266</option>
+      <option>Texas — 270</option>
+      <option>Massachusetts — 270</option>
+      <option>Colorado — 276</option>
+      <option>Alaska — 280</option>
+      <option>Alabama — 260</option>
+      <option>Missouri — 260</option>
+      <option>Other UBE State</option>
+    </select>
+  </div>
+
+  <div class="frow" style="max-width:640px;margin-bottom:6px">
+    <div>
+      <label class="flbl">Choose Your Start Date</label>
+      <input type="date" class="finput" id="study-start-date" onchange="updSchedule()">
+      <p style="font-size:.66rem;color:var(--text-dim);margin-top:3px;line-height:1.4">When do you want to begin? Defaults to this Monday.</p>
+    </div>
+    <div>
+      <label class="flbl">Bar Exam Date</label>
+      <input type="date" class="finput" id="exam-date-input" value="2026-07-28" onchange="updCD(this.value);updSchedule()">
+      <p style="font-size:.66rem;color:var(--text-dim);margin-top:3px;line-height:1.4">Your exam date determines the full arc.</p>
+    </div>
+    <div><label class="flbl">Attempt #</label><select class="finput"><option>2nd attempt (retaker ✓)</option><option>1st attempt</option><option>3rd+ attempt</option></select></div>
+  </div>
+
+  <div class="igrid">
+    <div class="icard"><div class="iclbl">Days Until Exam</div><div class="icval red" id="s1d">63</div></div>
+    <div class="icard"><div class="iclbl">Study Weeks Left</div><div class="icval" id="s1w">9</div></div>
+    <div class="icard"><div class="iclbl">MBE Subjects</div><div class="icval">7</div></div>
+  </div>
+
+  <div class="warc">
+    <div class="flbl" style="margin-bottom:3px">Your Study Arc</div>
+    <div class="apips" id="wpips"></div>
+    <div class="arcleg">
+      <div class="al"><div class="adot" style="background:var(--green)"></div>Done</div>
+      <div class="al"><div class="adot" style="background:var(--red)"></div>Now</div>
+      <div class="al"><div class="adot" style="background:var(--border)"></div>Ahead</div>
+    </div>
+  </div>
+</div>
+
+<!-- S2: Work & Caretaker -->
+<div class="sc" id="s2">
+  <span class="stag">Step 02 · Work & Caretaker Schedule</span>
+  <h1 class="stitle">Real life first.<br>Study time second.</h1>
+  <p class="ssub">Working full-time is a whole life. So is caregiving. Tell us what your week actually looks like — we subtract from <em>reality</em>, not from a wish list.</p>
+
+  <div class="fsec">
+    <label class="flbl">Situation Type</label>
+    <div class="pg" id="wtype">
+      <div class="pill active" onclick="selP(this,'wtype')">Employed full-time</div>
+      <div class="pill" onclick="selP(this,'wtype')">Part-time employed</div>
+      <div class="pill" onclick="selP(this,'wtype')">Primary caretaker</div>
+      <div class="pill" onclick="selP(this,'wtype')">Irregular / contract</div>
+      <div class="pill" onclick="selP(this,'wtype')">Not working</div>
+    </div>
+  </div>
+
+  <div class="fsec">
+    <label class="flbl">Work / Obligation Hours & Days</label>
+    <div class="tgrid">
+      <div class="tblk"><label>Start Time</label><input type="time" class="tinput" value="06:00" id="wst" oninput="calcA()"></div>
+      <div class="tblk"><label>End Time</label><input type="time" class="tinput" value="14:00" id="wet" oninput="calcA()"></div>
+      <div class="tblk"><label>Hours / Week</label><input type="number" class="tinput" value="40" min="0" max="80" id="whr" oninput="calcA()"></div>
+    </div>
+    <label class="flbl" style="margin-bottom:5px">Work Days</label>
+    <div class="wdays">
+      <div class="wday on" onclick="this.classList.toggle('on')">M</div>
+      <div class="wday on" onclick="this.classList.toggle('on')">Tu</div>
+      <div class="wday on" onclick="this.classList.toggle('on')">W</div>
+      <div class="wday on" onclick="this.classList.toggle('on')">Th</div>
+      <div class="wday on" onclick="this.classList.toggle('on')">F</div>
+      <div class="wday" onclick="this.classList.toggle('on')">Sa</div>
+      <div class="wday" onclick="this.classList.toggle('on')">Su</div>
+    </div>
+  </div>
+
+  <div class="fsec">
+    <label class="flbl">Commute</label>
+    <div class="togrow" onclick="togR(this,'subcom');setTimeout(buildCommuteBlocks,50)"><div><div class="togname">I have a daily commute</div><div class="togdesc">Commute = passive study window (audio lectures, overview videos, podcasts)</div></div><div class="togsw"></div></div>
+    <div class="subrow" id="subcom"><label>One-way commute:</label><input type="range" class="slider" min="5" max="90" value="30" id="slc" oninput="updS('slc','svc')"><div style="font-family:'DM Mono',monospace;font-size:.82rem;color:var(--red);min-width:52px"><span id="svc">30</span> min</div></div>
+  </div>
+
+  <div class="fsec">
+    <label class="flbl">Other Weekly Responsibilities</label>
+    <div class="ritem"><div class="rico">👶</div><div class="rname">Childcare / Kids' activities</div><input type="number" class="rinp" value="0" min="0" max="50" oninput="calcA()"><div class="runit">hrs/wk</div></div>
+    <div class="ritem"><div class="rico">🧓</div><div class="rname">Caregiving (elder or family member)</div><input type="number" class="rinp" value="0" min="0" max="50" oninput="calcA()"><div class="runit">hrs/wk</div></div>
+    <div class="ritem"><div class="rico">🏠</div><div class="rname">Household / Errands</div><input type="number" class="rinp" value="5" min="0" max="30" oninput="calcA()"><div class="runit">hrs/wk</div></div>
+    <div class="ritem"><div class="rico">💼</div><div class="rname">Side hustle / other obligation</div><input type="number" class="rinp" value="0" min="0" max="40" oninput="calcA()"><div class="runit">hrs/wk</div></div>
+  </div>
+
+  <div class="hcalc">
+    <div><div class="hcmain" id="avhr">23</div><div class="hclbl"><strong>Available Study Hours / Week</strong>After work, life, and 7 hrs sleep/night</div></div>
+    <div class="hcbk">
+      <div class="hl">168 hrs in a week</div>
+      <div class="hl">− <span id="hbw">40</span> hrs work</div>
+      <div class="hl">− 49 hrs sleep (7/night)</div>
+      <div class="hl">− <span id="hbr">5</span> hrs responsibilities</div>
+      <div class="hl tot">= <span id="hba">74</span> hrs available</div>
+    </div>
+  </div>
+</div>
+
+<!-- S3: Non-Negotiables -->
+<div class="sc" id="s3">
+  <span class="stag">Step 03 · Non-Negotiables</span>
+  <h1 class="stitle">We want you to <span>live.</span></h1>
+  <p class="ssub">Seriously. These blocks go in first — not as rewards, as infrastructure. Retakers fail from burnout, not from knowledge gaps. Your brain consolidates doctrine during rest, not during hour eleven.</p>
+
+  <div class="fsec">
+    <label class="flbl">What keeps you functional? Select all that apply.</label>
+    <div class="wgrid">
+      <div class="wc on" onclick="this.classList.toggle('on')"><div class="wi">🏋️</div><div class="wn">Gym / Sports</div></div>
+      <div class="wc" onclick="this.classList.toggle('on')"><div class="wi">🧘</div><div class="wn">Mind-Body<br><small style="font-weight:400;font-size:.85em">yoga, pilates, stretching</small></div></div>
+      <div class="wc on" onclick="this.classList.toggle('on')"><div class="wi">🚶</div><div class="wn">Walks / Outdoors</div></div>
+      <div class="wc on" onclick="this.classList.toggle('on')"><div class="wi" style="font-size:.82rem;line-height:1.5">✝️ 🕌 ✡️ 🕉️ ☸️</div><div class="wn">Spirituality<br><small style="font-weight:400;font-size:.85em">church, mosque, synagogue…</small></div></div>
+      <div class="wc" onclick="this.classList.toggle('on')"><div class="wi">🍳</div><div class="wn">Meal Prep</div></div>
+      <div class="wc" onclick="this.classList.toggle('on')"><div class="wi">💬</div><div class="wn">Therapy</div></div>
+      <div class="wc" onclick="this.classList.toggle('on')"><div class="wi">👨‍👩‍👧</div><div class="wn">Family Time</div></div>
+      <div class="wc" onclick="this.classList.toggle('on')"><div class="wi">🎵</div><div class="wn">Music</div></div>
+      <div class="wc" onclick="this.classList.toggle('on')"><div class="wi">📖</div><div class="wn">Reading</div></div>
+      <div class="wc fun" onclick="this.classList.toggle('on')"><div class="wi">📱</div><div class="wn">Doom Scroll / TikTok</div><div class="ftag">🐐 30 min max, bestie</div></div>
+      <div class="wc fun" onclick="this.classList.toggle('on')"><div class="wi">🎬</div><div class="wn">Movies / Reality TV</div><div class="ftag">fully 🐐-approved</div></div>
+      <div class="wc" onclick="this.classList.toggle('on')" style="border-style:dashed"><div class="wi">➕</div><div class="wn">Other</div></div>
+    </div>
+  </div>
+
+  <div class="fsec">
+    <label class="flbl">Preferred Wellness Time</label>
+    <div class="pg" id="wtime">
+      <div class="pill active" onclick="selP(this,'wtime')">☀️ Morning (before work)</div>
+      <div class="pill" onclick="selP(this,'wtime')">🌤 Midday</div>
+      <div class="pill" onclick="selP(this,'wtime')">🌙 Evening</div>
+      <div class="pill" onclick="selP(this,'wtime')">Varies</div>
+    </div>
+  </div>
+
+  <div class="fsec">
+    <label class="flbl">Total Wellness Hours / Week</label>
+    <div class="sw-wrap"><input type="range" class="slider" min="2" max="20" value="7" id="slwl" oninput="updS('slwl','svwl')"><div class="sval" id="svwl">7<small>hrs/wk</small></div></div>
+  </div>
+</div>
+
+<!-- S4: Subject Strategy -->
+<div class="sc" id="s4">
+  <span class="stag">Step 04 · Subject Strategy</span>
+  <h1 class="stitle">Become a Goat<br>in a world of sheep.</h1>
+  <p class="ssub">Two valid approaches. No wrong answer — only the one that matches how your brain works right now. Retakers usually know exactly where they lost points.</p>
+
+  <div class="stog">
+    <div class="sopt active" id="st-ncbe" onclick="setSt('ncbe')">📋 NCBE Outline Order</div>
+    <div class="sopt" id="st-weak" onclick="setSt('weak')">🎯 Weakest Subject First</div>
+  </div>
+  <div class="sdesc" id="strdesc"><strong style="color:var(--text)">NCBE Outline Order:</strong> Follows the official MBE sequence. Good if your performance gaps are distributed evenly across subjects. Nothing accidentally gets left behind.</div>
+  <label class="flbl" id="subjlbl">Subject Order — NCBE Official Sequence</label>
+  <div class="subjlist" id="subjlist"></div>
+
+  <div id="mee-note" style="background:var(--red-dim);border:1px solid var(--red-mid);border-radius:var(--r);padding:11px 14px;margin-top:16px;font-size:.77rem;color:var(--text-mid);line-height:1.55">
+    <strong style="color:var(--red-dk)">MEE subjects (Standard UBE):</strong> MEE subjects will be scheduled in your final 2–3 weeks automatically. MEE essay practice (2/week) runs parallel on heavy study days from week one — unless you adjust essay frequency above.
+  </div>
+</div>
+
+<!-- S5: Study Settings -->
+<div class="sc" id="s5">
+  <span class="stag">Step 05 · Study Settings</span>
+  <h1 class="stitle">Configure your<br>study rhythm.</h1>
+  <p class="ssub">Pull these to your <em>actual</em> capacity. Not your aspirational one. A schedule built for someone with more time than you will break by week three.</p>
+
+  <div class="fsec">
+    <label class="flbl">Full Study Days (pick up to 2)</label>
+    <p style="font-size:.74rem;color:var(--text-mid);margin-bottom:9px">Your heaviest days — library sessions, 25+ MCQs, timed essays. Default is weekend.</p>
+    <div class="dpick" id="dpick">
+      <div class="dpill" onclick="togD(this)">M</div><div class="dpill" onclick="togD(this)">Tu</div>
+      <div class="dpill" onclick="togD(this)">W</div><div class="dpill" onclick="togD(this)">Th</div>
+      <div class="dpill" onclick="togD(this)">F</div>
+      <div class="dpill on" onclick="togD(this)">Sa</div>
+      <div class="dpill on" onclick="togD(this)">Su</div>
+    </div>
+  </div>
+
+  <div class="frow" style="max-width:500px;margin-bottom:20px">
+    <div>
+      <label class="flbl">Weekday Study Block Start Time</label>
+      <p style="font-size:.71rem;color:var(--text-mid);margin-bottom:8px">When you open your books after work/obligations end.</p>
+      <div class="pg" id="wdst">
+        <div class="pill" onclick="selP(this,'wdst')">5am</div><div class="pill" onclick="selP(this,'wdst')">6am</div>
+        <div class="pill" onclick="selP(this,'wdst')">7am</div><div class="pill" onclick="selP(this,'wdst')">Noon</div>
+        <div class="pill active" onclick="selP(this,'wdst')">6pm</div>
+        <div class="pill" onclick="selP(this,'wdst')">7pm</div><div class="pill" onclick="selP(this,'wdst')">8pm</div>
+        <input type="text" class="pill-custom" id="wdst-custom" placeholder="+ custom (e.g. 4:45pm)" oninput="customTime(this,'wdst')">
+      </div>
+    </div>
+    <div>
+      <label class="flbl">Full Study Day Start Time</label>
+      <p style="font-size:.71rem;color:var(--text-mid);margin-bottom:8px">When you sit down for your heavy library-style session.</p>
+      <div class="pg" id="fdst">
+        <div class="pill" onclick="selP(this,'fdst')">7am</div><div class="pill" onclick="selP(this,'fdst')">8am</div>
+        <div class="pill active" onclick="selP(this,'fdst')">9:30am</div>
+        <div class="pill" onclick="selP(this,'fdst')">10am</div><div class="pill" onclick="selP(this,'fdst')">Noon</div>
+        <input type="text" class="pill-custom" id="fdst-custom" placeholder="+ custom (e.g. 2:30pm)" oninput="customTime(this,'fdst')">
+      </div>
+    </div>
+  </div>
+
+  <div class="fsec">
+    <label class="flbl">Daily MBE Questions — Weekday Sessions</label>
+    <div class="sw-wrap"><input type="range" class="slider" min="5" max="30" value="8" id="sldq" oninput="updS('sldq','svdq')"><div class="sval" id="svdq">8<small>MCQs/day</small></div></div>
+  </div>
+  <div class="fsec">
+    <label class="flbl">Full Study Day MCQs — Library / Heavy Sessions</label>
+    <div class="sw-wrap"><input type="range" class="slider" min="15" max="60" value="25" id="slhq" oninput="updS('slhq','svhq')"><div class="sval" id="svhq">25<small>MCQs/day</small></div></div>
+  </div>
+
+  <div class="fsec">
+    <label class="flbl">MEE Essays Per Week</label>
+    <div class="pg" id="meect">
+      <div class="pill" onclick="selP(this,'meect')">0 (MBE only)</div>
+      <div class="pill" onclick="selP(this,'meect')">1/wk</div>
+      <div class="pill active" onclick="selP(this,'meect')">2/wk</div>
+      <div class="pill" onclick="selP(this,'meect')">3/wk</div>
+      <div class="pill" onclick="selP(this,'meect')">4+/wk</div>
+    </div>
+  </div>
+
+  <div class="fsec">
+    <label class="flbl">Study Methods</label>
+    <div class="togrow on" onclick="this.classList.toggle('on')"><div><div class="togname">Book of Shame — daily wrong-answer review</div><div class="togdesc">Adds a review block at end of each session for missed questions</div></div><div class="togsw"></div></div>
+    <div class="togrow" onclick="this.classList.toggle('on')"><div><div class="togname">Grossman Overview Video — at start of each new subject</div><div class="togdesc">Adds one video day when you begin a new MBE subject</div></div><div class="togsw"></div></div>
+  </div>
+</div>
+
+<!-- S6: Tools -->
+<div class="sc" id="s6">
+  <span class="stag">Step 06 · Your Tools</span>
+  <h1 class="stitle">From the easily distracted<br>to the chronically online.</h1>
+  <p class="ssub">Tools that actually work. Select what you're using — your daily schedule will reflect your real workflow.</p>
+
+  <div class="tdisclaimer"><strong>Quick note:</strong> This scheduler is built for <strong>retakers</strong> and anyone supplementing commercial prep with boutique tools. We assume you have — or had — a commercial course (BarBri, Themis, etc.). Mix and match below based on what you're actually opening right now.</div>
+
+  <div class="tsec"><div class="tseclbl">MBE Courses</div><div class="tgrid">
+    <div class="tcrd on feat" onclick="this.classList.toggle('on')"><div class="ti">🐐</div><div class="tn">GOAT Bar Prep</div><div class="ta">Modules + Q-bank</div></div>
+    <div class="tcrd on" onclick="this.classList.toggle('on')"><div class="ti">🩺</div><div class="tn">BarMD MBE</div><div class="ta">Boutique course</div></div>
+    <div class="tcrd on" onclick="this.classList.toggle('on')"><div class="ti">🎙️</div><div class="tn">Grossman Videos</div><div class="ta">Audio overview</div></div>
+    <div class="tcrd" onclick="this.classList.toggle('on')"><div class="ti">📋</div><div class="tn">Commercial Outline</div><div class="ta">BarBri, Themis, etc.</div></div>
+  </div></div>
+
+  <div class="tsec"><div class="tseclbl">MBE Q-Banks</div><div class="tgrid">
+    <div class="tcrd on" onclick="this.classList.toggle('on')"><div class="ti">🎯</div><div class="tn">AdaptiBar MBE</div><div class="ta">Adaptive Q-bank</div></div>
+    <div class="tcrd" onclick="this.classList.toggle('on')"><div class="ti">🎯</div><div class="tn">AdaptiBar MEE</div><div class="ta">Essay Q-bank</div></div>
+    <div class="tcrd" onclick="this.classList.toggle('on')"><div class="ti">🎯</div><div class="tn">AdaptiBar MPT</div><div class="ta">Perf. test bank</div></div>
+    <div class="tcrd" onclick="this.classList.toggle('on')"><div class="ti">💻</div><div class="tn">UWorld MBE</div><div class="ta">Themis Q-bank</div></div>
+    <div class="tcrd" onclick="this.classList.toggle('on')"><div class="ti">🐻</div><div class="tn">Bear the Bar</div><div class="ta">MBE practice</div></div>
+  </div></div>
+
+  <div class="tsec"><div class="tseclbl">MEE / MPT</div><div class="tgrid">
+    <div class="tcrd on" onclick="this.classList.toggle('on')"><div class="ti">🐐</div><div class="tn">GOAT MEE</div><div class="ta">Included w/ bundle</div></div>
+    <div class="tcrd on" onclick="this.classList.toggle('on')"><div class="ti">🩺</div><div class="tn">BarMD MEE</div><div class="ta">Essay course</div></div>
+    <div class="tcrd" onclick="this.classList.toggle('on')"><div class="ti">🩺</div><div class="tn">BarMD MPT</div><div class="ta">Performance test</div></div>
+    <div class="tcrd" onclick="this.classList.toggle('on')"><div class="ti">🐑</div><div class="tn">Bar Prep by Shep</div><div class="ta">Essay auto-grader</div></div>
+    <div class="tcrd" onclick="this.classList.toggle('on')"><div class="ti">🤖</div><div class="tn">AI Essay Feedback</div><div class="ta">Claude, ChatGPT…</div></div>
+  </div></div>
+
+  <div class="tsec"><div class="tseclbl">Black Letter Law</div><div class="tgrid">
+    <div class="tcrd on" onclick="this.classList.toggle('on')"><div class="ti">✨</div><div class="tn">MagicSheets</div><div class="ta">MBE outlines</div></div>
+    <div class="tcrd" onclick="this.classList.toggle('on')"><div class="ti">📊</div><div class="tn">APRO Sheets</div><div class="ta">MEE attack outlines</div></div>
+    <div class="tcrd on" onclick="this.classList.toggle('on')"><div class="ti">🃏</div><div class="tn">Critical Pass</div><div class="ta">Flashcards</div></div>
+    <div class="tcrd" onclick="this.classList.toggle('on')"><div class="ti">📋</div><div class="tn">Commercial Outline</div><div class="ta">BarBri / Themis (ref)</div></div>
+  </div></div>
+
+  <div class="tsec"><div class="tseclbl">AI & Study Tech</div><div class="tgrid">
+    <div class="tcrd on" onclick="this.classList.toggle('on')"><div class="ti">🤖</div><div class="tn">NotebookLM</div><div class="ta">Google AI study</div></div>
+    <div class="tcrd" onclick="this.classList.toggle('on')"><div class="ti">💬</div><div class="tn">AI Study</div><div class="ta">Claude / ChatGPT</div></div>
+    <div class="tcrd" id="tcrd-custom" onclick="openCustomTool()" style="border-style:dashed"><div class="ti">➕</div><div class="tn">Add Custom</div><div class="ta">Your own tool</div></div>
+  </div></div>
+  <div class="custom-tool-form" id="custom-tool-form">
+    <div class="flbl" style="margin-bottom:10px">New Custom Tool</div>
+    <input type="text" class="finput" id="ct-name" placeholder="Tool name…" style="margin-bottom:10px">
+    <label class="flbl" style="margin-bottom:6px">This is a…</label>
+    <div class="pg" id="ct-type" style="margin-bottom:11px">
+      <div class="pill active" onclick="selP(this,'ct-type');togCtType(this)">Study supplement</div>
+      <div class="pill" onclick="selP(this,'ct-type');togCtType(this)">Life activity</div>
+    </div>
+    <div id="ct-study-opts" style="margin-bottom:10px">
+      <label class="flbl" style="margin-bottom:6px">Tool type</label>
+      <div class="pg" id="ct-stype">
+        <div class="pill active" onclick="selP(this,'ct-stype')">MBE</div>
+        <div class="pill" onclick="selP(this,'ct-stype')">MEE</div>
+        <div class="pill" onclick="selP(this,'ct-stype')">MPT</div>
+        <div class="pill" onclick="selP(this,'ct-stype')">Outline</div>
+        <div class="pill" onclick="selP(this,'ct-stype')">Other</div>
+      </div>
+    </div>
+    <div id="ct-life-opts" style="display:none;margin-bottom:10px">
+      <label class="flbl" style="margin-bottom:6px">Category</label>
+      <div class="pg" id="ct-ltype">
+        <div class="pill active" onclick="selP(this,'ct-ltype')">Wellness</div>
+        <div class="pill" onclick="selP(this,'ct-ltype')">Protected</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:7px">
+      <button class="btn btn-ghost" style="font-size:.75rem;padding:7px 13px" onclick="closeCustomTool()">Cancel</button>
+      <button class="btn btn-red" style="font-size:.75rem;padding:7px 13px" onclick="addCustomTool()">Add Tool ➕</button>
+    </div>
+  </div>
+</div>
+
+<!-- S7: Output -->
+<div class="sc" id="s7">
+  <span class="stag">Output · Your Schedule</span>
+  <h1 class="stitle">Week 2 — Criminal Law<br><span>May 25 – 31</span></h1>
+  <p class="ssub">Built around your life, not against it. Double-click any block to edit it. Go back through the steps anytime to update your inputs.</p>
+
+  <div class="vtog">
+    <div class="vopt active" onclick="setV('week',this)">Week</div>
+    <div class="vopt" onclick="setV('day',this)">Day</div>
+    <div class="vopt" onclick="setV('month',this)">Month</div>
+  </div>
+
+  <!-- WEEK VIEW -->
+  <div id="vweek">
+    <div class="statsrow">
+      <div class="sc2"><div class="sv" id="stat-study">—</div><div class="sl">Study hrs this week</div></div>
+      <div class="sc2"><div class="sv" id="stat-mcqs">—</div><div class="sl">Total MCQs</div></div>
+      <div class="sc2"><div class="sv" id="stat-essays">—</div><div class="sl">MEE essays</div></div>
+      <div class="sc2"><div class="sv" id="stat-wellness" style="color:var(--green)">—</div><div class="sl">Wellness locked in</div></div>
+    </div>
+
+    <div class="edit-tip">
+      <div class="edit-tip-icon">✏️</div>
+      <div class="edit-tip-body">
+        <strong>Double-click any block to edit it.</strong>
+        Change the day, start time, duration, MCQ count, or toggle your supplement stack. Edits apply instantly — no save button needed.
+      </div>
+    </div>
+
+    <div id="behind-container" style="margin-bottom:16px">
+      <button class="bbtn" id="behind-btn" onclick="showBehindOptions()">📉 I'm behind — adjust my schedule</button>
+      <div id="behind-opts" style="display:none;background:var(--red-dim);border:1px solid var(--red-mid);border-radius:var(--r);padding:13px 15px">
+        <div style="font-size:.79rem;font-weight:700;color:var(--red-dk);margin-bottom:10px">What do you want to do?</div>
+        <div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:10px">
+          <button class="ebtn" style="color:var(--red);border-color:var(--red-mid)" onclick="doBehind('compress')">⚡ Compress this week</button>
+          <button class="ebtn" onclick="doBehind('redistribute')">📊 Redistribute to Library Day</button>
+          <button class="ebtn" onclick="doBehind('skip')">📝 Skip &amp; log to Book of Shame</button>
+          <button class="ebtn" onclick="hideBehindOptions()" style="margin-left:auto">✕ Cancel</button>
+        </div>
+        <div style="font-size:.7rem;color:var(--text-mid);line-height:1.6">
+          <strong>Compress</strong> — adds 6 MCQs to every remaining study block this week and removes Light flags.
+          <strong>Redistribute</strong> — flags Saturday's Library Day for catch-up on missed content.
+          <strong>Skip &amp; log</strong> — marks this topic in your Book of Shame and keeps you moving.
+        </div>
+      </div>
+    </div>
+
+    <div class="legrow">
+      <div class="li"><div class="ld" style="background:#C0DCC9"></div>Wellness</div>
+      <div class="li"><div class="ld" style="background:var(--border)"></div>Work</div>
+      <div class="li"><div class="ld" style="background:#F0BFC2"></div>Crim Law</div>
+      <div class="li"><div class="ld" style="background:#B0DDD8"></div>Civ Pro preview</div>
+      <div class="li"><div class="ld" style="background:var(--red-mid)"></div>Library Day</div>
+      <div class="li"><div class="ld" style="background:var(--border-lt)"></div>Protected</div>
+      <div class="li"><div class="ld" style="background:#F7DC6F"></div>Commute</div>
+    </div>
+
+    <div class="wkgrid" id="wkgrid"></div>
+
+    <div class="exprow">
+      <button class="ebtn" onclick="exportToGCal()">📅 Export to Google Calendar</button>
+      <button class="ebtn" onclick="printWeek()">🖨️ Print Week (PDF)</button>
+      <button class="ebtn" onclick="saveSettings()">💾 Save My Settings</button>
+    </div>
+  </div>
+
+  <!-- DAY VIEW — rendered by renderDayView() -->
+  <div id="vday" style="display:none"></div>
+
+  <!-- MONTH VIEW — rendered dynamically by renderMonthView() -->
+  <div id="vmonth" style="display:none">
+    <div id="vmonth-inner" style="background:var(--card);border:1px solid var(--border);border-radius:var(--rl);padding:18px 22px"></div>
+  </div>
+</div>
+
+<!-- NAV BAR -->
+<div class="navb">
+  <button class="btn btn-ghost" id="bbk" onclick="prev()" style="visibility:hidden">← Back</button>
+  <div class="sctr">Step <span id="sctr">1</span> of 7</div>
+  <button class="btn btn-red" id="bnxt" onclick="next()">Continue →</button>
+</div>
+
+</div><!-- /main -->
+</div><!-- /app -->
+
+<script>
+let cur=1;const TOT=7;
+const subjs=[
+  {name:'Civil Procedure',      abbr:'CP',color:'var(--cp)',conf:3,ord:1,covered:false},
+  {name:'Constitutional Law',   abbr:'CL',color:'var(--cl)',conf:2,ord:2,covered:false},
+  {name:'Contracts',            abbr:'CO',color:'var(--co)',conf:3,ord:3,covered:false},
+  {name:'Criminal Law & Proc.', abbr:'CR',color:'var(--cr)',conf:4,ord:4,covered:false},
+  {name:'Evidence',             abbr:'EV',color:'var(--ev)',conf:3,ord:5,covered:false},
+  {name:'Real Property',        abbr:'RP',color:'var(--rp)',conf:2,ord:6,covered:false},
+  {name:'Torts',                abbr:'TO',color:'var(--to)',conf:4,ord:7,covered:false},
+];
+let strat='ncbe';
+
+// ── GOAT BAR PREP MODULE TITLES ───────────────────────────────────────────────
+// Sourced from study-schedule.html — these are the actual GOAT module names.
+// Blocks cycle through this list; if more workdays than modules, they repeat.
+const GOAT_MODULES={
+  EV:[
+    'Evidence I — Relevance & Admissibility',
+    'Evidence II — Character Evidence',
+    'Evidence III — Witnesses & Examination',
+    'Evidence IV — Privileges & Scientific Evidence',
+    'Evidence V — Hearsay',
+  ],
+  CR:[
+    'Crim Law I — Homicide',
+    'Crim Law II — Other Crimes',
+    'Crim Law III — Inchoate Crimes & Parties',
+    'Crim Law IV — General Principles',
+    'Crim Law V — Constitutional Protections',
+  ],
+  CP:[
+    'Civ Pro I — Jurisdiction & Venue',
+    'Civ Pro II–III — State Law + Pretrial',
+    'Civ Pro IV–V — Jury Trials + Motions',
+    'Civ Pro VI–VII — Verdicts + Appealability',
+  ],
+  RP:[
+    'Real Property I — Ownership of Real Property',
+    'Real Property II — Rights in Real Property',
+    'Real Property III — Real Estate Contracts',
+    'Real Property IV — Mortgages & Security Devices',
+    'Real Property V — Titles',
+  ],
+  CO:[
+    'Contracts I — Formation',
+    'Contracts II — Defenses to Enforceability',
+    'Contracts III — Content & Meaning',
+    'Contracts IV — Performance, Breach & Discharge',
+    'Contracts V + VI — Remedies + Third-Party Rights',
+  ],
+  TO:[
+    'Torts I — Intentional Torts',
+    'Torts II — Negligence (Duty, Breach & Causation)',
+    'Torts III — Strict Liability & Products Liability',
+    'Torts IV — Other Torts',
+  ],
+  CL:[
+    'Con Law I — Nature of Judicial Review',
+    'Con Law II + III — Separation of Powers + Nation-State Relations',
+    'Con Law IV Pt 1 — Due Process & Equal Protection',
+    'Con Law IV Pt 2 — 1st Amendment + Individual Rights',
+  ],
+};
+
+function renderS(){
+  const list=document.getElementById('subjlist');
+  const lbl=document.getElementById('subjlbl');
+  let o=[...subjs];
+  if(strat==='weak'){o.sort((a,b)=>a.conf-b.conf);lbl.textContent='Your Subjects — Weakest First (tap dots to rate confidence)';}
+  else{o.sort((a,b)=>a.ord-b.ord);lbl.textContent='Subject Order — NCBE Official Sequence';}
+  const active=o.filter(s=>!s.covered).length;
+  list.innerHTML=o.map((s,i)=>`
+    <div class="srow${s.covered?' cov-done':''}">
+      <div style="font-family:'DM Mono',monospace;font-size:.58rem;color:var(--text-dim);min-width:14px">${s.covered?'—':i+1}</div>
+      <div class="sbadge" style="background:${s.color};${s.covered?'opacity:.4':''}"></div>
+      <div class="sbjname">${s.name}</div>
+      ${strat==='weak'&&!s.covered?`
+        <div style="font-family:'DM Mono',monospace;font-size:.56rem;color:var(--text-mid);margin-right:5px">confidence</div>
+        <div class="cdots" data-a="${s.abbr}">
+          ${[1,2,3,4,5].map(n=>`<div class="cdot ${n<=s.conf?'on':''}" style="${n<=s.conf?`background:${s.color};border-color:${s.color}`:''}" onclick="setC('${s.abbr}',${n},this.parentElement,'${s.color}')"></div>`).join('')}
+        </div>
+      `:`<div style="font-family:'DM Mono',monospace;font-size:.56rem;color:var(--text-dim)">${s.covered?'skipped from schedule':`~${Math.round(100/active)}% of MBE`}</div>`}
+      <div class="cov-tog${s.covered?' on':''}" onclick="togCovered('${s.abbr}')">${s.covered?'✓ Already covered':'Mark covered'}</div>
+    </div>`).join('');
+}
+
+function togCovered(abbr){
+  const s=subjs.find(x=>x.abbr===abbr);if(!s)return;
+  s.covered=!s.covered;renderS();
+}
+
+function setC(abbr,n,c,col){
+  const s=subjs.find(x=>x.abbr===abbr);if(s)s.conf=n;
+  c.querySelectorAll('.cdot').forEach((d,i)=>{
+    d.classList.toggle('on',i<n);
+    d.style.background=i<n?col:'';d.style.borderColor=i<n?col:'';
+  });
+  if(strat==='weak')setTimeout(renderS,300);
+}
+
+function setSt(s){
+  strat=s;
+  document.getElementById('st-ncbe').classList.toggle('active',s==='ncbe');
+  document.getElementById('st-weak').classList.toggle('active',s==='weak');
+  document.getElementById('strdesc').innerHTML=s==='ncbe'
+    ?'<strong style="color:var(--text)">NCBE Outline Order:</strong> Follows the official MBE sequence. Good if your gaps are distributed evenly. Nothing accidentally gets left behind.'
+    :'<strong style="color:var(--text)">Weakest Subject First:</strong> Front-load where you lost the most points. Rate your confidence in each subject (1 = weakest) and the scheduler prioritizes accordingly. This is the retaker move.';
+  renderS();
+}
+
+function go(n){
+  if(n<1||n>TOT)return;
+  document.getElementById(`s${cur}`).classList.remove('active');
+  const pn=document.getElementById(`n${cur}`);pn.classList.remove('active');
+  if(n>cur)pn.classList.add('done');else pn.classList.remove('done');
+  cur=n;
+  document.getElementById(`s${cur}`).classList.add('active');
+  const cn=document.getElementById(`n${cur}`);cn.classList.add('active');cn.classList.remove('done');
+  if(n===4)renderS();
+  if(n===7){buildWellnessBlocks();buildCommuteBlocks();}
+  updUI();
+}
+function next(){if(cur<TOT)go(cur+1);}
+function prev(){if(cur>1)go(cur-1);}
+
+function updUI(){
+  document.getElementById('bbk').style.visibility=cur>1?'visible':'hidden';
+  document.getElementById('sctr').textContent=cur;
+  const b=document.getElementById('bnxt');
+  if(cur===TOT){b.style.display='none';}
+  else{b.style.display='';b.textContent='Continue →';b.className='btn btn-red';}
+  const pct=Math.round((cur/TOT)*100);
+  document.getElementById('pf').style.width=pct+'%';
+  document.getElementById('pp').textContent=pct+'%';
+}
+
+function updS(id,did){document.getElementById(did).childNodes[0].textContent=document.getElementById(id).value;}
+function selP(el,g){document.querySelectorAll(`#${g} .pill`).forEach(p=>p.classList.remove('active'));el.classList.add('active');const ci=document.querySelector(`#${g} .pill-custom`);if(ci)ci.value='';}
+function customTime(inp,g){if(inp.value)document.querySelectorAll(`#${g} .pill`).forEach(p=>p.classList.remove('active'));}
+function togR(el,sid){el.classList.toggle('on');const s=document.getElementById(sid);if(s)s.classList.toggle('vis',el.classList.contains('on'));}
+function togD(el){const a=document.querySelectorAll('#dpick .dpill.on');if(el.classList.contains('on'))el.classList.remove('on');else if(a.length<2)el.classList.add('on');}
+const MEE_NOTES={
+  ube:'<strong style="color:var(--red-dk)">MEE subjects (Standard UBE):</strong> MEE subjects will be scheduled in your final 2–3 weeks automatically. MEE essay practice (2/week) runs parallel on heavy study days from week one — unless you adjust essay frequency above.',
+  ca:'<strong style="color:var(--red-dk)">California does not use the MEE.</strong> CA essays test: Business Associations, Civil Procedure, Community Property, Constitutional Law, Contracts, Criminal Law & Procedure, Evidence, Professional Responsibility, Real Property, Remedies, Torts, Trusts, and Wills & Succession. The MBE section is identical to UBE. Essay scheduling adjusts for CA format — 3 essays + 1 PT across 2 exam days.',
+  la:'<strong style="color:var(--red-dk)">Louisiana uses the MEE</strong> plus Louisiana-specific civil law essays (Successions, Matrimonial Regimes, Property). Additional MEE subjects: Business Associations, Family Law, Trusts & Estates, Conflict of Laws, Admin Law — scheduled in your final 2–3 weeks.',
+  fl:'<strong style="color:var(--red-dk)">Florida does not use the MEE.</strong> Florida essays cover Florida-specific subjects including Florida Civil Procedure, Florida Constitutional Law, and other state bar-tested topics. Essay scheduling adjusts for the FL format — no standard MEE subjects apply.'
+};
+function selJ(el,t){document.querySelectorAll('.jcard:not(.soon)').forEach(c=>c.classList.remove('active'));el.classList.add('active');document.getElementById('uberow').style.display=t==='ube'?'block':'none';const n=document.getElementById('mee-note');if(n)n.innerHTML=MEE_NOTES[t]||MEE_NOTES.ube;}
+function setV(v,el){
+  document.querySelectorAll('.vopt').forEach(o=>o.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('vweek').style.display=v==='week'?'block':'none';
+  document.getElementById('vday').style.display=v==='day'?'block':'none';
+  document.getElementById('vmonth').style.display=v==='month'?'block':'none';
+  if(v==='week') renderCurrentWeek();
+  if(v==='day') renderDayView(currentViewDay);
+  if(v==='month') renderMonthView();
+}
+
+function calcA(){
+  const w=parseInt(document.getElementById('whr').value)||40;const sl=49;
+  let r=0;document.querySelectorAll('.rinp').forEach(i=>r+=parseInt(i.value)||0);
+  const a=Math.max(168-w-sl-r,0);
+  document.getElementById('avhr').textContent=a;
+  document.getElementById('hbw').textContent=w;
+  document.getElementById('hbr').textContent=r;
+  document.getElementById('hba').textContent=a;
+}
+
+function updCD(ds){
+  const exam=new Date((ds||document.getElementById('exam-date-input')?.value||'2026-07-28')+'T12:00:00');
+  const now=new Date();
+  const days=Math.max(0,Math.ceil((exam-now)/(1000*60*60*24)));
+  const wks=Math.floor(days/7);
+  document.getElementById('cdd').textContent=days;
+  document.getElementById('cdw').textContent=wks;
+  document.getElementById('s1d').textContent=days;
+  // Use dynamic total weeks (study arc), not just days-to-exam
+  const start=getStudyStart();
+  const tot=getTotalWeeks();
+  document.getElementById('s1w').textContent=tot;
+  const done=Math.max(0,Math.floor((now-start)/(7*24*60*60*1000)));
+  const pct=Math.min(100,Math.max(0,Math.round((done/tot)*100)));
+  document.getElementById('cdp').textContent=pct;
+  const pips=document.getElementById('wpips');
+  if(pips) pips.innerHTML=Array.from({length:tot},(_,i)=>{
+    const c=i<done?'done':i===done?'now':'';
+    return`<div class="apip ${c}" title="Week ${i+1}"></div>`;
+  }).join('');
+}
+
+// ── SCHEDULE DATA LAYER ─────────────────────────────────────────────────────
+// Core study/work blocks only — wellness & protected are built by buildWellnessBlocks()
+// Each block: {id, day(0=Mon…6=Sun), time, title, detail[], cat, mcqs, duration(min), essays, light}
+let scheduleBlocks = [
+  // Monday
+  {id:1,  day:0, time:'6am–2pm',      title:'💼 Work',                      detail:[],                                                   cat:'work',     mcqs:0,  duration:480, essays:0},
+  {id:2,  day:0, time:'6pm',          title:'Crim Law I — Homicide',                        detail:['Review BLL outline + Book of Shame'],  cat:'study-cr', mcqs:8,  duration:120, essays:0},
+  // Tuesday
+  {id:4,  day:1, time:'6am–2pm',      title:'💼 Work',                                      detail:[],                                      cat:'work',     mcqs:0,  duration:480, essays:0},
+  {id:5,  day:1, time:'6pm',          title:'Crim Law II — Other Crimes',                   detail:['Review BLL outline + Book of Shame'],  cat:'study-cr', mcqs:8,  duration:120, essays:0},
+  // Wednesday
+  {id:7,  day:2, time:'6am–2pm',      title:'💼 Work',                                      detail:[],                                      cat:'work',     mcqs:0,  duration:480, essays:0},
+  {id:8,  day:2, time:'6pm',          title:'Crim Law III — Inchoate Crimes & Parties',     detail:['Review BLL outline + Book of Shame'],  cat:'study-cr', mcqs:8,  duration:120, essays:0},
+  // Thursday
+  {id:10, day:3, time:'6am–2pm',      title:'💼 Work',                                      detail:[],                                      cat:'work',     mcqs:0,  duration:480, essays:0},
+  {id:11, day:3, time:'6pm',          title:'Crim Law IV — General Principles',             detail:['Review BLL outline + Book of Shame'],  cat:'study-cr', mcqs:8,  duration:120, essays:0},
+  // Friday
+  {id:13, day:4, time:'6am–2pm',      title:'💼 Work',                                      detail:[],                                      cat:'work',     mcqs:0,  duration:480, essays:0},
+  {id:14, day:4, time:'6pm · Light',  title:'Crim Law V — Constitutional Protections',     detail:['GOAT only — hard stop 8pm ✋'],         cat:'study-cr', mcqs:8,  duration:120, essays:0, light:true},
+  // Saturday
+  {id:16, day:5, time:'9:30am – 5pm', title:'📚 LIBRARY DAY',               detail:['25–30 mixed MCQs','Evidence + Crim Law','2 MEE essays timed','Book of Shame deep dive'], cat:'library', mcqs:25, duration:450, essays:2},
+  // Sunday
+  {id:19, day:6, time:'3pm · Light',  title:'Preview: Civ Pro I — Jurisdiction & Venue', detail:['Flashcards + light preview'],  cat:'study-cp', mcqs:8,  duration:60,  essays:0, light:true},
+  // Wellness + protected blocks → built by buildWellnessBlocks() from Step 3 selections
+  // Commute blocks → built by buildCommuteBlocks() from Step 2 settings
+];
+
+const CAT_CLASS = {
+  'wellness':'bw','work':'bwk','study-cr':'bcr','study-ev':'bcr',
+  'study-cp':'bcp','study-rp':'bwk','study-co':'bcp','study-to':'bcr','study-cl':'bcr',
+  'library':'blib','protected':'bprot','commute':'bcom'
+};
+const CAT_SUBJECT = {
+  'study-ev':'Evidence','study-cr':'Crim Law','study-cp':'Civ Pro',
+  'study-rp':'Real Property','study-co':'Contracts','study-to':'Torts','study-cl':'Con Law'
+};
+
+// ── SCHEDULE GENERATION ENGINE ────────────────────────────────────────────────
+let currentWeek=1;
+const SUBJ_CAT={CP:'study-cp',CL:'study-cl',CO:'study-co',CR:'study-cr',EV:'study-ev',RP:'study-rp',TO:'study-to'};
+const MO=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+function getStudyStart(){
+  // Return exact date the user chose — no Monday-snapping
+  const inp=document.getElementById('study-start-date')?.value;
+  if(inp) return new Date(inp+'T12:00:00');
+  const today=new Date();today.setHours(12,0,0,0);
+  return today;
+}
+
+function getWeekMonday(wk){
+  // Returns the Monday of week number wk, relative to the study start's week
+  const start=getStudyStart();
+  const startDow=start.getDay(); // 0=Sun,1=Mon,...,6=Sat
+  const daysBackToMon=startDow===0?6:startDow-1;
+  const week1Mon=new Date(start);
+  week1Mon.setDate(start.getDate()-daysBackToMon);
+  if(wk===1) return week1Mon;
+  week1Mon.setDate(week1Mon.getDate()+(wk-1)*7);
+  return week1Mon;
+}
+
+// day-of-week index in our convention: 0=Mon,...,6=Sun
+function startDayIdx(){
+  const start=getStudyStart();
+  const dow=start.getDay(); // 0=Sun,1=Mon,...,6=Sat
+  return dow===0?6:dow-1;   // convert to 0=Mon...6=Sun
+}
+
+function getExamDate(){
+  const val=document.getElementById('exam-date-input')?.value
+    ||document.querySelector('#s1 input[type=date]')?.value
+    ||'2026-07-28';
+  return new Date(val+'T12:00:00');
+}
+
+function getScheduleEndDate(){
+  // Hard stop: last study day is the Saturday BEFORE exam week starts.
+  // No one should be studying the Sunday before the exam or on exam week.
+  const exam=getExamDate();
+  const examDow=exam.getDay(); // 0=Sun,...,6=Sat
+  const daysToExamMon=examDow===0?6:examDow-1;
+  const examMon=new Date(exam);examMon.setDate(exam.getDate()-daysToExamMon);
+  // Saturday before exam week = exam Monday - 2 days
+  const lastSat=new Date(examMon);lastSat.setDate(examMon.getDate()-2);
+  return lastSat;
+}
+
+function getTotalWeeks(){
+  // Count from the Monday of week 1 (not the exact start date)
+  // so partial week 1 still counts as a full week
+  const week1Mon=getWeekMonday(1);
+  const end=getScheduleEndDate();
+  const ms=end-week1Mon;
+  if(ms<=0) return 1;
+  return Math.floor(ms/(7*24*60*60*1000))+1;
+}
+
+function updSchedule(){
+  // Recalculate arc when exam date or study start changes
+  const total=getTotalWeeks();
+  document.getElementById('s1w').textContent=total;
+  const start=getStudyStart();
+  const today=new Date();today.setHours(12,0,0,0);
+  const done=Math.max(0,Math.floor((today-start)/(7*24*60*60*1000)));
+  const pips=document.getElementById('wpips');
+  if(pips) pips.innerHTML=Array.from({length:total},(_,i)=>{
+    const c=i<done?'done':i===done?'now':'';
+    return`<div class="apip ${c}" title="Week ${i+1}"></div>`;
+  }).join('');
+}
+
+function getActiveSubjs(){
+  let a=[...subjs].filter(s=>!s.covered);
+  if(strat==='weak') a.sort((a,b)=>a.conf-b.conf);
+  else a.sort((a,b)=>a.ord-b.ord);
+  return a;
+}
+
+function getWeekSubjectMap(){
+  const active=getActiveSubjs();
+  const total=getTotalWeeks();
+  const finalPush=Math.min(2,Math.max(0,total-active.length));
+  const studyWks=total-finalPush;
+  const map=[];
+  if(!active.length){
+    for(let i=0;i<total;i++) map.push({type:'final',subj:{name:'Final Review + MEE/MPT',abbr:'CR'},cat:'study-cr'});
+    return map;
+  }
+  const base=Math.max(1,Math.floor(studyWks/active.length));
+  const extra=studyWks-(base*active.length);
+  active.forEach((subj,idx)=>{
+    const wks=base+(idx<extra?1:0);
+    for(let w=0;w<Math.max(1,wks);w++) map.push({type:'study',subj,cat:SUBJ_CAT[subj.abbr]||'study-cr'});
+  });
+  for(let i=0;i<finalPush;i++) map.push({type:'final',subj:{name:'Final Push + MEE/MPT',abbr:'CR'},cat:'library'});
+  return map.slice(0,total);
+}
+
+function computeDynamicWEEK_META(){
+  const today=new Date();today.setHours(12,0,0,0);
+  const map=getWeekSubjectMap().map((entry,i)=>{
+    const ws=getWeekMonday(i+1); // Monday of this week
+    const we=new Date(ws);we.setDate(ws.getDate()+6);
+    const sameMonth=ws.getMonth()===we.getMonth();
+    const dates=sameMonth
+      ?`${MO[ws.getMonth()]} ${ws.getDate()}–${we.getDate()}`
+      :`${MO[ws.getMonth()]} ${ws.getDate()}–${MO[we.getMonth()]} ${we.getDate()}`;
+    return{wk:i+1,subj:entry.subj.name,dates,entry,
+      status:today>we?'done':today>=ws&&today<=we?'now':'upcoming'};
+  });
+  // Always append an exam week entry — hard stop, no study, rest only
+  const lastSat=getScheduleEndDate();
+  const examMon=new Date(lastSat);examMon.setDate(lastSat.getDate()+2);
+  const exam=getExamDate();
+  const examDates=`${MO[examMon.getMonth()]} ${examMon.getDate()} — EXAM`;
+  const isExamNow=today>=examMon;
+  map.push({wk:map.length+1,subj:'🎓 Bar Exam — Rest Only',dates:examDates,
+    entry:{type:'exam'},status:isExamNow?'exam-now':'exam'});
+  return map;
+}
+
+function generateWeekBlocks(wk){
+  const map=getWeekSubjectMap();
+  const entry=map[wk-1];if(!entry)return[];
+  const ROMAN=['I','II','III','IV','V','VI','VII'];
+  const wst=document.getElementById('wst')?.value||'06:00';
+  const wet=document.getElementById('wet')?.value||'14:00';
+  const [wsh,wsm]=(wst+':00').split(':').map(Number);
+  const [weh,wem]=(wet+':00').split(':').map(Number);
+  const workDurMin=(weh*60+wem)-(wsh*60+wsm);
+  const workStr=fmtTime(wsh*60+wsm)+'–'+fmtTime(weh*60+wem);
+  let workDays=[...document.querySelectorAll('.wdays .wday')].map((el,i)=>el.classList.contains('on')?i:-1).filter(i=>i>=0);
+  // For week 1: only include days on/after the chosen start day
+  if(wk===1){const minDay=startDayIdx();workDays=workDays.filter(d=>d>=minDay);}
+  const sdEl=document.querySelector('#wdst .pill.active');
+  const studyStart=(document.getElementById('wdst-custom')?.value?.trim()||sdEl?.textContent?.trim()||'6pm').replace(/[^0-9:apm]/gi,'').trim()||'6pm';
+  const mcqWkday=parseInt(document.getElementById('sldq')?.value)||8;
+  const mcqLib=parseInt(document.getElementById('slhq')?.value)||25;
+  const blocks=[];let id=wk*1000;
+  // Work blocks
+  workDays.forEach(day=>{
+    blocks.push({id:id++,day,time:workStr,title:'💼 Work',detail:[],cat:'work',mcqs:0,duration:Math.max(0,workDurMin),essays:0});
+  });
+  if(entry.type==='final'){
+    workDays.forEach((day,i)=>{
+      const isLast=i===workDays.length-1;
+      blocks.push({id:id++,day,time:studyStart+(isLast?' · Light':''),
+        title:`Final Review · ${ROMAN[i]||'V'}`,detail:['MEE essays + MBE mixed drill','Book of Shame review'],
+        cat:'study-cr',mcqs:mcqWkday,duration:isLast?90:120,essays:i<2?1:0,...(isLast?{light:true}:{})});
+    });
+    blocks.push({id:id++,day:5,time:'9:30am – 5pm',title:'📚 FINAL PUSH — Library Day',
+      detail:[`${mcqLib+5}–${mcqLib+10} mixed MCQs`,'All subjects rolling review','3 timed MEE essays','MPT practice'],
+      cat:'library',mcqs:mcqLib+5,duration:450,essays:3});
+  } else {
+    const mods=GOAT_MODULES[entry.subj.abbr]||[];
+    workDays.forEach((day,i)=>{
+      const isLast=i===workDays.length-1;
+      // Use the real GOAT module title; cycle if more workdays than modules
+      const modTitle=mods.length
+        ?mods[i%mods.length]
+        :`${entry.subj.name} · Section ${ROMAN[i]||ROMAN[ROMAN.length-1]}`;
+      blocks.push({id:id++,day,time:studyStart+(isLast?' · Light':''),
+        title:modTitle,
+        detail:['Review BLL outline + Book of Shame'],
+        cat:entry.cat,mcqs:mcqWkday,duration:isLast?90:120,essays:0,...(isLast?{light:true}:{})});
+    });
+    const minDay=wk===1?startDayIdx():0;
+    if(5>=minDay) blocks.push({id:id++,day:5,time:'9:30am – 5pm',title:'📚 LIBRARY DAY',
+      detail:[`${mcqLib}–${mcqLib+5} mixed MCQs`,`${entry.subj.name} + rolling review`,'2 timed MEE essays','Book of Shame deep dive'],
+      cat:'library',mcqs:mcqLib,duration:450,essays:2});
+    const nextEntry=map[wk];
+    if(nextEntry&&nextEntry.type!=='final'&&6>=minDay){
+      // Use the real first module title for the next subject's preview
+      const nextMods=GOAT_MODULES[nextEntry.subj.abbr]||[];
+      const previewTitle=nextMods.length
+        ?`Preview: ${nextMods[0]}`
+        :`Preview: ${nextEntry.subj.name} I`;
+      blocks.push({id:id++,day:6,time:'3pm · Light',
+        title:previewTitle,
+        detail:['Flashcards + light preview'],
+        cat:SUBJ_CAT[nextEntry.subj.abbr]||'study-cp',mcqs:8,duration:60,essays:0,light:true});
+    }
+  }
+  return blocks;
+}
+
+function getWeekHeaders(wk){
+  const base=getWeekMonday(wk);
+  return['Mon','Tue','Wed','Thu','Fri','Sat ⭐','Sun'].map((name,i)=>{
+    const d=new Date(base);d.setDate(d.getDate()+i);
+    return{date:String(d.getDate()),name};
+  });
+}
+let DAY_HEADERS=getWeekHeaders(1);
+
+function renderBlock(b){
+  const cls=CAT_CLASS[b.cat]||'bwk';
+  let det=[...(b.detail||[])];
+  // Auto-inject rolling review header on library days
+  if(b.cat==='library'){
+    const subs=getRollingSubjects(b.day);
+    if(subs.length&&!det.some(d=>d.includes('Rolling Review')))
+      det=['🔀 Rolling Review — '+subs.join(' · '),...det];
+  }
+  const detHtml=det.map(d=>`<span class="bdetail">${d}</span>`).join('');
+  let mcqTag='';
+  if(b.mcqs>0){
+    mcqTag=b.cat==='library'
+      ?`<span class="mcqb" style="background:var(--red-mid);color:var(--red-dk)">${b.mcqs}–${b.mcqs+5} MCQs</span>`
+      :`<span class="mcqb mcqbr">${b.mcqs} MCQs</span>`;
+  }
+  return `<div class="blk ${cls}"${b.light?' style="opacity:.8"':''} data-id="${b.id}" ondblclick="editBlock(${b.id})" title="Double-click to edit">
+    <span class="btime">${b.time}</span>
+    <span class="btitle">${b.title}</span>
+    ${detHtml}${mcqTag}
+  </div>`;
+}
+
+function renderWeek(){
+  const grid = document.getElementById('wkgrid');
+  if(!grid) return;
+  grid.innerHTML = DAY_HEADERS.map((h,i)=>{
+    const blocks = scheduleBlocks
+      .filter(b=>b.day===i)
+      .sort((a,b)=>timeToMins(a.time)-timeToMins(b.time))
+      .map(renderBlock).join('');
+    return `<div><div class="dch"><span class="ddate">${h.date}</span>${h.name}</div>${blocks}</div>`;
+  }).join('');
+}
+
+function calcStats(){
+  let studyMin=0, mcqs=0, essays=0, wellnessMin=0;
+  scheduleBlocks.forEach(b=>{
+    if(b.cat==='wellness') wellnessMin += b.duration;
+    if(b.cat.startsWith('study') || b.cat==='library'){ studyMin += b.duration; mcqs += b.mcqs; }
+    if(b.cat==='library') essays += b.essays||0;
+  });
+  const fmt = m => Number.isInteger(m/60) ? (m/60)+'h' : (m/60).toFixed(1)+'h';
+  const ss=document.getElementById('stat-study');
+  const sm=document.getElementById('stat-mcqs');
+  const se=document.getElementById('stat-essays');
+  const sw=document.getElementById('stat-wellness');
+  if(ss) ss.textContent = fmt(studyMin);
+  if(sm) sm.textContent = mcqs;
+  if(se) se.textContent = essays;
+  if(sw) sw.textContent = fmt(wellnessMin);
+}
+
+// ── ROLLING REVIEW ───────────────────────────────────────────────────────────
+function getRollingSubjects(beforeDay){
+  return[...new Set(scheduleBlocks
+    .filter(b=>b.cat.startsWith('study')&&b.day<beforeDay)
+    .map(b=>CAT_SUBJECT[b.cat]).filter(Boolean))];
+}
+
+// ── TOOL HELPERS ─────────────────────────────────────────────────────────────
+let customTools=[];
+
+function getSelectedTools(){
+  const tools=[];
+  document.querySelectorAll('.tcrd.on').forEach(c=>{
+    const n=c.querySelector('.tn')?.textContent;
+    if(n&&n!=='GOAT Bar Prep'&&n!=='Add Custom') tools.push({name:n});
+  });
+  customTools.filter(t=>t.isStudy).forEach(t=>tools.push({name:t.name}));
+  return tools;
+}
+
+function getPassiveOptions(){
+  const sel=getSelectedTools().map(t=>t.name);
+  const opts=[];
+  if(sel.includes('Grossman Videos')) opts.push({name:'🎙️ Grossman audio — current subject'});
+  opts.push({name:'📖 Review BLL outline + Book of Shame'});
+  if(sel.includes('Critical Pass')) opts.push({name:'🃏 Critical Pass flashcards'});
+  if(sel.includes('MagicSheets')) opts.push({name:'✨ MagicSheets review'});
+  opts.push({name:'🎧 Bar prep audio (podcast / lecture)'});
+  return opts;
+}
+
+// ── WELLNESS BLOCK BUILDER ────────────────────────────────────────────────────
+function buildWellnessBlocks(){
+  // Strip old wellness/protected; keep study, work, library, commute
+  scheduleBlocks = scheduleBlocks.filter(b=>!['wellness','protected'].includes(b.cat));
+
+  // Read Step 3 selections
+  const selected=[];
+  document.querySelectorAll('.wgrid .wc.on').forEach(wc=>{
+    const wiEl=wc.querySelector('.wi');
+    const wnEl=wc.querySelector('.wn');
+    const emoji=(wiEl?.textContent?.trim()||'').split(' ')[0]; // first emoji only
+    const name=(wnEl?.childNodes[0]?.textContent||wnEl?.textContent||'').trim();
+    if(name&&name!=='Other') selected.push({name,emoji,isFun:wc.classList.contains('fun')});
+  });
+
+  // Work schedule context
+  const wst=document.getElementById('wst')?.value||'06:00';
+  const wet=document.getElementById('wet')?.value||'14:00';
+  const [wsh,wsm]=(wst+':00').split(':').map(Number);
+  const [weh,wem]=(wet+':00').split(':').map(Number);
+  const workDays=[...document.querySelectorAll('.wdays .wday')]
+    .map((el,i)=>el.classList.contains('on')?i:-1).filter(i=>i>=0);
+  const offDays=[0,1,2,3,4,5,6].filter(d=>!workDays.includes(d));
+  const SAT=5, SUN=6;
+
+  // Preferred wellness time
+  const pref=document.querySelector('#wtime .pill.active')?.textContent||'Morning';
+  const isMorn=pref.includes('Morning')||pref.includes('morning');
+  const isEve=pref.includes('Evening')||pref.includes('evening');
+  const beforeWorkTime=fmtTime(wsh*60+wsm-65); // ~65 min before work
+  const afterStudyTime='9pm';
+
+  let nextId=Math.max(20,...scheduleBlocks.map(b=>b.id))+1;
+
+  selected.forEach(act=>{
+    const n=act.name.toLowerCase();
+
+    // ── Gym / Sports → weekday mornings before work (all or most work days)
+    if(n.includes('gym')||n.includes('sport')){
+      workDays.slice(0,Math.min(5,workDays.length)).forEach(day=>{
+        scheduleBlocks.push({id:nextId++,day,time:beforeWorkTime,
+          title:`${act.emoji} Gym`,detail:[],cat:'wellness',mcqs:0,duration:60,essays:0});
+      });
+    }
+    // ── Mind-Body → 2–3x/week, alternating work days
+    else if(n.includes('mind')||n.includes('yoga')||n.includes('pilates')){
+      workDays.filter((_,i)=>i%2===0).slice(0,3).forEach(day=>{
+        const t=isMorn?beforeWorkTime:isEve?fmtTime(weh*60+wem+90):'7am';
+        scheduleBlocks.push({id:nextId++,day,time:t,
+          title:`🧘 Mind-Body`,detail:[],cat:'wellness',mcqs:0,duration:45,essays:0});
+      });
+    }
+    // ── Walks / Outdoors → Saturday morning + one weekday
+    else if(n.includes('walk')||n.includes('outdoor')){
+      const walkDays=[...new Set([SAT,...workDays.slice(-1)])];
+      walkDays.forEach(day=>{
+        const t=day>=5?'8am':isMorn?fmtTime(wsh*60+wsm-45):'6am';
+        scheduleBlocks.push({id:nextId++,day,time:t,
+          title:`🚶 Walk`,detail:[],cat:'wellness',mcqs:0,duration:40,essays:0});
+      });
+    }
+    // ── Spirituality → Sunday morning (protected)
+    else if(n.includes('spirit')||n.includes('church')||n.includes('mosque')||n.includes('synagogue')){
+      scheduleBlocks.push({id:nextId++,day:SUN,time:'9am',
+        title:`${act.emoji} Spirituality`,detail:[],cat:'protected',mcqs:0,duration:60,essays:0});
+    }
+    // ── Meal Prep → Saturday or last off-day, afternoon
+    else if(n.includes('meal')){
+      const mpDay=offDays.includes(SAT)?SAT:(offDays[offDays.length-1]??SAT);
+      scheduleBlocks.push({id:nextId++,day:mpDay,time:'2pm',
+        title:`🍳 Meal Prep`,detail:['Batch cook for the week'],cat:'wellness',mcqs:0,duration:90,essays:0});
+    }
+    // ── Therapy → once/week, midweek, after work
+    else if(n.includes('therapy')){
+      const thDay=workDays[Math.floor(workDays.length/2)]??workDays[0]??2;
+      scheduleBlocks.push({id:nextId++,day:thDay,time:fmtTime(weh*60+wem+30),
+        title:`💬 Therapy`,detail:['Protected — non-negotiable'],cat:'protected',mcqs:0,duration:60,essays:0});
+    }
+    // ── Family Time → Sunday (protected)
+    else if(n.includes('family')){
+      scheduleBlocks.push({id:nextId++,day:SUN,time:'11am',
+        title:`👨‍👩‍👧 Family Time`,detail:['Protected. No studying.'],cat:'protected',mcqs:0,duration:120,essays:0});
+    }
+    // ── Music → 2x/week evenings, 30 min
+    else if(n.includes('music')){
+      workDays.slice(0,2).forEach(day=>{
+        scheduleBlocks.push({id:nextId++,day,time:afterStudyTime,
+          title:`🎵 Music`,detail:[],cat:'wellness',mcqs:0,duration:30,essays:0});
+      });
+    }
+    // ── Reading → 3x/week evenings, 30 min
+    else if(n.includes('read')){
+      workDays.slice(0,3).forEach(day=>{
+        scheduleBlocks.push({id:nextId++,day,time:'9:30pm',
+          title:`📖 Reading`,detail:[],cat:'wellness',mcqs:0,duration:30,essays:0});
+      });
+    }
+    // ── TikTok / Doom Scroll → 3x/week, 30 min cap, evening (fun block)
+    else if(n.includes('tiktok')||n.includes('doom')||n.includes('scroll')){
+      workDays.slice(0,3).forEach(day=>{
+        scheduleBlocks.push({id:nextId++,day,time:'8:30pm',
+          title:`📱 TikTok / Scroll`,detail:['30 min max 🐐'],cat:'wellness',mcqs:0,duration:30,essays:0});
+      });
+    }
+    // ── Movies / Reality TV → once/week, Friday or weekend
+    else if(n.includes('movie')||n.includes('tv')||n.includes('reality')){
+      const tvDay=workDays.includes(4)?4:(offDays[0]??SAT);
+      scheduleBlocks.push({id:nextId++,day:tvDay,time:'7pm',
+        title:`🎬 Movie / TV`,detail:['Fully 🐐-approved'],cat:'wellness',mcqs:0,duration:90,essays:0});
+    }
+    // ── Generic / Other → 2x/week
+    else{
+      workDays.slice(0,2).forEach(day=>{
+        const t=isMorn?beforeWorkTime:isEve?afterStudyTime:'7am';
+        scheduleBlocks.push({id:nextId++,day,time:t,
+          title:`${act.emoji} ${act.name.split('/')[0].trim()}`,detail:[],cat:'wellness',mcqs:0,duration:45,essays:0});
+      });
+    }
+  });
+
+  renderWeek();
+  calcStats();
+}
+
+// ── TIME UTILITIES ────────────────────────────────────────────────────────────
+function timeToMins(t){
+  if(!t)return 9999;
+  const s=(t.split('–')[0].split('·')[0]).trim();
+  const m=s.match(/(\d+)(?::(\d+))?\s*(am|pm)/i);
+  if(!m)return 9999;
+  let h=parseInt(m[1]),mn=parseInt(m[2]||0),ap=m[3].toLowerCase();
+  if(ap==='pm'&&h!==12)h+=12;
+  if(ap==='am'&&h===12)h=0;
+  return h*60+mn;
+}
+function fmtTime(total){
+  const t=Math.max(0,total);
+  const h=Math.floor(t/60)%24,m=t%60;
+  const ap=h>=12?'pm':'am';
+  const dh=h===0?12:h>12?h-12:h;
+  return m?`${dh}:${String(m).padStart(2,'0')}${ap}`:`${dh}${ap}`;
+}
+
+// ── COMMUTE BLOCKS ────────────────────────────────────────────────────────────
+function buildCommuteBlocks(){
+  scheduleBlocks=scheduleBlocks.filter(b=>b.cat!=='commute');
+  const tog=document.querySelector('#s2 .togrow');
+  if(!tog||!tog.classList.contains('on')){renderWeek();calcStats();return;}
+  const dur=parseInt(document.getElementById('slc').value)||30;
+  const wst=document.getElementById('wst')?.value||'06:00';
+  const wet=document.getElementById('wet')?.value||'14:00';
+  const [wsh,wsm]=(wst+':00').split(':').map(Number);
+  const [weh,wem]=(wet+':00').split(':').map(Number);
+  const amStr=fmtTime(wsh*60+wsm-dur);   // before work starts
+  const pmStr=fmtTime(weh*60+wem);       // when work ends
+  let nextId=Math.max(0,...scheduleBlocks.map(b=>b.id))+1;
+  document.querySelectorAll('.wdays .wday').forEach((el,i)=>{
+    if(el.classList.contains('on')){
+      scheduleBlocks.push({id:nextId++,day:i,time:amStr,title:'🚗 Commute (AM)',
+        detail:['Passive study window'],cat:'commute',mcqs:0,duration:dur,essays:0,passive:true,supplements:[]});
+      scheduleBlocks.push({id:nextId++,day:i,time:pmStr,title:'🚗 Commute (PM)',
+        detail:['Passive study window'],cat:'commute',mcqs:0,duration:dur,essays:0,passive:true,supplements:[]});
+    }
+  });
+  renderWeek();calcStats();
+}
+
+// ── DAY VIEW ──────────────────────────────────────────────────────────────────
+let currentViewDay=(new Date().getDay()+6)%7; // Mon=0 … Sun=6
+
+function renderDayView(idx){
+  currentViewDay=idx;
+  const names=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+  const blocks=scheduleBlocks.filter(b=>b.day===idx).sort((a,b)=>timeToMins(a.time)-timeToMins(b.time));
+  const studyB=blocks.filter(b=>b.cat.startsWith('study')||b.cat==='library');
+  const mainTitle=studyB.length?studyB[0].title:(blocks.length?'Life Day':'Rest Day');
+  const mainSub=studyB.length?`🐐 GOAT Bar Prep · ${studyB[0].mcqs||0} MCQs · ${studyB.length} block${studyB.length>1?'s':''}`:
+    'Protected time — no studying';
+  const fmtD=m=>m>=60?`${Math.floor(m/60)}h${m%60?` ${m%60}m`:''}`:m+'min';
+  const items=blocks.map(b=>{
+    const det=(b.detail||[]).filter(Boolean).slice(0,2).join(' · ');
+    return`<li class="mcitem" onclick="this.classList.toggle('done')">
+      <div class="mccb"></div>
+      <div class="mctxt"><strong>${b.time}</strong> — ${b.title}${det?' <span style="color:var(--text-dim);font-weight:400">· '+det+'</span>':''}${b.mcqs?' · '+b.mcqs+' MCQs':''}</div>
+      <div class="mctime">${fmtD(b.duration||0)}</div></li>`;
+  }).join('');
+  const well=blocks.filter(b=>b.cat==='wellness').map(b=>b.title).join(' · ');
+  const el=document.getElementById('vday');if(!el)return;
+  el.innerHTML=`
+    <div class="mcard">
+      <div class="mcdate">${names[idx]}, ${(()=>{const m=computeDynamicWEEK_META().find(x=>x.wk===currentWeek);const d=DAY_HEADERS[idx];if(!d)return'—';const mo=m?.dates?.match(/[A-Za-z]+/)?.[0]||'';return d.date+(mo?' '+mo:'');})()} · Week ${currentWeek} of ${getTotalWeeks()}</div>
+      <div class="mctitle">${mainTitle}</div>
+      <div class="mcsub">${mainSub}</div>
+      <ul class="mclist">${items||'<li class="mcitem"><div class="mccb"></div><div class="mctxt" style="font-style:italic;color:var(--text-dim)">No blocks scheduled</div></li>'}</ul>
+      ${well?`<div class="mcwell">${well} — already locked in</div>`:''}
+    </div>
+    <div style="display:flex;gap:8px;justify-content:center;margin-top:16px">
+      <button class="ebtn" onclick="navDay(-1)">← Yesterday</button>
+      <button class="ebtn red" onclick="navDay(0)">Today</button>
+      <button class="ebtn" onclick="navDay(1)">Tomorrow →</button>
+    </div>`;
+}
+
+function navDay(dir){
+  if(dir===0) currentViewDay=(new Date().getDay()+6)%7;
+  else currentViewDay=(currentViewDay+dir+7)%7;
+  renderDayView(currentViewDay);
+}
+
+// ── MONTH VIEW ────────────────────────────────────────────────────────────────
+function switchToWeek(wk){
+  currentWeek=wk||currentWeek;
+  const tab=document.querySelector('#s7 .vopt');
+  if(tab) setV('week',tab);
+}
+
+function renderMonthView(){
+  const meta_arr=computeDynamicWEEK_META();
+  const total=getTotalWeeks();
+  const start=getStudyStart();
+  const inner=document.getElementById('vmonth-inner');if(!inner)return;
+  inner.innerHTML=`
+    <div class="flbl" style="margin-bottom:3px">${total}-Week Study Arc · ${meta_arr[0]?.dates||''} → Exam Day</div>
+    <p style="font-size:.7rem;color:var(--text-dim);margin-bottom:14px">Click a week row to view it · press › to see the day breakdown</p>
+    `+meta_arr.map(m=>{
+    const isDone=m.status==='done';const isNow=m.status==='now';
+    const bg=isDone?'var(--green-dim)':isNow?'var(--red-dim)':'var(--card-w)';
+    const bdr=isDone?'1px solid #C0DCC9':isNow?'2px solid var(--red-mid)':'1px solid var(--border)';
+    const isExam=m.entry?.type==='exam';
+    const opac=isDone||isNow||isExam?'1':'.82';
+    const lc=isDone?'var(--green)':isNow?'var(--red)':isExam?'var(--text-mid)':'var(--text-mid)';
+    const lbl=isDone?`Wk ${m.wk} · Done`:isNow?`Wk ${m.wk} · NOW`:isExam?'Exam Week':'Wk '+m.wk;
+    const dt=isDone?'✓':isNow?'In progress':isExam?'REST 🛑':m.dates;
+    const mcq=parseInt(document.getElementById('sldq')?.value)||8;
+    if(isExam){
+      return`<div class="mrow" style="background:#FEF9E7;border:2px solid #F7DC6F;margin-top:4px">
+        <span class="mwlbl" style="color:#7D6608;font-weight:700">🛑 EXAM</span>
+        <div style="flex:1">
+          <strong style="color:#7D6608">${m.subj}</strong>
+          <span style="font-family:'DM Mono',monospace;font-size:.52rem;color:var(--text-dim);margin-left:7px">${m.dates}</span>
+          <div style="font-size:.7rem;color:var(--text-mid);margin-top:4px">No studying. Rest, sleep, and trust your prep. You've got this.</div>
+        </div>
+        <span class="mwdt" style="color:#7D6608;white-space:nowrap">REST ONLY</span>
+      </div>`;
+    }
+    return`<div class="mrow clickrow" style="background:${bg};border:${bdr};opacity:${opac}" data-wk="${m.wk}">
+      <span class="mwlbl" style="color:${lc}">${lbl}</span>
+      <div style="flex:1">
+        <strong style="color:${isDone?'var(--green)':isNow?'var(--red-dk)':'inherit'}">${m.subj}</strong>
+        <span style="font-family:'DM Mono',monospace;font-size:.52rem;color:var(--text-dim);margin-left:7px">${m.dates}</span>
+        <div class="mrow-expand" id="mrx-${m.wk}" style="display:none">
+          <div class="mrow-days">Mon–Fri: 💼📖 &nbsp;·&nbsp; Sat: 📚 Library Day &nbsp;·&nbsp; Sun: 🌿📖 Preview</div>
+          <div class="mrow-goat">🐐 GOAT Bar Prep · ${m.subj} · ${mcq} MCQs/day · 2 MEE essays Sat</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:7px">
+        <span class="mwdt" style="color:${lc}">${dt}</span>
+        <button class="mrow-chevron" id="mrchev-${m.wk}" onclick="toggleMrow(${m.wk},event)">›</button>
+      </div>
+    </div>`;
+  }).join('');
+  // Wire click handlers and highlight current week
+  inner.querySelectorAll('.mrow.clickrow').forEach(row=>{
+    const wk=parseInt(row.dataset.wk);
+    row.onclick=(e)=>{if(!e.target.closest('.mrow-chevron'))switchToWeek(wk);};
+    row.style.outline=wk===currentWeek?'2px solid var(--red)':'none';
+  });
+}
+
+function renderCurrentWeek(){
+  const meta_arr=computeDynamicWEEK_META();
+  const total=getTotalWeeks();
+  const meta=meta_arr.find(m=>m.wk===currentWeek)||meta_arr[0]||{subj:'Week '+currentWeek,dates:'',status:'upcoming'};
+  DAY_HEADERS=getWeekHeaders(currentWeek);
+
+  const titleEl=document.querySelector('#s7 .stitle');
+  if(titleEl) titleEl.innerHTML=`Week ${currentWeek} of ${total} — ${meta.subj}<br><span>${meta.dates}</span>`;
+
+  const statIds=['stat-study','stat-mcqs','stat-essays','stat-wellness'];
+
+  // Exam week — hard stop, no study content
+  if(meta.entry?.type==='exam'||meta.status==='exam'||meta.status==='exam-now'){
+    const grid=document.getElementById('wkgrid');
+    if(grid) grid.innerHTML=`<div style="grid-column:1/-1;text-align:center;padding:52px 20px">
+      <div style="font-size:3rem;margin-bottom:12px">🎓</div>
+      <div style="font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--text);margin-bottom:8px">Bar Exam Week</div>
+      <div style="font-size:.85rem;color:var(--text-mid);line-height:1.7;max-width:380px;margin:0 auto">
+        No studying. No new content. Sleep, eat, and trust your preparation.<br>
+        <strong style="color:var(--red)">You've got this. 🐐</strong>
+      </div>
+    </div>`;
+    statIds.forEach(id=>{const e=document.getElementById(id);if(e)e.textContent='🎓';});
+    return;
+  }
+
+  if(meta.status==='done'){
+    const grid=document.getElementById('wkgrid');
+    if(grid) grid.innerHTML=`<div style="grid-column:1/-1;text-align:center;padding:52px 20px">
+      <div style="font-size:2.5rem;margin-bottom:10px">✅</div>
+      <div style="font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--green);margin-bottom:6px">${meta.subj} — Complete</div>
+      <div style="font-size:.74rem;color:var(--text-dim)">${meta.dates}</div>
+    </div>`;
+    statIds.forEach(id=>{const e=document.getElementById(id);if(e)e.textContent='✓';});
+    return;
+  }
+
+  // Generate this week's core blocks from the engine
+  const coreBlocks=generateWeekBlocks(currentWeek);
+  scheduleBlocks=[...coreBlocks];
+  buildWellnessBlocks(); // layers wellness/protected on top, calls renderWeek+calcStats
+  buildCommuteBlocks();  // layers commute on top, calls renderWeek+calcStats
+}
+
+function toggleMrow(wk,ev){
+  ev.stopPropagation();
+  const el=document.getElementById('mrx-'+wk);if(!el)return;
+  const btn=document.getElementById('mrchev-'+wk);
+  const open=el.style.display!=='none';
+  el.style.display=open?'none':'block';
+  if(btn)btn.textContent=open?'›':'‹';
+}
+
+function getWeekEmojiSummary(){
+  return DAY_HEADERS.map((h,i)=>{
+    const blocks=scheduleBlocks.filter(b=>b.day===i).sort((a,b)=>timeToMins(a.time)-timeToMins(b.time));
+    const emojis=blocks.map(b=>{
+      if(b.cat==='wellness')return(b.title.match(/\p{Emoji}/u)||['🏃'])[0];
+      if(b.cat==='work')return '💼';
+      if(b.cat==='library')return '📚';
+      if(b.cat==='commute')return '🚗';
+      if(b.cat==='protected')return(b.title.match(/\p{Emoji}/u)||['🔒'])[0];
+      if(b.cat.startsWith('study'))return '📖';
+      return '•';
+    }).join('');
+    return `<span style="font-family:'DM Mono',monospace;font-size:.54rem;color:var(--text-dim)">${h.name}:</span> ${emojis||'—'}`;
+  }).join('<br>');
+}
+
+// ── EXPORT FUNCTIONS ──────────────────────────────────────────────────────────
+function exportToGCal(){
+  const base=new Date('2026-05-25'); // Monday of week 2
+  const lines=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//YLB GOAT Scheduler//EN','CALSCALE:GREGORIAN'];
+  scheduleBlocks.forEach(b=>{
+    const d=new Date(base);d.setDate(d.getDate()+b.day);
+    const sm=timeToMins(b.time);if(sm===9999)return;
+    const em=sm+(b.duration||60);
+    const p=(n,l=2)=>String(n).padStart(l,'0');
+    const ds=`${d.getFullYear()}${p(d.getMonth()+1)}${p(d.getDate())}`;
+    const ts=`T${p(Math.floor(sm/60))}${p(sm%60)}00`;
+    const te=`T${p(Math.floor(em/60)%24)}${p(em%60)}00`;
+    const det=(b.detail||[]).join(' | ')+(b.mcqs?` | ${b.mcqs} MCQs`:'');
+    lines.push('BEGIN:VEVENT',`UID:ylb-${b.id}-${Date.now()}@goatbarprep`,
+      `DTSTART:${ds}${ts}`,`DTEND:${ds}${te}`,
+      `SUMMARY:${b.title}`,`DESCRIPTION:${det}`,'END:VEVENT');
+  });
+  lines.push('END:VCALENDAR');
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([lines.join('\r\n')],{type:'text/calendar'}));
+  a.download='goat-bar-wk2.ics';a.click();
+}
+
+function printWeek(){window.print();}
+
+function copyToNotion(){
+  const names=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+  const out=['# 📚 Bar Prep — Week 2: Criminal Law','','*The Busy GOAT Scheduler × YLB*',''];
+  DAY_HEADERS.forEach((h,i)=>{
+    const blocks=scheduleBlocks.filter(b=>b.day===i).sort((a,b)=>timeToMins(a.time)-timeToMins(b.time));
+    if(!blocks.length)return;
+    out.push(`## ${names[i]}, May ${h.date}`,'');
+    blocks.forEach(b=>{
+      out.push(`- **${b.time}** — ${b.title}${b.mcqs?' · '+b.mcqs+' MCQs':''}${b.duration?' ('+Math.round(b.duration/60*10)/10+'h)':''}`);
+      (b.detail||[]).filter(Boolean).forEach(d=>out.push('  - '+d));
+    });
+    out.push('');
+  });
+  navigator.clipboard.writeText(out.join('\n')).then(()=>{
+    const btn=document.querySelector('[onclick*="copyToNotion"]');
+    if(btn){const o=btn.innerHTML;btn.innerHTML='✅ Copied!';setTimeout(()=>btn.innerHTML=o,2000);}
+  }).catch(()=>alert('Copy unavailable — please copy text manually.'));
+}
+
+function saveSettings(){
+  try{
+    localStorage.setItem('ylb-schedule-v2',JSON.stringify(scheduleBlocks));
+    const btn=document.querySelector('[onclick*="saveSettings"]');
+    if(btn){const o=btn.innerHTML;btn.innerHTML='✅ Saved!';setTimeout(()=>btn.innerHTML=o,2500);}
+  }catch(e){alert('Could not save — localStorage may be disabled in this browser.');}
+}
+
+function doRegenerate(){
+  if(!confirm('🐐 Rebuild this week from your current settings?\n\nRe-reads your work schedule (Step 2), subject order (Step 4), and study preferences (Step 5).'))return;
+
+  // ── Step 2: work schedule ──────────────────────────────────────────────────
+  const wst=document.getElementById('wst')?.value||'06:00';
+  const wet=document.getElementById('wet')?.value||'14:00';
+  const [wsh,wsm]=(wst+':00').split(':').map(Number);
+  const [weh,wem]=(wet+':00').split(':').map(Number);
+  const workDurMin=(weh*60+wem)-(wsh*60+wsm);
+  const workTimeStr=fmtTime(wsh*60+wsm)+'–'+fmtTime(weh*60+wem);
+  const workDays=[...document.querySelectorAll('.wdays .wday')]
+    .map((el,i)=>el.classList.contains('on')?i:-1).filter(i=>i>=0);
+
+  // ── Step 4: subject order ──────────────────────────────────────────────────
+  const SUBJ_CAT={CP:'study-cp',CL:'study-cl',CO:'study-co',CR:'study-cr',EV:'study-ev',RP:'study-rp',TO:'study-to'};
+  const ROMAN=['I','II','III','IV','V','VI','VII'];
+  let ordered=[...subjs];
+  if(strat==='weak') ordered.sort((a,b)=>a.conf-b.conf);
+  else ordered.sort((a,b)=>a.ord-b.ord);
+  const curSubj=ordered[0];
+  const curCat=SUBJ_CAT[curSubj.abbr]||'study-cr';
+  const nextSubj=ordered[1]||ordered[0];
+
+  // ── Step 5: study preferences ──────────────────────────────────────────────
+  const sdEl=document.querySelector('#wdst .pill.active');
+  const sdCustom=document.getElementById('wdst-custom')?.value?.trim();
+  // Strip emoji/whitespace from pill text (e.g. "6pm" from "6pm")
+  const studyStart=(sdCustom||sdEl?.textContent?.trim()||'6pm').replace(/[^0-9:apm]/gi,'').trim()||'6pm';
+  const mcqWkday=parseInt(document.getElementById('sldq')?.value)||8;
+  const mcqLib=parseInt(document.getElementById('slhq')?.value)||25;
+  const bosOn=document.querySelector('#s5 .togrow.on');// Book of Shame toggle
+
+  // ── Rebuild core blocks (work + study + library + preview) ─────────────────
+  scheduleBlocks=[];
+  let id=1;
+
+  // Work blocks
+  workDays.forEach(day=>{
+    scheduleBlocks.push({id:id++,day,time:workTimeStr,
+      title:'💼 Work',detail:[],cat:'work',mcqs:0,duration:Math.max(0,workDurMin),essays:0});
+  });
+
+  // Study blocks — one per work day, cycling through sections of current subject
+  workDays.forEach((day,i)=>{
+    const isLast=i===workDays.length-1;
+    const detail=['Review BLL outline + Book of Shame'];
+    if(isLast) detail.push('GOAT only — hard stop 8pm ✋');
+    scheduleBlocks.push({id:id++,day,
+      time:studyStart+(isLast?' · Light':''),
+      title:`${curSubj.name} · ${ROMAN[i]||ROMAN[ROMAN.length-1]}`,
+      detail,cat:curCat,mcqs:mcqWkday,
+      duration:isLast?90:120,essays:0,...(isLast?{light:true}:{})});
+  });
+
+  // Library Day — Saturday
+  scheduleBlocks.push({id:id++,day:5,time:'9:30am – 5pm',title:'📚 LIBRARY DAY',
+    detail:[`${mcqLib}–${mcqLib+5} mixed MCQs`,`${curSubj.name} + prior subjects`,'2 timed MEE essays','Book of Shame deep dive'],
+    cat:'library',mcqs:mcqLib,duration:450,essays:2});
+
+  // Sunday preview of next subject
+  scheduleBlocks.push({id:id++,day:6,time:'3pm · Light',
+    title:`Preview: ${nextSubj.name.split(' ')[0]} I`,
+    detail:['Flashcards + light preview'],
+    cat:SUBJ_CAT[nextSubj.abbr]||'study-cp',mcqs:8,duration:60,essays:0,light:true});
+
+  // Layer wellness (Step 3) + commute (Step 2) on top
+  buildWellnessBlocks();
+  buildCommuteBlocks();
+}
+
+// ── I'M BEHIND ────────────────────────────────────────────────────────────────
+function showBehindOptions(){
+  document.getElementById('behind-btn').style.display='none';
+  document.getElementById('behind-opts').style.display='block';
+}
+function hideBehindOptions(){
+  document.getElementById('behind-opts').style.display='none';
+  document.getElementById('behind-btn').style.display='flex';
+}
+function doBehind(action){
+  const todayIdx=(new Date().getDay()+6)%7; // Mon=0
+
+  if(action==='compress'){
+    const remaining=scheduleBlocks.filter(b=>
+      (b.cat.startsWith('study')||b.cat==='library')&&b.day>todayIdx);
+    if(!remaining.length){
+      alert('No study blocks left this week to compress into.\n\nTry Redistribute to flag Saturday\'s Library Day instead.');
+      return;
+    }
+    remaining.forEach(b=>{
+      b.mcqs=Math.min(60,(b.mcqs||0)+6);
+      if(b.light){b.light=false;b.duration=Math.min(180,(b.duration||90)+30);}
+    });
+    renderWeek();calcStats();hideBehindOptions();
+    alert(`⚡ Done.\n\nAdded 6 MCQs to each remaining study block this week and removed Light flags.\n\nDouble-click any block to fine-tune.`);
+  }
+
+  else if(action==='redistribute'){
+    const lib=scheduleBlocks.find(b=>b.cat==='library');
+    if(lib){
+      if(!lib.detail.some(d=>d.includes('catch-up')))
+        lib.detail.push('🔁 Catch-up — missed topics from earlier this week');
+      renderWeek();
+    }
+    hideBehindOptions();
+    alert('📊 Flagged.\n\nYour Saturday Library Day now includes a catch-up note.\n\nThe missed topic rolls into next week\'s rolling review automatically.');
+  }
+
+  else if(action==='skip'){
+    // Find the most relevant current study block
+    const cur=
+      scheduleBlocks.find(b=>b.cat.startsWith('study')&&b.day===todayIdx)||
+      scheduleBlocks.filter(b=>b.cat.startsWith('study')).sort((a,b)=>a.day-b.day)[0];
+    const topic=cur?.title||'current topic';
+    const dateStr=new Date().toLocaleDateString('en-US',{month:'short',day:'numeric'});
+    try{
+      const bos=JSON.parse(localStorage.getItem('ylb-bos-v2')||'[]');
+      bos.push({topic,date:dateStr});
+      localStorage.setItem('ylb-bos-v2',JSON.stringify(bos));
+    }catch(e){}
+    hideBehindOptions();
+    alert(`📝 Logged to Book of Shame:\n"${topic}" — ${dateStr}\n\nWrite the rule from memory the next time you encounter it. Keep moving.`);
+  }
+}
+
+// ── DAY PICKER HELPERS ────────────────────────────────────────────────────────
+function fillDayPick(cid,activeDay){
+  const days=['M','Tu','W','Th','F','Sa','Su'];
+  document.getElementById(cid).innerHTML=days.map((d,i)=>
+    `<button class="bed-day-btn${i===activeDay?' on':''}" onclick="selBedDay(this,'${cid}')">${d}</button>`
+  ).join('');
+}
+function selBedDay(el,cid){
+  document.querySelectorAll(`#${cid} .bed-day-btn`).forEach(b=>b.classList.remove('on'));
+  el.classList.add('on');
+}
+function getSelDay(cid){
+  const days=['M','Tu','W','Th','F','Sa','Su'];
+  const btn=document.querySelector(`#${cid} .bed-day-btn.on`);
+  return btn?days.indexOf(btn.textContent):0;
+}
+
+// ── SUPPLEMENT ROWS ───────────────────────────────────────────────────────────
+function buildSuppRows(b){
+  const list=document.getElementById('bed-b-supp-list');
+  const tools=getSelectedTools();
+  if(!tools.length){
+    list.innerHTML='<div style="font-size:.75rem;color:var(--text-dim);font-style:italic;padding:5px 0">No tools selected yet — go back to Step 6 to choose your stack.</div>';
+    updateTotalDur();return;
+  }
+  const saved=b.supplements||[];
+  list.innerHTML=tools.map(t=>{
+    const ex=saved.find(s=>s.name===t.name);
+    const on=ex?ex.active:false;
+    const min=ex?ex.minutes:30;
+    return`<div class="bed-supp-row">
+      <div class="bed-supp-tog${on?' on':''}" onclick="togSuppRow(this)"></div>
+      <div class="bed-supp-name">${t.name}</div>
+      <input type="number" class="bed-inp bed-supp-min" value="${min}" min="5" max="180" oninput="updateTotalDur()">
+      <span class="bed-supp-unit">min</span>
+    </div>`;
+  }).join('');
+  updateTotalDur();
+}
+
+function buildPassiveRows(b){
+  const list=document.getElementById('bed-c-supp-list');
+  const opts=getPassiveOptions();
+  if(!opts.length){list.innerHTML='<div style="font-size:.75rem;color:var(--text-dim);font-style:italic;padding:5px 0">Flashcards, Book of Shame review, or bar prep audio.</div>';return;}
+  const saved=b.supplements||[];
+  list.innerHTML=opts.map(o=>{
+    const ex=saved.find(s=>s.name===o.name);
+    const on=ex?ex.active:true;
+    return`<div class="bed-supp-row">
+      <div class="bed-supp-tog${on?' on':''}" onclick="togSuppRow(this)"></div>
+      <div class="bed-supp-name">${o.name}</div>
+    </div>`;
+  }).join('');
+}
+
+function togSuppRow(el){el.classList.toggle('on');updateTotalDur();}
+
+function updateTotalDur(){
+  const base=parseInt(document.getElementById('bed-b-dur')?.value)||0;
+  let supp=0;
+  document.querySelectorAll('#bed-b-supp-list .bed-supp-row').forEach(r=>{
+    if(r.querySelector('.bed-supp-tog.on'))
+      supp+=parseInt(r.querySelector('.bed-supp-min')?.value)||0;
+  });
+  const tot=base+supp;
+  const el=document.getElementById('bed-b-total-min');
+  if(el){
+    const hrs=Math.floor(tot/60),mins=tot%60;
+    el.textContent=tot>=60?(mins?`${tot} min (${hrs}h ${mins}m)`:`${tot} min (${hrs}h)`):tot+' min';
+  }
+}
+
+function readStudySupps(){
+  return[...document.querySelectorAll('#bed-b-supp-list .bed-supp-row')].map(r=>({
+    name:r.querySelector('.bed-supp-name')?.textContent||'',
+    active:!!r.querySelector('.bed-supp-tog.on'),
+    minutes:parseInt(r.querySelector('.bed-supp-min')?.value)||30
+  }));
+}
+function readPassiveSupps(){
+  return[...document.querySelectorAll('#bed-c-supp-list .bed-supp-row')].map(r=>({
+    name:r.querySelector('.bed-supp-name')?.textContent||'',
+    active:!!r.querySelector('.bed-supp-tog.on')
+  }));
+}
+
+// ── CONFLICT CHECK ────────────────────────────────────────────────────────────
+function checkConflict(targetDay,durMin,excludeId){
+  const dayBlks=scheduleBlocks.filter(b=>b.day===targetDay&&b.id!==excludeId);
+  const moving=scheduleBlocks.find(b=>b.id===excludeId);
+  const isStudy=moving?.cat?.startsWith('study')||moving?.cat==='library';
+  if(isStudy){
+    const cnt=dayBlks.filter(b=>b.cat.startsWith('study')||b.cat==='library').length;
+    if(cnt>=3) return{msg:`🚨 Three study blocks is already a <strong>full GOAT day</strong>. You're adding a fourth. That's giving <em>overcaffeinated-2L-who-hasn't-slept energy</em>. Proceed?`};
+  }
+  const totalMin=dayBlks.reduce((s,b)=>s+(b.duration||0),0)+durMin;
+  const sleepMin=(24*60)-totalMin;
+  if(sleepMin<420){
+    const sh=(sleepMin/60).toFixed(1);
+    const msgs=[
+      `😴 Bestie. That's <strong>${sh} hours of sleep</strong>. GOAT prep works best when your brain isn't running on fumes — and the exam won't grade you harder than exhaustion will. You sure?`,
+      `💀 The math ain't mathing. You'd sleep <strong>${sh} hours</strong> on this day. Your GOAT modules will still be there after some rest. Proceed anyway?`,
+      `🐐 Dedication: noted. Sleep debt: also noted. <strong>${sh}h of sleep</strong> is giving final-week energy in week three. Hydrate, then click "do it anyway."`,
+    ];
+    return{msg:msgs[Math.floor(Math.random()*msgs.length)]};
+  }
+  return null;
+}
+
+// ── EDITOR STATE ──────────────────────────────────────────────────────────────
+let editingId=null,pendingSave=null;
+
+// ── OPEN EDITOR (Stage 3) ─────────────────────────────────────────────────────
+function editBlock(id){
+  editingId=id;pendingSave=null;
+  const b=scheduleBlocks.find(b=>b.id===id);
+  if(!b)return;
+  ['bed-a','bed-b','bed-c'].forEach(p=>document.getElementById(p).style.display='none');
+  document.getElementById('bed-warn').style.display='none';
+  const isCommute=b.cat==='commute';
+  const isLife=['wellness','work','protected'].includes(b.cat);
+  document.getElementById('bed-title').textContent=
+    isCommute?'🚗 Commute Block':isLife?'✏️ Life Block':'✏️ Study Block';
+  if(isCommute){
+    document.getElementById('bed-c').style.display='';
+    document.getElementById('bed-c-dur').value=b.duration;
+    fillDayPick('bed-c-day',b.day);
+    buildPassiveRows(b);
+  }else if(isLife){
+    document.getElementById('bed-a').style.display='';
+    const sp=b.title.indexOf(' ');
+    document.getElementById('bed-a-icon').textContent=sp>0?b.title.substring(0,sp):'';
+    document.getElementById('bed-a-name').textContent=sp>0?b.title.substring(sp+1):b.title;
+    document.getElementById('bed-a-time').value=b.time;
+    document.getElementById('bed-a-dur').value=b.duration;
+    fillDayPick('bed-a-day',b.day);
+  }else{
+    document.getElementById('bed-b').style.display='';
+    document.getElementById('bed-b-module').textContent=b.title;
+    document.getElementById('bed-b-time').value=b.time;
+    document.getElementById('bed-b-dur').value=b.duration;
+    document.getElementById('bed-b-mcqs').value=b.mcqs||0;
+    document.getElementById('bed-b-essays').value=b.essays||0;
+    fillDayPick('bed-b-day',b.day);
+    buildSuppRows(b);
+  }
+  document.getElementById('bed-overlay').classList.add('vis');
+  document.getElementById('bed-panel').classList.add('vis');
+}
+
+// ── SAVE (Stage 4) ────────────────────────────────────────────────────────────
+function saveBlock(){
+  const b=scheduleBlocks.find(b=>b.id===editingId);if(!b)return;
+  const isCommute=b.cat==='commute';
+  const isLife=['wellness','work','protected'].includes(b.cat);
+  let vals={};
+  if(isCommute){
+    vals={day:getSelDay('bed-c-day'),
+      duration:parseInt(document.getElementById('bed-c-dur').value)||b.duration,
+      supplements:readPassiveSupps()};
+  }else if(isLife){
+    vals={day:getSelDay('bed-a-day'),
+      time:document.getElementById('bed-a-time').value||b.time,
+      duration:parseInt(document.getElementById('bed-a-dur').value)||b.duration};
+  }else{
+    const supps=readStudySupps();
+    const suppMin=supps.filter(s=>s.active).reduce((sum,s)=>sum+(s.minutes||30),0);
+    vals={day:getSelDay('bed-b-day'),
+      time:document.getElementById('bed-b-time').value||b.time,
+      duration:(parseInt(document.getElementById('bed-b-dur').value)||b.duration)+suppMin,
+      mcqs:parseInt(document.getElementById('bed-b-mcqs').value)||0,
+      essays:parseInt(document.getElementById('bed-b-essays').value)||0,
+      supplements:supps};
+  }
+  const conflict=checkConflict(vals.day,vals.duration,editingId);
+  if(conflict&&!pendingSave){
+    pendingSave=vals;
+    document.getElementById('bed-warn-msg').innerHTML=conflict.msg;
+    document.getElementById('bed-warn').style.display='';
+    document.getElementById('bed-warn').scrollIntoView({behavior:'smooth',block:'nearest'});
+    return;
+  }
+  commitSave(b,vals,isCommute,isLife);
+}
+
+function commitSave(b,vals,isCommute,isLife){
+  b.day=vals.day;
+  if(vals.time)b.time=vals.time;
+  b.duration=vals.duration;
+  if(!isLife&&!isCommute){
+    b.mcqs=vals.mcqs;b.essays=vals.essays;b.supplements=vals.supplements||[];
+    const activeSupps=(vals.supplements||[]).filter(s=>s.active).map(s=>s.name);
+    b.detail=['Review BLL outline + Book of Shame',...activeSupps];
+  }
+  if(isCommute&&vals.supplements){
+    b.supplements=vals.supplements;
+    const active=vals.supplements.filter(s=>s.active).map(s=>s.name);
+    b.detail=active.length?active:['Passive study window — use this time'];
+  }
+  renderWeek();calcStats();closeEditor();pendingSave=null;
+}
+
+function saveAnyway(){
+  if(!pendingSave)return;
+  const b=scheduleBlocks.find(b=>b.id===editingId);if(!b)return;
+  const isCommute=b.cat==='commute';
+  const isLife=['wellness','work','protected'].includes(b.cat);
+  commitSave(b,pendingSave,isCommute,isLife);
+}
+function cancelWarn(){pendingSave=null;document.getElementById('bed-warn').style.display='none';}
+function closeEditor(){
+  document.getElementById('bed-overlay').classList.remove('vis');
+  document.getElementById('bed-panel').classList.remove('vis');
+  pendingSave=null;editingId=null;
+}
+
+// ── CUSTOM TOOL FORM ──────────────────────────────────────────────────────────
+function openCustomTool(){
+  document.getElementById('custom-tool-form').classList.add('vis');
+  document.getElementById('tcrd-custom').classList.add('on');
+}
+function closeCustomTool(){
+  document.getElementById('custom-tool-form').classList.remove('vis');
+  document.getElementById('tcrd-custom').classList.remove('on');
+  document.getElementById('ct-name').value='';
+}
+function togCtType(el){
+  const isStudy=el.textContent.includes('Study');
+  document.getElementById('ct-study-opts').style.display=isStudy?'':'none';
+  document.getElementById('ct-life-opts').style.display=isStudy?'none':'';
+}
+function addCustomTool(){
+  const name=document.getElementById('ct-name').value.trim();
+  if(!name){document.getElementById('ct-name').focus();return;}
+  const typeEl=document.querySelector('#ct-type .pill.active');
+  const isStudy=!typeEl||typeEl.textContent.includes('Study');
+  const subtype=isStudy
+    ?(document.querySelector('#ct-stype .pill.active')?.textContent||'Other')
+    :(document.querySelector('#ct-ltype .pill.active')?.textContent||'Wellness');
+  const tool={name,isStudy,subtype,id:`ct-${Date.now()}`};
+  customTools.push(tool);
+  const form=document.getElementById('custom-tool-form');
+  const card=document.createElement('div');
+  card.className='tcrd on';card.dataset.toolId=tool.id;
+  card.innerHTML=`<div class="ti">${isStudy?'📎':'⭐'}</div><div class="tn">${name}</div><div class="ta">${subtype}</div>`;
+  card.onclick=()=>card.classList.toggle('on');
+  form.parentNode.insertBefore(card,form);
+  closeCustomTool();
+}
+
+// ── INIT ────────────────────────────────────────────────────────────────────
+// ── INIT ──────────────────────────────────────────────────────────────────────
+// Set study start date default to today BEFORE anything reads it
+(()=>{
+  const sd=document.getElementById('study-start-date');
+  if(sd&&!sd.value){
+    const today=new Date();
+    sd.value=today.toISOString().split('T')[0];
+  }
+})();
+updCD('2026-07-28');updUI();renderS();
+// Set currentWeek to the live "now" week based on today vs study start
+(()=>{const wm=computeDynamicWEEK_META();const now=wm.find(m=>m.status==='now')||wm[0];if(now&&now.entry?.type!=='exam')currentWeek=now.wk;})();
+DAY_HEADERS=getWeekHeaders(currentWeek);
+// Generate this week's study blocks + layer wellness + commute
+const _core=generateWeekBlocks(currentWeek);
+if(_core.length){scheduleBlocks=[..._core];buildWellnessBlocks();buildCommuteBlocks();}
+else{buildWellnessBlocks();buildCommuteBlocks();}
+</script>
+<!-- ─── BLOCK EDITOR OVERLAY ─── -->
+<div id="bed-overlay" class="bed-overlay" onclick="closeEditor()"></div>
+<div id="bed-panel" class="bed-panel">
+  <div class="bed-hdr">
+    <div class="bed-title" id="bed-title">Edit Block</div>
+    <button class="bed-close" onclick="closeEditor()">✕</button>
+  </div>
+  <div class="bed-body">
+
+    <!-- Panel A: Life / Wellness / Protected / Work -->
+    <div id="bed-a" style="display:none">
+      <div class="bed-locked">
+        <span id="bed-a-icon"></span><span id="bed-a-name" style="margin-left:5px"></span>
+        <span class="bed-lock-badge">🔒 Locked</span>
+      </div>
+      <div class="bed-row">
+        <label class="bed-lbl">Start Time</label>
+        <input type="text" class="bed-inp" id="bed-a-time" placeholder="e.g. 5:30am">
+      </div>
+      <div class="bed-row">
+        <label class="bed-lbl">Duration</label>
+        <div style="display:flex;align-items:center;gap:8px">
+          <input type="number" class="bed-inp" id="bed-a-dur" min="5" max="600" style="max-width:110px">
+          <span class="bed-supp-unit">min</span>
+        </div>
+      </div>
+      <div class="bed-row">
+        <label class="bed-lbl">Day</label>
+        <div class="bed-daypick" id="bed-a-day"></div>
+      </div>
+    </div>
+
+    <!-- Panel B: GOAT Study Block / Library Day -->
+    <div id="bed-b" style="display:none">
+      <div class="bed-locked">
+        <span id="bed-b-module"></span>
+        <span class="bed-lock-badge">🔒 Module locked</span>
+      </div>
+      <div style="display:flex;gap:12px">
+        <div class="bed-row" style="flex:1">
+          <label class="bed-lbl">Start Time</label>
+          <input type="text" class="bed-inp" id="bed-b-time" placeholder="e.g. 6pm">
+        </div>
+        <div class="bed-row" style="flex:1">
+          <label class="bed-lbl">Base Duration</label>
+          <div style="display:flex;align-items:center;gap:6px">
+            <input type="number" class="bed-inp" id="bed-b-dur" min="30" max="600" style="max-width:80px" oninput="updateTotalDur()">
+            <span class="bed-supp-unit">min</span>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;gap:12px">
+        <div class="bed-row" style="flex:1">
+          <label class="bed-lbl">MCQs</label>
+          <input type="number" class="bed-inp" id="bed-b-mcqs" min="0" max="60">
+        </div>
+        <div class="bed-row" style="flex:1">
+          <label class="bed-lbl">Essays</label>
+          <div style="display:flex;align-items:center;gap:7px">
+            <input type="number" class="bed-inp" id="bed-b-essays" min="0" max="10" style="max-width:60px">
+            <div class="pg" id="bed-b-etype">
+              <div class="pill active" onclick="selP(this,'bed-b-etype')" style="font-size:.68rem;padding:4px 10px">MEE</div>
+              <div class="pill" onclick="selP(this,'bed-b-etype')" style="font-size:.68rem;padding:4px 10px">MPT</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="bed-row">
+        <label class="bed-lbl">Day</label>
+        <div class="bed-daypick" id="bed-b-day"></div>
+      </div>
+      <div class="bed-row">
+        <label class="bed-lbl" style="margin-bottom:8px">
+          Supplements
+          <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--text-dim);font-family:'Nunito',sans-serif;font-size:.68rem"> — from your Step 6 selections</span>
+        </label>
+        <div class="bed-supps"><div id="bed-b-supp-list"></div></div>
+      </div>
+      <div class="bed-total">Total session: <strong id="bed-b-total-min">—</strong></div>
+    </div>
+
+    <!-- Panel C: Commute -->
+    <div id="bed-c" style="display:none">
+      <div class="bed-locked">🚗 Commute <span class="bed-lock-badge">Passive study window</span></div>
+      <div class="bed-row">
+        <label class="bed-lbl">Duration</label>
+        <div style="display:flex;align-items:center;gap:8px">
+          <input type="number" class="bed-inp" id="bed-c-dur" min="5" max="120" style="max-width:110px">
+          <span class="bed-supp-unit">min</span>
+        </div>
+      </div>
+      <div class="bed-row">
+        <label class="bed-lbl">Day</label>
+        <div class="bed-daypick" id="bed-c-day"></div>
+      </div>
+      <div class="bed-row">
+        <label class="bed-lbl" style="margin-bottom:8px">Passive Study Options</label>
+        <div class="bed-supps"><div id="bed-c-supp-list"></div></div>
+      </div>
+    </div>
+
+    <!-- Conflict warning -->
+    <div id="bed-warn" class="bed-warn" style="display:none">
+      <div id="bed-warn-msg"></div>
+      <div style="display:flex;gap:8px;margin-top:11px">
+        <button class="btn btn-ghost" style="font-size:.75rem;padding:7px 13px" onclick="cancelWarn()">↩ Go back</button>
+        <button style="background:var(--red-mid);color:var(--red-dk);border:none;border-radius:var(--r);font-family:'Nunito',sans-serif;font-size:.75rem;font-weight:700;padding:7px 13px;cursor:pointer;transition:all var(--tr)" onmouseover="this.style.background='var(--red-dim)'" onmouseout="this.style.background='var(--red-mid)'" onclick="saveAnyway()">Do it anyway 🐐</button>
+      </div>
+    </div>
+
+  </div>
+  <div class="bed-footer">
+    <button class="btn btn-ghost" style="font-size:.8rem" onclick="closeEditor()">Cancel</button>
+    <button class="btn btn-red" style="font-size:.8rem" onclick="saveBlock()">Save Changes</button>
+  </div>
+</div>
+
+</body>
+</html>
