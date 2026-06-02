@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Your Bar Life — YLB × GOAT Bar Prep</title>
+<title>YLB Bar Prep Scheduler</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Nunito:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -73,7 +73,7 @@ body{background:var(--bg);color:var(--text);font-family:'Nunito',sans-serif;min-
 /* MAIN */
 .main{flex:1;display:flex;flex-direction:column}
 .sc{overflow-x:hidden;padding:32px 44px;display:none;position:relative;min-height:calc(100vh - var(--topbar-h) - 64px)}
-.sc::before{content:'🐐';position:absolute;bottom:-30px;right:-20px;font-size:28rem;opacity:.06;pointer-events:none;user-select:none;line-height:1}
+.sc::before{content:'';display:none}
 .sc.active{display:block;animation:fadeUp .25s ease}
 @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
@@ -211,6 +211,8 @@ body{background:var(--bg);color:var(--text);font-family:'Nunito',sans-serif;min-
 .tcrd{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:12px 8px;cursor:pointer;text-align:center;transition:all var(--tr);user-select:none}
 .tcrd:hover{border-color:var(--red-mid)}
 .tcrd.on{border-color:var(--red);background:var(--red-dim)}
+[data-mbe="primary"].on{border-width:2px;box-shadow:0 0 0 3px var(--red-mid)}
+[data-mbe="primary"]:not(.on){opacity:.65}
 .tcrd.feat{border-color:var(--red-mid);background:var(--red-dim)}
 .ti{font-size:1.35rem;margin-bottom:5px}
 .tn{font-size:.69rem;font-weight:700;color:var(--text-mid);line-height:1.2}
@@ -507,9 +509,9 @@ body{background:var(--bg);color:var(--text);font-family:'Nunito',sans-serif;min-
 </head>
 <body>
 
-<!-- CO-BRAND BANNER -->
+<!-- BANNER -->
 <div class="cob">
-  <div class="cob-headline">The Busy GOAT Scheduler 🐐</div>
+  <div class="cob-headline">YLB Bar Prep Scheduler</div>
   <div class="cob-sub">The custom bar prep scheduler — built for your actual life</div>
   <div class="cob-badge">Free · No Account Needed</div>
   <div class="cob-brands">
@@ -527,24 +529,12 @@ body{background:var(--bg);color:var(--text);font-family:'Nunito',sans-serif;min-
         </a>
       </div>
     </div>
-    <div class="cob-x">×</div>
-    <div class="cob-brand">
-      <div class="cob-brand-lbl">GOAT Bar Prep</div>
-      <div class="cob-socials">
-        <a href="https://www.tiktok.com/@goatbarprep" target="_blank" rel="noopener" class="csoc goat-soc" title="TikTok">
-          <svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.34 6.34 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V9.41a8.16 8.16 0 004.77 1.52V7.48a4.85 4.85 0 01-1-.79z"/></svg>
-        </a>
-        <a href="https://www.instagram.com/goatbarprep/" target="_blank" rel="noopener" class="csoc goat-soc" title="Instagram">
-          <svg viewBox="0 0 24 24"><path d="M12 2c2.717 0 3.056.01 4.122.06 1.065.05 1.79.217 2.428.465.66.254 1.216.598 1.772 1.153a4.908 4.908 0 011.153 1.772c.247.637.415 1.363.465 2.428.047 1.066.06 1.405.06 4.122 0 2.717-.01 3.056-.06 4.122-.05 1.065-.218 1.79-.465 2.428a4.883 4.883 0 01-1.153 1.772 4.915 4.915 0 01-1.772 1.153c-.637.247-1.363.415-2.428.465-1.066.047-1.405.06-4.122.06-2.717 0-3.056-.01-4.122-.06-1.065-.05-1.79-.218-2.428-.465a4.89 4.89 0 01-1.772-1.153 4.904 4.904 0 01-1.153-1.772c-.248-.637-.415-1.363-.465-2.428C2.013 15.056 2 14.717 2 12c0-2.717.01-3.056.06-4.122.05-1.066.217-1.79.465-2.428a4.88 4.88 0 011.153-1.772A4.897 4.897 0 015.45 2.525c.638-.248 1.362-.415 2.428-.465C8.944 2.013 9.283 2 12 2zm0 1.802c-2.67 0-2.986.01-4.04.059-.976.045-1.505.207-1.858.344-.466.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.055-.059 1.37-.059 4.04 0 2.67.01 2.986.059 4.04.045.976.207 1.505.344 1.858.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.047 1.37.059 4.04.059 2.67 0 2.987-.01 4.04-.059.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.059-1.37.059-4.04 0-2.67-.01-2.986-.059-4.04-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.055-.048-1.37-.059-4.04-.059zm0 3.063a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 8.468a3.333 3.333 0 100-6.666 3.333 3.333 0 000 6.666zm6.538-8.671a1.2 1.2 0 11-2.4 0 1.2 1.2 0 012.4 0z"/></svg>
-        </a>
-      </div>
-    </div>
   </div>
 </div>
 
 <!-- TOPBAR -->
 <div class="topbar">
-  <div class="appname" style="font-size:.88rem">Your Lawyer Bestie <span>× 🐐 GOAT Bar Prep</span></div>
+  <div class="appname" style="font-size:.88rem">Your Lawyer Bestie</div>
   <div class="cdpill">
     <div class="cds"><div class="cdn" id="cdd">63</div><div class="cdl">Days</div></div>
     <div class="cdsep"></div>
@@ -723,8 +713,8 @@ body{background:var(--bg);color:var(--text);font-family:'Nunito',sans-serif;min-
       <div class="wc" onclick="this.classList.toggle('on')"><div class="wi">👨‍👩‍👧</div><div class="wn">Family Time</div></div>
       <div class="wc" onclick="this.classList.toggle('on')"><div class="wi">🎵</div><div class="wn">Music</div></div>
       <div class="wc" onclick="this.classList.toggle('on')"><div class="wi">📖</div><div class="wn">Reading</div></div>
-      <div class="wc fun" onclick="this.classList.toggle('on')"><div class="wi">📱</div><div class="wn">Doom Scroll / TikTok</div><div class="ftag">🐐 30 min max, bestie</div></div>
-      <div class="wc fun" onclick="this.classList.toggle('on')"><div class="wi">🎬</div><div class="wn">Movies / Reality TV</div><div class="ftag">fully 🐐-approved</div></div>
+      <div class="wc fun" onclick="this.classList.toggle('on')"><div class="wi">📱</div><div class="wn">Doom Scroll / TikTok</div><div class="ftag">⏱️ 30 min max, bestie</div></div>
+      <div class="wc fun" onclick="this.classList.toggle('on')"><div class="wi">🎬</div><div class="wn">Movies / Reality TV</div><div class="ftag">YLB-approved ✓</div></div>
       <div class="wc" onclick="this.classList.toggle('on')" style="border-style:dashed"><div class="wi">➕</div><div class="wn">Other</div></div>
     </div>
   </div>
@@ -839,14 +829,20 @@ body{background:var(--bg);color:var(--text);font-family:'Nunito',sans-serif;min-
   <h1 class="stitle">From the easily distracted<br>to the chronically online.</h1>
   <p class="ssub">Tools that actually work. Select what you're using — your daily schedule will reflect your real workflow.</p>
 
-  <div class="tdisclaimer"><strong>Quick note:</strong> This scheduler is built for <strong>retakers</strong> and anyone supplementing commercial prep with boutique tools. We assume you have — or had — a commercial course (BarBri, Themis, etc.). Mix and match below based on what you're actually opening right now.</div>
+  <div class="tdisclaimer"><strong>Quick note:</strong> Pick your primary study resource above — the schedule maps to NCBE subjects either way. Everything else below is supplemental. Select what you're actually opening right now so your daily blocks reflect your real workflow.</div>
 
-  <div class="tsec"><div class="tseclbl">MBE Courses</div><div class="tgrid">
-    <div class="tcrd on feat" onclick="this.classList.toggle('on')"><div class="ti">🐐</div><div class="tn">GOAT Bar Prep</div><div class="ta">Modules + Q-bank</div></div>
-    <div class="tcrd on" onclick="this.classList.toggle('on')"><div class="ti">🩺</div><div class="tn">BarMD MBE</div><div class="ta">Boutique course</div></div>
-    <div class="tcrd on" onclick="this.classList.toggle('on')"><div class="ti">🎙️</div><div class="tn">Grossman Videos</div><div class="ta">Audio overview</div></div>
-    <div class="tcrd" onclick="this.classList.toggle('on')"><div class="ti">📋</div><div class="tn">Commercial Outline</div><div class="ta">BarBri, Themis, etc.</div></div>
-  </div></div>
+  <div class="tsec">
+    <div class="tseclbl">Primary Study Resource <span style="font-family:'DM Mono',monospace;font-size:.52rem;font-weight:400;color:var(--text-dim);text-transform:none;letter-spacing:0">— pick one</span></div>
+    <div class="tgrid" style="margin-bottom:8px">
+      <div class="tcrd" data-mbe="primary" id="tcrd-goat" onclick="selMBEPrimary(this)"><div class="ti">🐐</div><div class="tn">GOAT Bar Prep</div><div class="ta">Modules + Q-bank</div></div>
+      <div class="tcrd on" data-mbe="primary" id="tcrd-ncbe" onclick="selMBEPrimary(this)"><div class="ti">📋</div><div class="tn">NCBE Outline</div><div class="ta">Themis, Barbri & any program</div></div>
+    </div>
+    <div class="tseclbl" style="margin-top:4px">Additional MBE Tools</div>
+    <div class="tgrid">
+      <div class="tcrd on" onclick="this.classList.toggle('on')"><div class="ti">🩺</div><div class="tn">BarMD MBE</div><div class="ta">Boutique course</div></div>
+      <div class="tcrd on" onclick="this.classList.toggle('on')"><div class="ti">🎙️</div><div class="tn">Grossman Videos</div><div class="ta">Audio overview</div></div>
+    </div>
+  </div>
 
   <div class="tsec"><div class="tseclbl">MBE Q-Banks</div><div class="tgrid">
     <div class="tcrd on" onclick="this.classList.toggle('on')"><div class="ti">🎯</div><div class="tn">AdaptiBar MBE</div><div class="ta">Adaptive Q-bank</div></div>
@@ -1113,7 +1109,13 @@ function go(n){
   document.getElementById(`s${cur}`).classList.add('active');
   const cn=document.getElementById(`n${cur}`);cn.classList.add('active');cn.classList.remove('done');
   if(n===4)renderS();
-  if(n===7){buildWellnessBlocks();buildCommuteBlocks();}
+  if(n===7){
+    // Re-detect which week is "now" using current strategy + dates before rendering
+    const _wm=computeDynamicWEEK_META();
+    const _now=_wm.find(m=>m.status==='now')||_wm[0];
+    if(_now&&_now.entry?.type!=='exam') currentWeek=_now.wk;
+    renderCurrentWeek();
+  }
   updUI();
 }
 function next(){if(cur<TOT)go(cur+1);}
@@ -1141,6 +1143,11 @@ const MEE_NOTES={
   la:'<strong style="color:var(--red-dk)">Louisiana uses the MEE</strong> plus Louisiana-specific civil law essays (Successions, Matrimonial Regimes, Property). Additional MEE subjects: Business Associations, Family Law, Trusts & Estates, Conflict of Laws, Admin Law — scheduled in your final 2–3 weeks.',
   fl:'<strong style="color:var(--red-dk)">Florida does not use the MEE.</strong> Florida essays cover Florida-specific subjects including Florida Civil Procedure, Florida Constitutional Law, and other state bar-tested topics. Essay scheduling adjusts for the FL format — no standard MEE subjects apply.'
 };
+// MBE primary resource — radio behavior, always one selected
+function selMBEPrimary(el){
+  document.querySelectorAll('[data-mbe="primary"]').forEach(c=>c.classList.remove('on'));
+  el.classList.add('on');
+}
 function selJ(el,t){document.querySelectorAll('.jcard:not(.soon)').forEach(c=>c.classList.remove('active'));el.classList.add('active');document.getElementById('uberow').style.display=t==='ube'?'block':'none';const n=document.getElementById('mee-note');if(n)n.innerHTML=MEE_NOTES[t]||MEE_NOTES.ube;}
 function setV(v,el){
   document.querySelectorAll('.vopt').forEach(o=>o.classList.remove('active'));
@@ -1203,7 +1210,7 @@ let scheduleBlocks = [
   {id:11, day:3, time:'6pm',          title:'Crim Law IV — General Principles',             detail:['Review BLL outline + Book of Shame'],  cat:'study-cr', mcqs:8,  duration:120, essays:0},
   // Friday
   {id:13, day:4, time:'6am–2pm',      title:'💼 Work',                                      detail:[],                                      cat:'work',     mcqs:0,  duration:480, essays:0},
-  {id:14, day:4, time:'6pm · Light',  title:'Crim Law V — Constitutional Protections',     detail:['GOAT only — hard stop 8pm ✋'],         cat:'study-cr', mcqs:8,  duration:120, essays:0, light:true},
+  {id:14, day:4, time:'6pm · Light',  title:'Crim Law V — Constitutional Protections',     detail:['Hard stop 8pm ✋'],         cat:'study-cr', mcqs:8,  duration:120, essays:0, light:true},
   // Saturday
   {id:16, day:5, time:'9:30am – 5pm', title:'📚 LIBRARY DAY',               detail:['25–30 mixed MCQs','Evidence + Crim Law','2 MEE essays timed','Book of Shame deep dive'], cat:'library', mcqs:25, duration:450, essays:2},
   // Sunday
@@ -1314,11 +1321,34 @@ function getWeekSubjectMap(){
     for(let i=0;i<total;i++) map.push({type:'final',subj:{name:'Final Review + MEE/MPT',abbr:'CR'},cat:'study-cr'});
     return map;
   }
-  const base=Math.max(1,Math.floor(studyWks/active.length));
-  const extra=studyWks-(base*active.length);
+  // Study sessions happen every weekday (Mon-Fri) regardless of work schedule.
+  // Work days affect session intensity, not whether a session exists.
+  // Allocate weeks per subject to cover all its modules given 5 study days per full week.
+  const startIdx=startDayIdx();
+  const wpw=5; // Mon–Fri: always 5 study sessions per full week
+  const week1Days=[0,1,2,3,4].filter(d=>d>=startIdx).length;
   active.forEach((subj,idx)=>{
-    const wks=base+(idx<extra?1:0);
-    for(let w=0;w<Math.max(1,wks);w++) map.push({type:'study',subj,cat:SUBJ_CAT[subj.abbr]||'study-cr'});
+    const modCount=GOAT_MODULES[subj.abbr]?.length||5;
+    let weeksNeeded;
+    if(idx===0){
+      // Subject 1 starts in the (possibly partial) week 1 — give it extra weeks
+      // to cover any modules that don't fit in the shortened first week
+      const extraDaysNeeded=Math.max(0,modCount-week1Days);
+      weeksNeeded=1+Math.ceil(extraDaysNeeded/wpw);
+    } else {
+      weeksNeeded=Math.max(1,Math.ceil(modCount/wpw));
+    }
+    for(let w=0;w<weeksNeeded;w++) map.push({type:'study',subj,cat:SUBJ_CAT[subj.abbr]||'study-cr'});
+  });
+  // Calculate dayOffset per entry so modules continue across weeks instead of restarting.
+  // dayOffset = how many study days this subject has already had in prior weeks.
+  const subjDayAccum={};
+  map.forEach((entry,mapIdx)=>{
+    if(entry.type!=='study') return;
+    const abbr=entry.subj.abbr;
+    if(!(abbr in subjDayAccum)) subjDayAccum[abbr]=0;
+    entry.dayOffset=subjDayAccum[abbr];
+    subjDayAccum[abbr]+=(mapIdx===0?week1Days:wpw);
   });
   for(let i=0;i<finalPush;i++) map.push({type:'final',subj:{name:'Final Push + MEE/MPT',abbr:'CR'},cat:'library'});
   return map.slice(0,total);
@@ -1329,10 +1359,12 @@ function computeDynamicWEEK_META(){
   const map=getWeekSubjectMap().map((entry,i)=>{
     const ws=getWeekMonday(i+1); // Monday of this week
     const we=new Date(ws);we.setDate(ws.getDate()+6);
-    const sameMonth=ws.getMonth()===we.getMonth();
+    // For week 1, display from actual study start date (not the Monday before it)
+    const dispWs=i===0?getStudyStart():ws;
+    const sameMonth=dispWs.getMonth()===we.getMonth();
     const dates=sameMonth
-      ?`${MO[ws.getMonth()]} ${ws.getDate()}–${we.getDate()}`
-      :`${MO[ws.getMonth()]} ${ws.getDate()}–${MO[we.getMonth()]} ${we.getDate()}`;
+      ?`${MO[dispWs.getMonth()]} ${dispWs.getDate()}–${we.getDate()}`
+      :`${MO[dispWs.getMonth()]} ${dispWs.getDate()}–${MO[we.getMonth()]} ${we.getDate()}`;
     return{wk:i+1,subj:entry.subj.name,dates,entry,
       status:today>we?'done':today>=ws&&today<=we?'now':'upcoming'};
   });
@@ -1357,56 +1389,80 @@ function generateWeekBlocks(wk){
   const [weh,wem]=(wet+':00').split(':').map(Number);
   const workDurMin=(weh*60+wem)-(wsh*60+wsm);
   const workStr=fmtTime(wsh*60+wsm)+'–'+fmtTime(weh*60+wem);
-  let workDays=[...document.querySelectorAll('.wdays .wday')].map((el,i)=>el.classList.contains('on')?i:-1).filter(i=>i>=0);
-  // For week 1: only include days on/after the chosen start day
-  if(wk===1){const minDay=startDayIdx();workDays=workDays.filter(d=>d>=minDay);}
+  const minDay=wk===1?startDayIdx():0;
+  // workDays = days the user has a job (get work block + lighter evening study)
+  const allWorkDays=[...document.querySelectorAll('.wdays .wday')].map((el,i)=>el.classList.contains('on')?i:-1).filter(i=>i>=0);
+  const workDays=allWorkDays.filter(d=>d>=minDay);
+  // studyDays = ALL weekdays Mon–Fri (every day gets a study session, not just work days)
+  const studyDays=[0,1,2,3,4].filter(d=>d>=minDay);
   const sdEl=document.querySelector('#wdst .pill.active');
   const studyStart=(document.getElementById('wdst-custom')?.value?.trim()||sdEl?.textContent?.trim()||'6pm').replace(/[^0-9:apm]/gi,'').trim()||'6pm';
   const mcqWkday=parseInt(document.getElementById('sldq')?.value)||8;
   const mcqLib=parseInt(document.getElementById('slhq')?.value)||25;
   const blocks=[];let id=wk*1000;
-  // Work blocks
+  // Work blocks on job days only
   workDays.forEach(day=>{
     blocks.push({id:id++,day,time:workStr,title:'💼 Work',detail:[],cat:'work',mcqs:0,duration:Math.max(0,workDurMin),essays:0});
   });
   if(entry.type==='final'){
-    workDays.forEach((day,i)=>{
-      const isLast=i===workDays.length-1;
-      blocks.push({id:id++,day,time:studyStart+(isLast?' · Light':''),
+    // Final push: every weekday gets a study session
+    studyDays.forEach((day,i)=>{
+      const isWork=workDays.includes(day);
+      const isLast=i===studyDays.length-1;
+      // Work days: lighter evening session. Off days: fuller daytime session.
+      blocks.push({id:id++,day,
+        time:isWork?studyStart+(isLast?' · Light':''):(isLast?'10am · Light':'10am'),
         title:`Final Review · ${ROMAN[i]||'V'}`,detail:['MEE essays + MBE mixed drill','Book of Shame review'],
-        cat:'study-cr',mcqs:mcqWkday,duration:isLast?90:120,essays:i<2?1:0,...(isLast?{light:true}:{})});
+        cat:'study-cr',mcqs:isWork?mcqWkday:mcqWkday+4,
+        duration:isWork?(isLast?60:90):(isLast?120:150),
+        essays:i<2?1:0,...(isLast?{light:true}:{})});
     });
     blocks.push({id:id++,day:5,time:'9:30am – 5pm',title:'📚 FINAL PUSH — Library Day',
       detail:[`${mcqLib+5}–${mcqLib+10} mixed MCQs`,'All subjects rolling review','3 timed MEE essays','MPT practice'],
       cat:'library',mcqs:mcqLib+5,duration:450,essays:3});
   } else {
     const mods=GOAT_MODULES[entry.subj.abbr]||[];
-    workDays.forEach((day,i)=>{
-      const isLast=i===workDays.length-1;
-      // Use the real GOAT module title; cycle if more workdays than modules
+    // Every weekday gets a study session — work days lighter (after work), off days fuller
+    studyDays.forEach((day,i)=>{
+      const isWork=workDays.includes(day);
+      const isLast=i===studyDays.length-1;
       const modTitle=mods.length
-        ?mods[i%mods.length]
+        ?mods[((entry.dayOffset||0)+i)%mods.length]
         :`${entry.subj.name} · Section ${ROMAN[i]||ROMAN[ROMAN.length-1]}`;
-      blocks.push({id:id++,day,time:studyStart+(isLast?' · Light':''),
+      blocks.push({id:id++,day,
+        time:isWork?studyStart+(isLast?' · Light':''):(isLast?'10am · Light':'10am'),
         title:modTitle,
         detail:['Review BLL outline + Book of Shame'],
-        cat:entry.cat,mcqs:mcqWkday,duration:isLast?90:120,essays:0,...(isLast?{light:true}:{})});
+        cat:entry.cat,
+        mcqs:isWork?mcqWkday:mcqWkday+4,
+        duration:isWork?(isLast?60:90):(isLast?120:150),
+        essays:0,...(isLast?{light:true}:{})});
     });
-    const minDay=wk===1?startDayIdx():0;
     if(5>=minDay) blocks.push({id:id++,day:5,time:'9:30am – 5pm',title:'📚 LIBRARY DAY',
       detail:[`${mcqLib}–${mcqLib+5} mixed MCQs`,`${entry.subj.name} + rolling review`,'2 timed MEE essays','Book of Shame deep dive'],
       cat:'library',mcqs:mcqLib,duration:450,essays:2});
-    const nextEntry=map[wk];
-    if(nextEntry&&nextEntry.type!=='final'&&6>=minDay){
-      // Use the real first module title for the next subject's preview
-      const nextMods=GOAT_MODULES[nextEntry.subj.abbr]||[];
-      const previewTitle=nextMods.length
-        ?`Preview: ${nextMods[0]}`
-        :`Preview: ${nextEntry.subj.name} I`;
-      blocks.push({id:id++,day:6,time:'3pm · Light',
-        title:previewTitle,
-        detail:['Flashcards + light preview'],
-        cat:SUBJ_CAT[nextEntry.subj.abbr]||'study-cp',mcqs:8,duration:60,essays:0,light:true});
+    if(6>=minDay){
+      if(wk===1&&minDay===6){
+        // Study start IS Sunday — show real week 1 content on the start day
+        const mod0=mods.length?mods[(entry.dayOffset||0)%mods.length]:`${entry.subj.name} I`;
+        const isWork=workDays.includes(6);
+        blocks.push({id:id++,day:6,
+          time:isWork?studyStart+' · Light':'10am · Light',
+          title:mod0,detail:['Review BLL outline + Book of Shame'],
+          cat:entry.cat,mcqs:isWork?mcqWkday:mcqWkday+4,duration:90,essays:0,light:true});
+      } else {
+        const nextEntry=map[wk];
+        if(nextEntry&&nextEntry.type!=='final'){
+          const nextMods=GOAT_MODULES[nextEntry.subj.abbr]||[];
+          const previewTitle=nextMods.length
+            ?`Preview: ${nextMods[0]}`
+            :`Preview: ${nextEntry.subj.name} I`;
+          blocks.push({id:id++,day:6,time:'3pm · Light',
+            title:previewTitle,
+            detail:['Flashcards + light preview'],
+            cat:SUBJ_CAT[nextEntry.subj.abbr]||'study-cp',mcqs:8,duration:60,essays:0,light:true});
+        }
+      }
     }
   }
   return blocks;
@@ -1606,14 +1662,14 @@ function buildWellnessBlocks(){
     else if(n.includes('tiktok')||n.includes('doom')||n.includes('scroll')){
       workDays.slice(0,3).forEach(day=>{
         scheduleBlocks.push({id:nextId++,day,time:'8:30pm',
-          title:`📱 TikTok / Scroll`,detail:['30 min max 🐐'],cat:'wellness',mcqs:0,duration:30,essays:0});
+          title:`📱 TikTok / Scroll`,detail:['30 min max ⏱️'],cat:'wellness',mcqs:0,duration:30,essays:0});
       });
     }
     // ── Movies / Reality TV → once/week, Friday or weekend
     else if(n.includes('movie')||n.includes('tv')||n.includes('reality')){
       const tvDay=workDays.includes(4)?4:(offDays[0]??SAT);
       scheduleBlocks.push({id:nextId++,day:tvDay,time:'7pm',
-        title:`🎬 Movie / TV`,detail:['Fully 🐐-approved'],cat:'wellness',mcqs:0,duration:90,essays:0});
+        title:`🎬 Movie / TV`,detail:['Protected time ✓'],cat:'wellness',mcqs:0,duration:90,essays:0});
     }
     // ── Generic / Other → 2x/week
     else{
@@ -1681,7 +1737,7 @@ function renderDayView(idx){
   const blocks=scheduleBlocks.filter(b=>b.day===idx).sort((a,b)=>timeToMins(a.time)-timeToMins(b.time));
   const studyB=blocks.filter(b=>b.cat.startsWith('study')||b.cat==='library');
   const mainTitle=studyB.length?studyB[0].title:(blocks.length?'Life Day':'Rest Day');
-  const mainSub=studyB.length?`🐐 GOAT Bar Prep · ${studyB[0].mcqs||0} MCQs · ${studyB.length} block${studyB.length>1?'s':''}`:
+  const mainSub=studyB.length?`📚 ${studyB[0].mcqs||0} MCQs · ${studyB.length} block${studyB.length>1?'s':''}`:
     'Protected time — no studying';
   const fmtD=m=>m>=60?`${Math.floor(m/60)}h${m%60?` ${m%60}m`:''}`:m+'min';
   const items=blocks.map(b=>{
@@ -1757,7 +1813,7 @@ function renderMonthView(){
         <span style="font-family:'DM Mono',monospace;font-size:.52rem;color:var(--text-dim);margin-left:7px">${m.dates}</span>
         <div class="mrow-expand" id="mrx-${m.wk}" style="display:none">
           <div class="mrow-days">Mon–Fri: 💼📖 &nbsp;·&nbsp; Sat: 📚 Library Day &nbsp;·&nbsp; Sun: 🌿📖 Preview</div>
-          <div class="mrow-goat">🐐 GOAT Bar Prep · ${m.subj} · ${mcq} MCQs/day · 2 MEE essays Sat</div>
+          <div class="mrow-goat">📚 ${m.subj} · ${mcq} MCQs/day · 2 timed MEE essays</div>
         </div>
       </div>
       <div style="display:flex;align-items:center;gap:7px">
@@ -1793,7 +1849,7 @@ function renderCurrentWeek(){
       <div style="font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--text);margin-bottom:8px">Bar Exam Week</div>
       <div style="font-size:.85rem;color:var(--text-mid);line-height:1.7;max-width:380px;margin:0 auto">
         No studying. No new content. Sleep, eat, and trust your preparation.<br>
-        <strong style="color:var(--red)">You've got this. 🐐</strong>
+        <strong style="color:var(--red)">You've got this. 💪</strong>
       </div>
     </div>`;
     statIds.forEach(id=>{const e=document.getElementById(id);if(e)e.textContent='🎓';});
@@ -1846,7 +1902,7 @@ function getWeekEmojiSummary(){
 // ── EXPORT FUNCTIONS ──────────────────────────────────────────────────────────
 function exportToGCal(){
   const base=new Date('2026-05-25'); // Monday of week 2
-  const lines=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//YLB GOAT Scheduler//EN','CALSCALE:GREGORIAN'];
+  const lines=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//YLB Bar Prep Scheduler//EN','CALSCALE:GREGORIAN'];
   scheduleBlocks.forEach(b=>{
     const d=new Date(base);d.setDate(d.getDate()+b.day);
     const sm=timeToMins(b.time);if(sm===9999)return;
@@ -1856,21 +1912,21 @@ function exportToGCal(){
     const ts=`T${p(Math.floor(sm/60))}${p(sm%60)}00`;
     const te=`T${p(Math.floor(em/60)%24)}${p(em%60)}00`;
     const det=(b.detail||[]).join(' | ')+(b.mcqs?` | ${b.mcqs} MCQs`:'');
-    lines.push('BEGIN:VEVENT',`UID:ylb-${b.id}-${Date.now()}@goatbarprep`,
+    lines.push('BEGIN:VEVENT',`UID:ylb-${b.id}-${Date.now()}@ylbscheduler`,
       `DTSTART:${ds}${ts}`,`DTEND:${ds}${te}`,
       `SUMMARY:${b.title}`,`DESCRIPTION:${det}`,'END:VEVENT');
   });
   lines.push('END:VCALENDAR');
   const a=document.createElement('a');
   a.href=URL.createObjectURL(new Blob([lines.join('\r\n')],{type:'text/calendar'}));
-  a.download='goat-bar-wk2.ics';a.click();
+  a.download='ylb-schedule.ics';a.click();
 }
 
 function printWeek(){window.print();}
 
 function copyToNotion(){
   const names=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
-  const out=['# 📚 Bar Prep — Week 2: Criminal Law','','*The Busy GOAT Scheduler × YLB*',''];
+  const out=['# 📚 Bar Prep — Week 2: Criminal Law','','*YLB Bar Prep Scheduler*',''];
   DAY_HEADERS.forEach((h,i)=>{
     const blocks=scheduleBlocks.filter(b=>b.day===i).sort((a,b)=>timeToMins(a.time)-timeToMins(b.time));
     if(!blocks.length)return;
@@ -1896,7 +1952,7 @@ function saveSettings(){
 }
 
 function doRegenerate(){
-  if(!confirm('🐐 Rebuild this week from your current settings?\n\nRe-reads your work schedule (Step 2), subject order (Step 4), and study preferences (Step 5).'))return;
+  if(!confirm('Rebuild this week from your current settings?\n\nRe-reads your work schedule (Step 2), subject order (Step 4), and study preferences (Step 5).'))return;
 
   // ── Step 2: work schedule ──────────────────────────────────────────────────
   const wst=document.getElementById('wst')?.value||'06:00';
@@ -1941,7 +1997,7 @@ function doRegenerate(){
   workDays.forEach((day,i)=>{
     const isLast=i===workDays.length-1;
     const detail=['Review BLL outline + Book of Shame'];
-    if(isLast) detail.push('GOAT only — hard stop 8pm ✋');
+    if(isLast) detail.push('Hard stop 8pm ✋');
     scheduleBlocks.push({id:id++,day,
       time:studyStart+(isLast?' · Light':''),
       title:`${curSubj.name} · ${ROMAN[i]||ROMAN[ROMAN.length-1]}`,
@@ -2113,16 +2169,16 @@ function checkConflict(targetDay,durMin,excludeId){
   const isStudy=moving?.cat?.startsWith('study')||moving?.cat==='library';
   if(isStudy){
     const cnt=dayBlks.filter(b=>b.cat.startsWith('study')||b.cat==='library').length;
-    if(cnt>=3) return{msg:`🚨 Three study blocks is already a <strong>full GOAT day</strong>. You're adding a fourth. That's giving <em>overcaffeinated-2L-who-hasn't-slept energy</em>. Proceed?`};
+    if(cnt>=3) return{msg:`🚨 Three study blocks is already a <strong>full day</strong>. You're adding a fourth. That's giving <em>overcaffeinated-2L-who-hasn't-slept energy</em>. Proceed?`};
   }
   const totalMin=dayBlks.reduce((s,b)=>s+(b.duration||0),0)+durMin;
   const sleepMin=(24*60)-totalMin;
   if(sleepMin<420){
     const sh=(sleepMin/60).toFixed(1);
     const msgs=[
-      `😴 Bestie. That's <strong>${sh} hours of sleep</strong>. GOAT prep works best when your brain isn't running on fumes — and the exam won't grade you harder than exhaustion will. You sure?`,
-      `💀 The math ain't mathing. You'd sleep <strong>${sh} hours</strong> on this day. Your GOAT modules will still be there after some rest. Proceed anyway?`,
-      `🐐 Dedication: noted. Sleep debt: also noted. <strong>${sh}h of sleep</strong> is giving final-week energy in week three. Hydrate, then click "do it anyway."`,
+      `😴 Bestie. That's <strong>${sh} hours of sleep</strong>. Bar prep works best when your brain isn't running on fumes — and the exam won't grade you harder than exhaustion will. You sure?`,
+      `💀 The math ain't mathing. You'd sleep <strong>${sh} hours</strong> on this day. Your modules will still be there after some rest. Proceed anyway?`,
+      `⚠️ Dedication: noted. Sleep debt: also noted. <strong>${sh}h of sleep</strong> is giving final-week energy in week three. Hydrate, then click "do it anyway."`,
     ];
     return{msg:msgs[Math.floor(Math.random()*msgs.length)]};
   }
@@ -2395,7 +2451,7 @@ else{buildWellnessBlocks();buildCommuteBlocks();}
       <div id="bed-warn-msg"></div>
       <div style="display:flex;gap:8px;margin-top:11px">
         <button class="btn btn-ghost" style="font-size:.75rem;padding:7px 13px" onclick="cancelWarn()">↩ Go back</button>
-        <button style="background:var(--red-mid);color:var(--red-dk);border:none;border-radius:var(--r);font-family:'Nunito',sans-serif;font-size:.75rem;font-weight:700;padding:7px 13px;cursor:pointer;transition:all var(--tr)" onmouseover="this.style.background='var(--red-dim)'" onmouseout="this.style.background='var(--red-mid)'" onclick="saveAnyway()">Do it anyway 🐐</button>
+        <button style="background:var(--red-mid);color:var(--red-dk);border:none;border-radius:var(--r);font-family:'Nunito',sans-serif;font-size:.75rem;font-weight:700;padding:7px 13px;cursor:pointer;transition:all var(--tr)" onmouseover="this.style.background='var(--red-dim)'" onmouseout="this.style.background='var(--red-mid)'" onclick="saveAnyway()">Do it anyway 💪</button>
       </div>
     </div>
 
