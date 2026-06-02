@@ -922,7 +922,13 @@ body{background:var(--bg);color:var(--text);font-family:'Nunito',sans-serif;min-
       <div class="sc2"><div class="sv" id="stat-study">—</div><div class="sl">Study hrs this week</div></div>
       <div class="sc2"><div class="sv" id="stat-mcqs">—</div><div class="sl">Total MCQs</div></div>
       <div class="sc2"><div class="sv" id="stat-essays">—</div><div class="sl">MEE essays</div></div>
-      <div class="sc2"><div class="sv" id="stat-wellness" style="color:var(--green)">—</div><div class="sl">Wellness locked in</div></div>
+      <div class="sc2"><div class="sv" id="stat-wellness" style="color:var(--green)">—</div><div class="sl">Wellness hrs · <button onclick="resetWellnessBlocks()" style="background:none;border:none;color:var(--text-dim);font-size:.6rem;font-family:'DM Mono',monospace;cursor:pointer;padding:0;text-decoration:underline;text-underline-offset:2px" title="Restore all deleted wellness blocks">reset</button></div></div>
+    </div>
+
+    <!-- Overload warning — shown when scheduled study hours exceed available hours from Step 2 -->
+    <div id="overload-warn" style="display:none;background:#FEF9EC;border:1px solid #F0C14B;border-radius:var(--r);padding:11px 15px;margin-bottom:14px;font-size:.79rem;line-height:1.55;color:#7D5A00">
+      <strong>⚠️ Schedule may be overloaded.</strong> <span id="overload-msg"></span>
+      <div style="font-size:.7rem;margin-top:4px;color:#A07820">Tip: go back to Step 2 and update your availability, or reduce MCQ counts in Step 5.</div>
     </div>
 
     <div class="edit-tip">
@@ -1110,7 +1116,8 @@ function go(n){
   const cn=document.getElementById(`n${cur}`);cn.classList.add('active');cn.classList.remove('done');
   if(n===4)renderS();
   if(n===7){
-    // Re-detect which week is "now" using current strategy + dates before rendering
+    // Rebuild day module map from current inputs, then detect "now" week and render
+    rebuildDayModuleMap();
     const _wm=computeDynamicWEEK_META();
     const _now=_wm.find(m=>m.status==='now')||_wm[0];
     if(_now&&_now.entry?.type!=='exam') currentWeek=_now.wk;
@@ -1280,6 +1287,16 @@ function getScheduleEndDate(){
   return lastSat;
 }
 
+function getModuleCutoffDate(){
+  // Hard cutoff: all subject modules must finish 18 days before the exam.
+  // For a July 28 exam that's July 10. Scales automatically for any exam date.
+  const exam=getExamDate();
+  const cutoff=new Date(exam);
+  cutoff.setDate(exam.getDate()-18);
+  cutoff.setHours(23,59,59,0);
+  return cutoff;
+}
+
 function getTotalWeeks(){
   // Count from the Monday of week 1 (not the exact start date)
   // so partial week 1 still counts as a full week
@@ -1354,24 +1371,91 @@ function getWeekSubjectMap(){
   return map.slice(0,total);
 }
 
+// ── DAY MODULE MAP ──────────────────────────────────────────────────────────
+// Maps each calendar date string (YYYY-MM-DD) to an array of module objects.
+// Work days get 1 module slot; off days get 2. Drains to cutoff date.
+// Empty array [] = post-queue review day (modules exhausted, cutoff not yet hit).
+let dayModuleMap=new Map();
+
+function rebuildDayModuleMap(){
+  dayModuleMap.clear();
+  const active=getActiveSubjs();
+  if(!active.length) return;
+  // Flat ordered module queue across all active subjects
+  const queue=[];
+  active.forEach(subj=>{
+    const mods=GOAT_MODULES[subj.abbr]||[];
+    mods.forEach((title,i)=>{
+      queue.push({modTitle:title||`${subj.name} ${['I','II','III','IV','V'][i]||''}`,
+        cat:SUBJ_CAT[subj.abbr]||'study-cr',abbr:subj.abbr,subjName:subj.name});
+    });
+  });
+  const allWorkDays=[...document.querySelectorAll('.wdays .wday')]
+    .map((el,i)=>el.classList.contains('on')?i:-1).filter(i=>i>=0);
+  const cutoff=getModuleCutoffDate();
+  const d=new Date(getStudyStart());d.setHours(12,0,0,0);
+  let qIdx=0;
+  while(d<=cutoff){
+    const dow=d.getDay();
+    const dayIdx=dow===0?6:dow-1; // 0=Mon…6=Sun
+    const dateStr=d.toISOString().split('T')[0];
+    if(qIdx<queue.length){
+      const isWork=allWorkDays.includes(dayIdx);
+      const slots=isWork?1:2;
+      const mods=[];
+      for(let s=0;s<slots&&qIdx<queue.length;s++) mods.push(queue[qIdx++]);
+      dayModuleMap.set(dateStr,mods);
+    } else {
+      // Queue exhausted — mark remaining days as review (MEE/MBE drill)
+      dayModuleMap.set(dateStr,[]);
+    }
+    d.setDate(d.getDate()+1);
+  }
+}
+
+// Returns the 1-2 primary subject names active in a given week (for month labels)
+function getWeekSubjectsFromMap(wk){
+  const base=getWeekMonday(wk);
+  const counts={};
+  for(let d=0;d<7;d++){
+    const dd=new Date(base);dd.setDate(base.getDate()+d);dd.setHours(12,0,0,0);
+    const ds=dd.toISOString().split('T')[0];
+    (dayModuleMap.get(ds)||[]).forEach(m=>{
+      if(m.subjName) counts[m.subjName]=(counts[m.subjName]||0)+1;
+    });
+  }
+  return Object.entries(counts).sort((a,b)=>b[1]-a[1]).slice(0,2).map(([n])=>n);
+}
+
 function computeDynamicWEEK_META(){
   const today=new Date();today.setHours(12,0,0,0);
-  const map=getWeekSubjectMap().map((entry,i)=>{
-    const ws=getWeekMonday(i+1); // Monday of this week
+  const total=getTotalWeeks();
+  const cutoff=getModuleCutoffDate();
+  const map=[];
+  for(let i=0;i<total;i++){
+    const wk=i+1;
+    const ws=getWeekMonday(wk);
     const we=new Date(ws);we.setDate(ws.getDate()+6);
-    // For week 1, display from actual study start date (not the Monday before it)
     const dispWs=i===0?getStudyStart():ws;
     const sameMonth=dispWs.getMonth()===we.getMonth();
     const dates=sameMonth
       ?`${MO[dispWs.getMonth()]} ${dispWs.getDate()}–${we.getDate()}`
       :`${MO[dispWs.getMonth()]} ${dispWs.getDate()}–${MO[we.getMonth()]} ${we.getDate()}`;
-    return{wk:i+1,subj:entry.subj.name,dates,entry,
-      status:today>we?'done':today>=ws&&today<=we?'now':'upcoming'};
-  });
-  // Always append an exam week entry — hard stop, no study, rest only
+    const status=today>we?'done':today>=ws&&today<=we?'now':'upcoming';
+    const isFinal=ws>cutoff;
+    let subjLabel,entryType;
+    if(isFinal){
+      subjLabel='⚡ MEE/MBE Final Review';entryType='final';
+    } else {
+      const weekSubjs=getWeekSubjectsFromMap(wk);
+      subjLabel=weekSubjs.length?weekSubjs.join(' / '):'Study Week';
+      entryType='study';
+    }
+    map.push({wk,subj:subjLabel,dates,entry:{type:entryType},status});
+  }
+  // Exam week entry
   const lastSat=getScheduleEndDate();
   const examMon=new Date(lastSat);examMon.setDate(lastSat.getDate()+2);
-  const exam=getExamDate();
   const examDates=`${MO[examMon.getMonth()]} ${examMon.getDate()} — EXAM`;
   const isExamNow=today>=examMon;
   map.push({wk:map.length+1,subj:'🎓 Bar Exam — Rest Only',dates:examDates,
@@ -1380,90 +1464,80 @@ function computeDynamicWEEK_META(){
 }
 
 function generateWeekBlocks(wk){
-  const map=getWeekSubjectMap();
-  const entry=map[wk-1];if(!entry)return[];
-  const ROMAN=['I','II','III','IV','V','VI','VII'];
+  // Day-based scheduling: read modules from dayModuleMap (built by rebuildDayModuleMap).
+  // Work days → 1 module slot + lighter evening study.
+  // Off days → 2 module slots + fuller daytime study.
+  // After module cutoff (July 10) → MEE/MBE review every day.
+  const weekBase=getWeekMonday(wk);
+  const cutoff=getModuleCutoffDate();
+  const minDay=wk===1?startDayIdx():0;
+  const allWorkDays=[...document.querySelectorAll('.wdays .wday')]
+    .map((el,i)=>el.classList.contains('on')?i:-1).filter(i=>i>=0);
+  const workDays=allWorkDays.filter(d=>d>=minDay);
   const wst=document.getElementById('wst')?.value||'06:00';
   const wet=document.getElementById('wet')?.value||'14:00';
   const [wsh,wsm]=(wst+':00').split(':').map(Number);
   const [weh,wem]=(wet+':00').split(':').map(Number);
   const workDurMin=(weh*60+wem)-(wsh*60+wsm);
   const workStr=fmtTime(wsh*60+wsm)+'–'+fmtTime(weh*60+wem);
-  const minDay=wk===1?startDayIdx():0;
-  // workDays = days the user has a job (get work block + lighter evening study)
-  const allWorkDays=[...document.querySelectorAll('.wdays .wday')].map((el,i)=>el.classList.contains('on')?i:-1).filter(i=>i>=0);
-  const workDays=allWorkDays.filter(d=>d>=minDay);
-  // studyDays = ALL weekdays Mon–Fri (every day gets a study session, not just work days)
-  const studyDays=[0,1,2,3,4].filter(d=>d>=minDay);
   const sdEl=document.querySelector('#wdst .pill.active');
   const studyStart=(document.getElementById('wdst-custom')?.value?.trim()||sdEl?.textContent?.trim()||'6pm').replace(/[^0-9:apm]/gi,'').trim()||'6pm';
   const mcqWkday=parseInt(document.getElementById('sldq')?.value)||8;
-  const mcqLib=parseInt(document.getElementById('slhq')?.value)||25;
   const blocks=[];let id=wk*1000;
-  // Work blocks on job days only
+  // Work blocks (job days only)
   workDays.forEach(day=>{
     blocks.push({id:id++,day,time:workStr,title:'💼 Work',detail:[],cat:'work',mcqs:0,duration:Math.max(0,workDurMin),essays:0});
   });
-  if(entry.type==='final'){
-    // Final push: every weekday gets a study session
-    studyDays.forEach((day,i)=>{
-      const isWork=workDays.includes(day);
-      const isLast=i===studyDays.length-1;
-      // Work days: lighter evening session. Off days: fuller daytime session.
-      blocks.push({id:id++,day,
+  const isFinalPushWeek=weekBase>cutoff;
+  const allDays=[0,1,2,3,4,5,6].filter(d=>d>=minDay);
+  if(isFinalPushWeek){
+    // Final push weeks: MEE/MBE review every day, no new modules
+    allDays.forEach((dayIdx,i)=>{
+      const isWork=workDays.includes(dayIdx);
+      const isLast=i===allDays.length-1;
+      blocks.push({id:id++,day:dayIdx,
         time:isWork?studyStart+(isLast?' · Light':''):(isLast?'10am · Light':'10am'),
-        title:`Final Review · ${ROMAN[i]||'V'}`,detail:['MEE essays + MBE mixed drill','Book of Shame review'],
-        cat:'study-cr',mcqs:isWork?mcqWkday:mcqWkday+4,
-        duration:isWork?(isLast?60:90):(isLast?120:150),
-        essays:i<2?1:0,...(isLast?{light:true}:{})});
-    });
-    blocks.push({id:id++,day:5,time:'9:30am – 5pm',title:'📚 FINAL PUSH — Library Day',
-      detail:[`${mcqLib+5}–${mcqLib+10} mixed MCQs`,'All subjects rolling review','3 timed MEE essays','MPT practice'],
-      cat:'library',mcqs:mcqLib+5,duration:450,essays:3});
-  } else {
-    const mods=GOAT_MODULES[entry.subj.abbr]||[];
-    // Every weekday gets a study session — work days lighter (after work), off days fuller
-    studyDays.forEach((day,i)=>{
-      const isWork=workDays.includes(day);
-      const isLast=i===studyDays.length-1;
-      const modTitle=mods.length
-        ?mods[((entry.dayOffset||0)+i)%mods.length]
-        :`${entry.subj.name} · Section ${ROMAN[i]||ROMAN[ROMAN.length-1]}`;
-      blocks.push({id:id++,day,
-        time:isWork?studyStart+(isLast?' · Light':''):(isLast?'10am · Light':'10am'),
-        title:modTitle,
-        detail:['Review BLL outline + Book of Shame'],
-        cat:entry.cat,
+        title:'⚡ MEE/MBE Review',
+        detail:['Mixed MCQ drill','Timed MEE essay practice','Book of Shame review'],
+        cat:'study-cr',
         mcqs:isWork?mcqWkday:mcqWkday+4,
         duration:isWork?(isLast?60:90):(isLast?120:150),
-        essays:0,...(isLast?{light:true}:{})});
+        essays:isWork?0:1,...(isLast?{light:true}:{})});
     });
-    if(5>=minDay) blocks.push({id:id++,day:5,time:'9:30am – 5pm',title:'📚 LIBRARY DAY',
-      detail:[`${mcqLib}–${mcqLib+5} mixed MCQs`,`${entry.subj.name} + rolling review`,'2 timed MEE essays','Book of Shame deep dive'],
-      cat:'library',mcqs:mcqLib,duration:450,essays:2});
-    if(6>=minDay){
-      if(wk===1&&minDay===6){
-        // Study start IS Sunday — show real week 1 content on the start day
-        const mod0=mods.length?mods[(entry.dayOffset||0)%mods.length]:`${entry.subj.name} I`;
-        const isWork=workDays.includes(6);
-        blocks.push({id:id++,day:6,
-          time:isWork?studyStart+' · Light':'10am · Light',
-          title:mod0,detail:['Review BLL outline + Book of Shame'],
-          cat:entry.cat,mcqs:isWork?mcqWkday:mcqWkday+4,duration:90,essays:0,light:true});
+  } else {
+    // Module weeks: pull each day's assigned modules from dayModuleMap
+    allDays.forEach((dayIdx)=>{
+      const dayDate=new Date(weekBase);
+      dayDate.setDate(weekBase.getDate()+dayIdx);
+      dayDate.setHours(12,0,0,0);
+      const dateStr=dayDate.toISOString().split('T')[0];
+      const mods=dayModuleMap.get(dateStr);
+      if(mods===undefined) return; // date outside schedule window
+      const isWork=workDays.includes(dayIdx);
+      if(mods.length===0){
+        // All modules exhausted — show review session for this day
+        blocks.push({id:id++,day:dayIdx,
+          time:isWork?studyStart:'10am',
+          title:'⚡ MEE/MBE Review',
+          detail:['Mixed MCQ drill','Timed MEE essay practice','Book of Shame review'],
+          cat:'study-cr',mcqs:isWork?mcqWkday:mcqWkday+4,
+          duration:isWork?90:150,essays:isWork?0:1});
       } else {
-        const nextEntry=map[wk];
-        if(nextEntry&&nextEntry.type!=='final'){
-          const nextMods=GOAT_MODULES[nextEntry.subj.abbr]||[];
-          const previewTitle=nextMods.length
-            ?`Preview: ${nextMods[0]}`
-            :`Preview: ${nextEntry.subj.name} I`;
-          blocks.push({id:id++,day:6,time:'3pm · Light',
-            title:previewTitle,
-            detail:['Flashcards + light preview'],
-            cat:SUBJ_CAT[nextEntry.subj.abbr]||'study-cp',mcqs:8,duration:60,essays:0,light:true});
-        }
+        // Show assigned module blocks for this day
+        mods.forEach((mod,mi)=>{
+          const isLastMod=mi===mods.length-1;
+          const showLight=isWork&&isLastMod;
+          blocks.push({id:id++,day:dayIdx,
+            time:isWork?(showLight?studyStart+' · Light':studyStart):(mi===0?'10am':'12pm'),
+            title:mod.modTitle,
+            detail:['Review BLL outline + notes'],
+            cat:mod.cat,
+            mcqs:isWork?mcqWkday:mcqWkday+4,
+            duration:isWork?(showLight?60:90):(isLastMod?90:120),
+            essays:0,...(showLight?{light:true}:{})});
+        });
       }
-    }
+    });
   }
   return blocks;
 }
@@ -1515,8 +1589,8 @@ function renderWeek(){
 function calcStats(){
   let studyMin=0, mcqs=0, essays=0, wellnessMin=0;
   scheduleBlocks.forEach(b=>{
-    if(b.cat==='wellness') wellnessMin += b.duration;
-    if(b.cat.startsWith('study') || b.cat==='library'){ studyMin += b.duration; mcqs += b.mcqs; }
+    if(b.cat==='wellness'||b.cat==='protected') wellnessMin += b.duration;
+    if(b.cat.startsWith('study')||b.cat==='library'){ studyMin += b.duration; mcqs += b.mcqs; }
     if(b.cat==='library') essays += b.essays||0;
   });
   const fmt = m => Number.isInteger(m/60) ? (m/60)+'h' : (m/60).toFixed(1)+'h';
@@ -1528,6 +1602,21 @@ function calcStats(){
   if(sm) sm.textContent = mcqs;
   if(se) se.textContent = essays;
   if(sw) sw.textContent = fmt(wellnessMin);
+  // ── Overload warning: compare study hours to available hours from Step 2
+  const wHrs=parseInt(document.getElementById('whr')?.value)||40;
+  let respHrs=0; document.querySelectorAll('.rinp').forEach(i=>respHrs+=parseInt(i.value)||0);
+  const availHrs=Math.max(0,168-wHrs-49-respHrs); // 49 = 7h sleep × 7 days
+  const studyHrs=Math.round(studyMin/6)/10;
+  const warnEl=document.getElementById('overload-warn');
+  const warnMsg=document.getElementById('overload-msg');
+  if(warnEl&&availHrs>0){
+    if(studyHrs>availHrs){
+      warnEl.style.display='block';
+      if(warnMsg) warnMsg.textContent=`This week schedules ~${studyHrs}h of study, but your Step 2 inputs leave only ${availHrs}h free after work, life, and sleep.`;
+    } else {
+      warnEl.style.display='none';
+    }
+  }
 }
 
 // ── ROLLING REVIEW ───────────────────────────────────────────────────────────
@@ -1681,6 +1770,11 @@ function buildWellnessBlocks(){
     }
   });
 
+  // Remove any wellness/protected blocks the user has explicitly deleted
+  scheduleBlocks=scheduleBlocks.filter(b=>{
+    if(!['wellness','protected'].includes(b.cat)) return true;
+    return !deletedWellnessSet.has(wellnessSig(b));
+  });
   renderWeek();
   calcStats();
 }
@@ -1778,6 +1872,7 @@ function switchToWeek(wk){
 }
 
 function renderMonthView(){
+  rebuildDayModuleMap();
   const meta_arr=computeDynamicWEEK_META();
   const total=getTotalWeeks();
   const start=getStudyStart();
@@ -1831,6 +1926,7 @@ function renderMonthView(){
 }
 
 function renderCurrentWeek(){
+  rebuildDayModuleMap();
   const meta_arr=computeDynamicWEEK_META();
   const total=getTotalWeeks();
   const meta=meta_arr.find(m=>m.wk===currentWeek)||meta_arr[0]||{subj:'Week '+currentWeek,dates:'',status:'upcoming'};
@@ -2292,6 +2388,26 @@ function closeEditor(){
   pendingSave=null;editingId=null;
 }
 
+// ── WELLNESS DELETION ──────────────────────────────────────────────────────────
+// Persistent per-block deletion stored in localStorage.
+// Signature = cat::day::title — stable across schedule regenerations.
+let deletedWellnessSet=new Set(JSON.parse(localStorage.getItem('ylb-deleted-wellness-v2')||'[]'));
+function wellnessSig(b){return`${b.cat}::${b.day}::${b.title}`;}
+function deleteWellnessBlock(){
+  const b=scheduleBlocks.find(b=>b.id===editingId);if(!b)return;
+  deletedWellnessSet.add(wellnessSig(b));
+  localStorage.setItem('ylb-deleted-wellness-v2',JSON.stringify([...deletedWellnessSet]));
+  closeEditor();
+  buildWellnessBlocks();
+  buildCommuteBlocks();
+}
+function resetWellnessBlocks(){
+  deletedWellnessSet.clear();
+  localStorage.removeItem('ylb-deleted-wellness-v2');
+  buildWellnessBlocks();
+  buildCommuteBlocks();
+}
+
 // ── CUSTOM TOOL FORM ──────────────────────────────────────────────────────────
 function openCustomTool(){
   document.getElementById('custom-tool-form').classList.add('vis');
@@ -2337,6 +2453,8 @@ function addCustomTool(){
   }
 })();
 updCD('2026-07-28');updUI();renderS();
+// Build day module map before anything uses it
+rebuildDayModuleMap();
 // Set currentWeek to the live "now" week based on today vs study start
 (()=>{const wm=computeDynamicWEEK_META();const now=wm.find(m=>m.status==='now')||wm[0];if(now&&now.entry?.type!=='exam')currentWeek=now.wk;})();
 DAY_HEADERS=getWeekHeaders(currentWeek);
@@ -2356,9 +2474,11 @@ else{buildWellnessBlocks();buildCommuteBlocks();}
 
     <!-- Panel A: Life / Wellness / Protected / Work -->
     <div id="bed-a" style="display:none">
-      <div class="bed-locked">
-        <span id="bed-a-icon"></span><span id="bed-a-name" style="margin-left:5px"></span>
-        <span class="bed-lock-badge">🔒 Locked</span>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;gap:8px">
+        <div style="font-weight:700;font-size:.9rem;color:var(--text)">
+          <span id="bed-a-icon"></span><span id="bed-a-name" style="margin-left:5px"></span>
+        </div>
+        <button onclick="deleteWellnessBlock()" style="background:none;border:1px solid var(--border);border-radius:6px;color:var(--text-mid);font-size:.7rem;font-family:'Nunito',sans-serif;padding:4px 10px;cursor:pointer;white-space:nowrap;flex-shrink:0" onmouseover="this.style.borderColor='var(--red-mid)';this.style.color='var(--red-dk)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text-mid)'">🗑 Remove this day</button>
       </div>
       <div class="bed-row">
         <label class="bed-lbl">Start Time</label>
