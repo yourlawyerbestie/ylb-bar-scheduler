@@ -1,16 +1,18 @@
-# goat-bar-scheduler
-free scheduling tool for the busy goat bar exam taker
-# 🐐 The Busy GOAT Scheduler
+# ylb-bar-prep-scheduler
+A free bar prep scheduling tool — built for your actual life
+
+# ⚖️ YLB Bar Prep Scheduler
 ### A free bar prep scheduling tool — built for your actual life
 
-**A collaboration between [Your Lawyer Bestie](https://yourlawyerbestie.substack.com) × [GOAT Bar Prep](https://www.instagram.com/goatbarprep)**
+**Built by [Your Lawyer Bestie](https://yourlawyerbestie.substack.com)**
 
 ---
+
 ## What this is
 
 A free, browser-based scheduling tool for bar exam takers — especially retakers and working adults who can't just clear their calendar for two months.
 
-You answer 6 questions about your actual life (work hours, caretaking responsibilities, non-negotiables, study preferences, and the tools you're using). The tool builds a complete, personalized study arc — every week from today to your exam date — with GOAT Bar Prep as the backbone.
+You answer 6 questions about your actual life (work hours, caretaking responsibilities, non-negotiables, study preferences, and the tools you're using). The tool builds a complete, personalized study arc — every week from today to your exam date.
 
 It is not a product. It is not a startup. It is not collecting your data. It is a single HTML file that runs in your browser — the same way a calculator works.
 
@@ -19,7 +21,7 @@ It is not a product. It is not a startup. It is not collecting your data. It is 
 ## Who it's for
 
 - Bar exam takers (first attempt or retakers) who are also working, caregiving, or otherwise not studying full time
-- Anyone using GOAT Bar Prep who wants a structured week around those modules
+- Anyone who wants a structured week built around their actual schedule and bar prep tools
 - People who have tried commercial schedules and found them unrealistic for their actual life
 
 ---
@@ -28,7 +30,7 @@ It is not a product. It is not a startup. It is not collecting your data. It is 
 
 **Option 1 — Use it in your browser (easiest)**
 
-Visit: https://yourlawyerbestie.github.io/goat-bar-scheduler/ 
+Visit: https://yourlawyerbestie.github.io/goat-bar-scheduler/
 
 No download, no account, no install.
 
@@ -47,7 +49,7 @@ Right-click the page → Save As → open `index.html` in any browser. Works com
 | 03 · Non-Negotiables | Wellness and life activities that go in *first* — gym, spirituality, family, therapy, meal prep, TikTok (yes really) |
 | 04 · Subject Strategy | NCBE outline order, or weakest subject first with confidence ratings. Mark subjects you've already covered to skip them from your schedule. |
 | 05 · Study Settings | Weekday study start time, MCQ targets, essay frequency, Book of Shame toggle |
-| 06 · Your Tools | Which bar prep tools you're actually using — GOAT is the backbone, everything else layers on top |
+| 06 · Your Tools | Which bar prep tools you're actually using — layer them into your schedule as you go |
 
 Hit **Continue →** through all six and a full multi-week schedule generates from today to your exam.
 
@@ -58,7 +60,7 @@ Hit **Continue →** through all six and a full multi-week schedule generates fr
 The tool reads your exam date and today's date, calculates the real number of weeks you have, and distributes your active MBE subjects across that arc — reserving the final 2 weeks for MEE/MPT final push. Every week gets:
 
 - Work blocks at your actual hours
-- GOAT study blocks at your study start time, with MCQ targets from Step 5
+- Study blocks at your study start time, with MCQ targets from Step 5
 - Saturday Library Day with rolling review of all subjects covered so far
 - Sunday preview of next week's subject
 - Wellness blocks from your Step 3 selections, distributed across the week
@@ -114,10 +116,8 @@ Open in any modern browser. That's it.
 ## Credits
 
 Built by **Reni Rhodes / Your Lawyer Bestie**
-Study methodology and content backbone by **GOAT Bar Prep**
 
 - YLB on [Substack](https://yourlawyerbestie.substack.com) · [TikTok](https://www.tiktok.com/@yourlawyerbestie) · [YouTube](https://www.youtube.com/@Your-Lawyer-Bestie)
-- GOAT on [TikTok](https://www.tiktok.com/@goatbarprep) · [Instagram](https://www.instagram.com/goatbarprep)
 
 ---
 
